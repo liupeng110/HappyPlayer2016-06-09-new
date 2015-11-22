@@ -13,7 +13,6 @@ import android.graphics.Typeface;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 import com.happy.common.Constants;
@@ -148,7 +147,7 @@ public class FloatLyricsView extends View implements Observer {
 		paintBackgruond.setAntiAlias(true);
 
 		initColor();
-
+		initSizeWord();
 		ObserverManage.getObserver().addObserver(this);
 	}
 
@@ -164,9 +163,6 @@ public class FloatLyricsView extends View implements Observer {
 
 	@Override
 	public void draw(Canvas canvas) {
-		if (SCALEIZEWORDDEF == 0) {
-			initSizeWord();
-		}
 		if (!hasKsc) {
 			// 根据提示语的长度，和歌词视图的宽度来设置字体的大小
 			String tip = context.getString(R.string.lrc_tip);

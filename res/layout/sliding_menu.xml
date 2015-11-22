@@ -1,0 +1,107 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@android:color/transparent"
+    android:orientation="vertical" >
+
+    <com.happy.widget.StatusBarRelativeLayout
+        android:id="@+id/statusMenuView"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
+
+    <com.happy.widget.TitleRelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/title_height" >
+
+        <ImageView
+            android:id="@+id/title_icon"
+            android:layout_width="@dimen/title_icon_image"
+            android:layout_height="@dimen/title_icon_image"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp" />
+
+        <com.happy.widget.TitleTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/title_icon"
+            android:text="@string/app_name" />
+
+        <com.happy.widget.ButtonPressRelativeLayout
+            android:id="@+id/title_searchParent"
+            android:layout_width="@dimen/title_buttonbg_width"
+            android:layout_height="@dimen/title_buttonbg_height"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:clickable="true" >
+
+            <ImageView
+                android:id="@+id/search"
+                android:layout_width="@dimen/title_icon_image"
+                android:layout_height="@dimen/title_icon_image"
+                android:layout_centerInParent="true" />
+        </com.happy.widget.ButtonPressRelativeLayout>
+    </com.happy.widget.TitleRelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/tabPageIndicator"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/tabPageIndicator_height" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="horizontal" >
+
+            <RelativeLayout
+                android:id="@+id/myItem"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:clickable="true" >
+
+                <com.happy.widget.TabPageIndicatorTextView
+                    android:id="@+id/my"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:text="我的" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/recommendItem"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:clickable="true" >
+
+                <com.happy.widget.TabPageIndicatorTextView
+                    android:id="@+id/recommend"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:text="推荐" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/line"
+            android:layout_width="180dip"
+            android:layout_height="2dip"
+            android:layout_alignParentBottom="true" />
+    </RelativeLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/menu_viewpager"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginBottom="@dimen/bottom_player_height"
+        android:overScrollMode="never" >
+    </android.support.v4.view.ViewPager>
+
+</LinearLayout>

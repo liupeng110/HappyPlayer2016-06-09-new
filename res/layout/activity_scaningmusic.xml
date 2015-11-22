@@ -1,0 +1,107 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    tools:context="com.happy.ui.ScaningMusicActivity" >
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="#ffffff" >
+
+        <com.happy.widget.CycleViewPager
+            android:id="@+id/viewpager"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_above="@+id/tipsBox"
+            android:layout_centerInParent="true" >
+        </com.happy.widget.CycleViewPager>
+
+        <LinearLayout
+            android:id="@+id/tipsBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/foot"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="5dp"
+            android:orientation="horizontal" >
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/foot"
+            android:layout_width="fill_parent"
+            android:layout_height="100dp"
+            android:layout_alignParentBottom="true"
+            android:background="#2fa6de" >
+
+            <ImageView
+                android:id="@+id/scaning_pic"
+                android:layout_width="45dp"
+                android:layout_height="80dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:background="@anim/scanloading"
+                android:visibility="invisible" />
+
+            <ImageView
+                android:id="@+id/scaned_pic"
+                android:layout_width="45dp"
+                android:layout_height="80dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/img_apshare_phone" />
+
+            <ImageView
+                android:id="@+id/scaned_ok"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="18dp"
+                android:background="@drawable/icon_unicom_flow_open" />
+
+            <RelativeLayout
+                android:id="@+id/scaning"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/scaning_pic" >
+
+                <TextView
+                    android:id="@+id/scaningTip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:ellipsize="middle"
+                    android:singleLine="true"
+                    android:text="已找到歌曲0首"
+                    android:textColor="#ffffff"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:id="@+id/scaningPathTip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/scaningTip"
+                    android:layout_marginTop="15dp"
+                    android:ellipsize="middle"
+                    android:singleLine="true"
+                    android:text="/SDCard/"
+                    android:textColor="#ffffff"
+                    android:textSize="15dp" />
+
+                <Button
+                    android:id="@+id/scanFinishButton"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/scaningTip"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/scanbutton"
+                    android:text="扫描完成"
+                    android:textColor="#ffffff" />
+            </RelativeLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+
+</LinearLayout>

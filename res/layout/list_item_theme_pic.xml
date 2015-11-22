@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:context=".GridViewAdapter" >
+
+    <com.happy.widget.CardViewRelativeLayout
+        android:id="@+id/itembg"
+        android:layout_width="fill_parent"
+        android:layout_height="200dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
+        android:clickable="true" >
+
+        <ImageView
+            android:id="@+id/theme_pic"
+            android:layout_width="fill_parent"
+            android:layout_height="170dp"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dp"
+            android:layout_marginTop="1dp" />
+
+        <ImageView
+            android:id="@+id/secect_stats"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/theme_text"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/skin_selected_bg_tip" />
+
+        <com.happy.widget.MainTextView
+            android:id="@+id/theme_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/theme_pic"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="5dp"
+            android:text="主题名称" />
+    </com.happy.widget.CardViewRelativeLayout>
+
+</RelativeLayout>

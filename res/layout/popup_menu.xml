@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/popMenuParent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <LinearLayout
+        android:id="@+id/pop_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="215dp"
+        android:layout_alignParentBottom="true"
+        android:background="#ffffff"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:orientation="horizontal" >
+
+            <com.happy.widget.MenuItemPressRelativeLayout
+                android:id="@+id/menuScan"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_marginBottom="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:onClick="menuOnClick" >
+
+                <com.happy.widget.MenuScanImageView
+                    android:id="@+id/menuScanPic"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp" />
+
+                <com.happy.widget.MenuTitleTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/menuScanPic"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="10dp"
+                    android:text="扫描音乐" />
+            </com.happy.widget.MenuItemPressRelativeLayout>
+
+            <com.happy.widget.MenuItemPressRelativeLayout
+                android:id="@+id/menuSkin"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_marginBottom="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:onClick="menuOnClick" >
+
+                <com.happy.widget.MenuSkinImageView
+                    android:id="@+id/menuSkinPic"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="5dp" />
+
+                <com.happy.widget.MenuTitleTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/menuSkinPic"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="5dp"
+                    android:text="主题皮肤" />
+            </com.happy.widget.MenuItemPressRelativeLayout>
+
+            <com.happy.widget.MenuItemPressRelativeLayout
+                android:id="@+id/menuAbout"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_marginBottom="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:onClick="menuOnClick" >
+
+                <com.happy.widget.MenuAboutImageView
+                    android:id="@+id/menuAboutPic"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="15dp" />
+
+                <com.happy.widget.MenuTitleTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/menuAboutPic"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="15dp"
+                    android:text="关于" />
+            </com.happy.widget.MenuItemPressRelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:orientation="horizontal" >
+
+            <com.happy.widget.MenuItemPressRelativeLayout
+                android:id="@+id/menuPlayMode"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_marginBottom="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:onClick="menuOnClick" >
+
+                <RelativeLayout
+                    android:id="@+id/menuShuffleParent"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent" >
+
+                    <com.happy.widget.MenuShuffleImageView
+                        android:id="@+id/menuShufflePic"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="10dp" />
+
+                    <com.happy.widget.MenuTitleTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/menuShufflePic"
+                        android:layout_centerInParent="true"
+                        android:layout_marginTop="10dp"
+                        android:text="随机播放" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/menuSequenceParent"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:visibility="invisible" >
+
+                    <com.happy.widget.MenuSequenceImageView
+                        android:id="@+id/menuSequencePic"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="10dp" />
+
+                    <com.happy.widget.MenuTitleTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/menuSequencePic"
+                        android:layout_centerInParent="true"
+                        android:layout_marginTop="10dp"
+                        android:text="顺序播放" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/menuRepeatoneParent"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:visibility="invisible" >
+
+                    <com.happy.widget.MenuRepeatoneImageView
+                        android:id="@+id/menuRepeatonePic"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="10dp" />
+
+                    <com.happy.widget.MenuTitleTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/menuRepeatonePic"
+                        android:layout_centerInParent="true"
+                        android:layout_marginTop="10dp"
+                        android:text="单曲循环" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/menuRepeatParent"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:visibility="invisible" >
+
+                    <com.happy.widget.MenuRepeatImageView
+                        android:id="@+id/menuRepeatPic"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="10dp" />
+
+                    <com.happy.widget.MenuTitleTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/menuRepeatPic"
+                        android:layout_centerInParent="true"
+                        android:layout_marginTop="10dp"
+                        android:text="循环播放" />
+                </RelativeLayout>
+            </com.happy.widget.MenuItemPressRelativeLayout>
+
+            <com.happy.widget.MenuItemPressRelativeLayout
+                android:id="@+id/menuSetting"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_marginBottom="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:onClick="menuOnClick" >
+
+                <com.happy.widget.MenuSettingImageView
+                    android:id="@+id/menuSettingPic"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp" />
+
+                <com.happy.widget.MenuTitleTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/menuSettingPic"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="10dp"
+                    android:text="设置" />
+            </com.happy.widget.MenuItemPressRelativeLayout>
+
+            <com.happy.widget.MenuItemPressRelativeLayout
+                android:id="@+id/menuExit"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_marginBottom="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:onClick="menuOnClick" >
+
+                <com.happy.widget.MenuExitImageView
+                    android:id="@+id/menuExitPic"
+                    android:layout_width="23dp"
+                    android:layout_height="23dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="18dp" />
+
+                <com.happy.widget.MenuTitleTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/menuExitPic"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="13dp"
+                    android:text="退出" />
+            </com.happy.widget.MenuItemPressRelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

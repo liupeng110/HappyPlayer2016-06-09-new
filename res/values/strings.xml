@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">乐乐音乐</string>
+    <string name="def_artist">传播好音乐</string>
+    <string name="def_songName">乐乐音乐</string>
+    <string name="back_tip">再按一次,返回桌面</string>
+    <string name="lrc_tip">乐乐2015，传播好音乐</string>
+    <string name="all_right">张亮明版本所有 © 2014-2015 </string>
+
+</resources>

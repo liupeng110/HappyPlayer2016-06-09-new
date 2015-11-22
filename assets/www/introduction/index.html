@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="js/mui.min.js"></script>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<script type="text/javascript" charset="utf-8">
+			mui.init();
+		</script>
+	</head>
+
+	<body>
+		<div class="mui-content">
+			<div class="mui-card" style="margin-bottom: 35px;">
+				<ul class="mui-table-view">
+				</ul>
+			</div>
+		</div>
+
+		<script type="text/javascript" charset="utf-8">
+			var lists = [];
+			var list = null;
+			list = {
+				title: "动态修改启动页面",
+				comment: "①将你想启动时显示的图片文件放到splash目录下，文件名为 splash.jpg。②重新启动应用，如果当天没有要显示的网络图片，则默认启动时，就会显示你添加的图片。③推荐图片大小为720 X 1280"
+			};
+			lists.push(list);
+			list = {
+				title: "窗口右滑关闭",
+				comment: "手指长按屏幕，右滑动并迅速拖动窗口向右移动，当前窗口关闭。"
+			}
+			lists.push(list);
+			list = {
+				title: "本地歌曲扫描,mp3歌曲播放",
+				comment: "目前支持本地歌曲播放，歌曲格式为mp3格式。"
+			}
+			lists.push(list);
+			list = {
+				title: "ksc歌词同步显示",
+				comment: "目前歌曲播放时，会自动搜索歌词，也会加载本地的歌曲。"
+			}
+			lists.push(list);
+			list = {
+				title: "支持多种皮肤切换",
+				comment: "目前暂时不提供皮肤的分类。"
+			}
+			lists.push(list);
+			list = {
+				title: "歌手写真、专辑写真、写真搜索",
+				comment: "支持歌手图片、专辑图片切换。"
+			}
+			lists.push(list);
+			list = {
+				title: "桌面歌词、锁屏歌词、歌词搜索",
+				comment: "对于部分手机，若看不到桌面歌词，需要开启应用的相关权限，可到手机权限页面设置"
+			}
+			lists.push(list);
+			list = {
+				title: "在线听音乐、音乐下载",
+				comment: "支持在线听音乐，并缓存到手机。"
+			}
+			lists.push(list);
+			list = {
+				title: "模糊搜索功能",
+				comment: "目前只支持歌手和歌名模糊搜索。"
+			}
+			lists.push(list);
+			list = {
+				title: "耳机线控",
+				comment: "耳机线控，上下按钮的事件，具体由手机系统设置为准。"
+			}
+			list = {
+				title: "辅助操控功能",
+				comment: "类似easytouch,若在桌面上看不到，需要开启应用的相关权限，可到手机权限页面设置"
+			}
+			lists.push(list);
+			var table = document.body.querySelector('.mui-table-view');
+			for (var i = 0; i < lists.length; i++) {
+				var li = document.createElement('li');
+				var itemText = '<a class="mui-navigate-right">' + (i + 1) + '. ' + lists[i].title + '</a>';
+				itemText += '<div class="mui-collapse-content">';
+				itemText += lists[i].comment;
+				itemText += '</div>';
+				li.className = 'mui-table-view-cell mui-collapse';
+				li.innerHTML = itemText;
+				table.appendChild(li);
+			}
+		</script>
+	</body>
+
+</html>

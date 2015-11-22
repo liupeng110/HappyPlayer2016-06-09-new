@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.happy.ui"
+    android:versionCode="1"
+    android:versionName="2.0" >
+
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="21" />
+
+    <!-- 短信权限 -->
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+
+    <!-- 读取电话状态权限 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />
+    <uses-permission android:name="android.permission.READ_LOGS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.SET_WALLPAPER" />
+
+    <!-- 往sdcard中写入数据的权限 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" >
+    </uses-permission>
+    <!-- 在sdcard中创建/删除文件的权限 -->
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" >
+    </uses-permission>
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <!-- 显示系统窗口权限 -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <!-- 在 屏幕最顶部显示addview -->
+    <uses-permission android:name="android.permission.SYSTEM_OVERLAY_WINDOW" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" >
+    </uses-permission>
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+
+    <application
+        android:name="com.happy.application.CrashApplication"
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name=".SplashActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/AppTheme" >
+        </activity>
+        <activity
+            android:name=".SkinActivity"
+            android:hardwareAccelerated="true"
+            android:theme="@style/AppTheme" >
+        </activity>
+        <activity
+            android:name=".SettingActivity"
+            android:theme="@style/AppTheme" >
+        </activity>
+        <activity
+            android:name=".AboutActivity"
+            android:theme="@style/AppTheme" >
+        </activity>
+        <activity
+            android:name=".LEImpressionActivity"
+            android:theme="@style/AppTheme" >
+        </activity>
+        <activity
+            android:name=".PreviewActivity"
+            android:theme="@style/AppTheme" >
+        </activity>
+        <activity
+            android:name=".ScanMusicActivity"
+            android:theme="@style/AppTheme" >
+        </activity>
+        <activity
+            android:name=".ScaningMusicActivity"
+            android:theme="@style/AppTheme" >
+        </activity>
+        <activity
+            android:name=".IntroductionActivity"
+            android:theme="@style/AppTheme" >
+        </activity>
+        <activity
+            android:name=".LrcActivity"
+            android:theme="@style/kugouLayoutTheme" >
+        </activity>
+        <activity
+            android:name="LockActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait"
+            android:taskAffinity=""
+            android:theme="@style/kugouLayoutTheme" >
+        </activity>
+
+        <service android:name="com.happy.service.MediaPlayerService" >
+        </service>
+        <service android:name="com.happy.service.FloatLrcService" >
+        </service>
+
+        <receiver
+            android:name="com.happy.receiver.PhoneReceiver"
+            android:exported="true" >
+            <intent-filter android:priority="1" >
+                <intent-filter>
+                    <action android:name="android.intent.action.MEDIA_BUTTON" />
+                </intent-filter>
+            </intent-filter>
+        </receiver>
+    </application>
+
+</manifest>

@@ -1,0 +1,35 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <com.happy.widget.LoadSwipeRefreshLayout
+        android:id="@+id/loadSwipeRefreshLayout "
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" >
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" >
+
+                <android.support.v4.widget.SwipeRefreshLayout
+                    android:id="@+id/swipe_refresh_widget"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" >
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/listview"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:cacheColorHint="@null"
+                        android:scrollbars="none" />
+                </android.support.v4.widget.SwipeRefreshLayout>
+            </RelativeLayout>
+        </RelativeLayout>
+    </com.happy.widget.LoadSwipeRefreshLayout>
+
+</LinearLayout>

@@ -1,0 +1,103 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/backgroundImage"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/backgroundColor"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <com.happy.widget.StatusBarRelativeLayout
+                android:id="@+id/statusView"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
+
+            <com.happy.widget.TitleRelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/title_height" >
+
+                <com.happy.widget.ButtonPressRelativeLayout
+                    android:id="@+id/title_backParent"
+                    android:layout_width="50dp"
+                    android:layout_height="@dimen/title_buttonbg_height"
+                    android:layout_centerVertical="true"
+                    android:clickable="true"
+                    android:onClick="back" >
+
+                    <com.happy.widget.TitleBackImageView
+                        android:id="@+id/back"
+                        android:layout_width="35dp"
+                        android:layout_height="@dimen/title_buttonbg_height"
+                        android:layout_centerVertical="true" />
+                </com.happy.widget.ButtonPressRelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/tabPageIndicator"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_centerInParent="true"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/title_backParent" >
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="40dp"
+                        android:layout_centerInParent="true"
+                        android:orientation="horizontal" >
+
+                        <com.happy.widget.TabLeftRelativeLayout
+                            android:id="@+id/left"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_marginLeft="5dp"
+                            android:layout_weight="1"
+                            android:clickable="true" >
+
+                            <TextView
+                                android:id="@+id/skinrecommend"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerHorizontal="true"
+                                android:layout_centerVertical="true"
+                                android:text="推荐" />
+                        </com.happy.widget.TabLeftRelativeLayout>
+
+                        <com.happy.widget.TabRightRelativeLayout
+                            android:id="@+id/right"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_marginRight="5dp"
+                            android:layout_weight="1"
+                            android:clickable="true" >
+
+                            <TextView
+                                android:id="@+id/localskin"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerHorizontal="true"
+                                android:layout_centerVertical="true"
+                                android:text="本地" />
+                        </com.happy.widget.TabRightRelativeLayout>
+                    </LinearLayout>
+                </RelativeLayout>
+            </com.happy.widget.TitleRelativeLayout>
+
+            <com.happy.widget.NoScrollViewPager
+                android:id="@+id/viewpager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:overScrollMode="never" >
+            </com.happy.widget.NoScrollViewPager>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

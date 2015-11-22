@@ -1,0 +1,83 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    tools:context="com.happy.ui.IntroductionActivity" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="#ffffff"
+        android:orientation="vertical" >
+
+        <com.happy.widget.TBaseStatusBarRelativeLayout
+            android:id="@+id/statusView"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+
+        <com.happy.widget.BaseTitleRelativeLayout
+            android:id="@+id/title"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/title_height" >
+
+            <com.happy.widget.ButtonPressRelativeLayout
+                android:id="@+id/title_backParent"
+                android:layout_width="120dp"
+                android:layout_height="@dimen/title_buttonbg_height"
+                android:layout_centerVertical="true"
+                android:clickable="true"
+                android:onClick="back" >
+
+                <ImageView
+                    android:id="@+id/back"
+                    android:layout_width="35dp"
+                    android:layout_height="@dimen/title_buttonbg_height"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/back" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="5dp"
+                    android:layout_toRightOf="@+id/back"
+                    android:text="关于"
+                    android:textColor="#ffffff" />
+            </com.happy.widget.ButtonPressRelativeLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_centerVertical="true"
+                android:text="功能介绍"
+                android:textColor="#ffffff" />
+        </com.happy.widget.BaseTitleRelativeLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dip"
+            android:background="#e5e6e6" />
+
+        <com.happy.widget.LoadRelativeLayout
+            android:id="@+id/loadRelativeLayout "
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" >
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" >
+
+                <WebView
+                    android:id="@+id/webview"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:scrollbarSize="0dip"
+                    android:scrollbars="none" />
+            </RelativeLayout>
+        </com.happy.widget.LoadRelativeLayout>
+    </LinearLayout>
+
+</LinearLayout>

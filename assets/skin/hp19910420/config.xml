@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Theme
+    Author="zhangliangming"
+    EMail=""
+    ID="hp19910420"
+    Name="白色简约"
+    Ver="1.0"
+    WebPage=""
+    preview="preview.jpg" >
+
+    <View
+        Background="background.jpg"
+        BackgroundColor="#ffffff"
+        ID="Main" >
+
+        <!-- 通用 -->
+
+        <Panel ID="Common" >
+
+            <Color
+                ID="TitleText"
+                Normal="#0c2629"
+                ParentID="Common"
+                Selected="#0c2629" />
+
+            <Color
+                ID="SubTitleText"
+                Normal="#787777"
+                ParentID="Common"
+                Selected="#787777" />
+
+            <Color
+                ID="ButtonPressBgColor"
+                Normal="#000000,25"
+                ParentID="Common" />
+        </Panel>
+        <!-- top标题 -->
+
+
+        <!-- top标题文字 -->
+
+        <Panel ID="Title" >
+
+            <Color
+                ID="TitleText"
+                Normal="#ffffff"
+                ParentID="Title" />
+
+            <!-- top标题背景 -->
+
+            <Color
+                ID="Background"
+                Normal="#0288d1,255"
+                ParentID="Title" />
+
+            <Icon
+                ID="TitleIcon"
+                Icon="cmmusic_img_mine.png"
+                ParentID="Title" />
+
+            <Icon
+                ID="TitleSearchIcon"
+                Icon="cmmusic_search.png"
+                ParentID="Title" />
+
+            <Icon
+                ID="TitleBackIcon"
+                Icon="back.png"
+                ParentID="Title" />
+        </Panel>
+        <!-- 导航 -->
+
+        <Panel ID="Indicator" >
+
+            <!-- 背景 -->
+
+            <Color
+                ID="Background"
+                Normal="#edf8fc,255"
+                ParentID="Indicator" />
+            <!-- 文字颜色 -->
+
+            <Color
+                ID="TitleText"
+                Normal="#909aa1"
+                ParentID="Indicator"
+                Selected="#0288d1" />
+            <!-- 底部指示器 -->
+
+            <Color
+                ID="IndicatorLine"
+                Normal="#0288d1"
+                ParentID="Indicator" />
+        </Panel>
+
+        <Panel ID="Card" >
+
+            <Color
+                ID="Item"
+                Normal="#ffffff,200"
+                ParentID="Card"
+                Selected="#edf8fc,220" />
+
+            <Color
+                ID="ListItem"
+                Normal="#ffffff,200"
+                ParentID="Card"
+                Selected="#edf8fc,220" />
+
+            <Color
+                ID="ItemDivider"
+                Normal="#cfdce1"
+                ParentID="Card" />
+
+            <Color
+                ID="PopdownItem"
+                Normal="#3e3e3e"
+                ParentID="Card"
+                Selected="#262134" />
+
+            <!-- 随机播放按钮 -->
+
+            <Icon
+                ID="RandomPlay"
+                Icon="home_random_play.png" />
+            <!-- 本地音乐 -->
+
+            <Icon
+                ID="Music"
+                Icon="home_music.png" />
+            <!-- 我的最爱 -->
+
+            <Icon
+                ID="Favorite"
+                Icon="home_favorite.png" />
+            <!-- 我的下载 -->
+
+            <Icon
+                ID="Download"
+                Icon="home_download.png" />
+        </Panel>
+
+        <Panel ID="PlayBar" >
+
+            <Color
+                ID="PlayBarDivider"
+                Normal="#ebebeb"
+                ParentID="PlayBar" />
+
+            <Color
+                ID="Background"
+                Normal="#ffffff,200"
+                ParentID="PlayBar" />
+            <!-- 默认歌手图片 -->
+
+            <Icon
+                ID="PlayBarDefArtist"
+                Icon="play_bar_def_artist.png"
+                ParentID="PlayBar" />
+
+            <Button
+                ID="PlayBarSidebar"
+                NormalIcon="play_bar_sidebar.png"
+                ParentID="PlayBar"
+                PressedIcon="play_bar_sidebar.png" />
+
+            <Button
+                ID="PlayButton"
+                NormalIcon="play_bar_play_n.png"
+                ParentID="PlayBar"
+                PressedIcon="play_bar_play_h.png" />
+
+            <Button
+                ID="PauseButton"
+                NormalIcon="play_bar_pause_n.png"
+                ParentID="PlayBar"
+                PressedIcon="play_bar_pause_h.png" />
+
+            <Button
+                ID="NextButton"
+                NormalIcon="play_bar_play_next_n.png"
+                ParentID="PlayBar"
+                PressedIcon="play_bar_play_next_h.png" />
+
+            <SeekBar
+                Background="#50ca64,0"
+                ID="PlayBarProgress"
+                ParentID="PlayBar"
+                Progress="#26adf7"
+                SecondProgress="#a9e0ff" />
+        </Panel>
+
+        <Panel ID="Menu" >
+
+            <Color
+                ID="Background"
+                Normal="#f4f1f1,250"
+                ParentID="Menu" />
+
+            <Color
+                ID="MenuItemPG"
+                Normal="#edf8fc,220"
+                ParentID="Menu" />
+
+            <Color
+                ID="Title"
+                Normal="#353535"
+                ParentID="Menu" />
+        </Panel>
+    </View>
+
+</Theme>

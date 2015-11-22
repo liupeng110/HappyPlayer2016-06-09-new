@@ -1,0 +1,234 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    tools:context="com.happy.ui.AboutActivity" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="#ffffff"
+        android:orientation="vertical" >
+
+        <com.happy.widget.TBaseStatusBarRelativeLayout
+            android:id="@+id/statusView"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+
+        <com.happy.widget.BaseTitleRelativeLayout
+            android:id="@+id/title"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/title_height" >
+
+            <com.happy.widget.ButtonPressRelativeLayout
+                android:id="@+id/title_backParent"
+                android:layout_width="120dp"
+                android:layout_height="@dimen/title_buttonbg_height"
+                android:layout_centerVertical="true"
+                android:clickable="true"
+                android:onClick="back" >
+
+                <ImageView
+                    android:id="@+id/back"
+                    android:layout_width="35dp"
+                    android:layout_height="@dimen/title_buttonbg_height"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/back" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="5dp"
+                    android:layout_toRightOf="@+id/back"
+                    android:text="乐乐音乐"
+                    android:textColor="#ffffff" />
+            </com.happy.widget.ButtonPressRelativeLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_centerVertical="true"
+                android:text="关于"
+                android:textColor="#ffffff" />
+        </com.happy.widget.BaseTitleRelativeLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dip"
+            android:background="#e5e6e6" />
+
+        <ScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:scrollbars="vertical" >
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="vertical" >
+
+                <ImageView
+                    android:id="@+id/icon"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/ic_launcher" />
+
+                <TextView
+                    android:id="@+id/text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/app_name"
+                    android:textColor="#0c2629"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:id="@+id/vtext"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="10dp"
+                    android:text=""
+                    android:textColor="#787777"
+                    android:textSize="15dp" />
+
+                <LinearLayout
+                    android:id="@+id/center"
+                    android:layout_width="fill_parent"
+                    android:layout_height="180dp"
+                    android:layout_marginTop="15dp"
+                    android:orientation="vertical" >
+
+                    <View
+                        android:layout_width="fill_parent"
+                        android:layout_height="0.1dip"
+                        android:background="#e5e6e6" />
+
+                    <RelativeLayout
+                        android:id="@+id/leleyinxiang"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/base_itembg"
+                        android:clickable="true"
+                        android:onClick="itemOnClick" >
+
+                        <TextView
+                            android:id="@+id/itemText1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="10dp"
+                            android:text="乐乐印象"
+                            android:textColor="#0c2629" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="10dp"
+                            android:background="@drawable/item_arrow_right" />
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="fill_parent"
+                        android:layout_height="0.1dip"
+                        android:layout_marginLeft="10dp"
+                        android:background="#e5e6e6" />
+
+                    <RelativeLayout
+                        android:id="@+id/introduction"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/base_itembg"
+                        android:clickable="true"
+                        android:onClick="itemOnClick" >
+
+                        <TextView
+                            android:id="@+id/itemText2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="10dp"
+                            android:text="功能介绍"
+                            android:textColor="#0c2629" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="10dp"
+                            android:background="@drawable/item_arrow_right" />
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="fill_parent"
+                        android:layout_height="0.1dip"
+                        android:layout_marginLeft="10dp"
+                        android:background="#e5e6e6" />
+
+                    <RelativeLayout
+                        android:id="@+id/update"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/base_itembg"
+                        android:clickable="true"
+                        android:onClick="itemOnClick" >
+
+                        <TextView
+                            android:id="@+id/itemText3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="10dp"
+                            android:text="新版本检测"
+                            android:textColor="#0c2629" />
+
+                        <ImageView
+                            android:id="@+id/item_arrow_right"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="10dp"
+                            android:background="@drawable/item_arrow_right" />
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="fill_parent"
+                        android:layout_height="0.1dip"
+                        android:background="#e5e6e6" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="80dp"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="10dp"
+                        android:layout_weight="1"
+                        android:text="@string/all_right"
+                        android:textColor="#0c2629"
+                        android:textSize="12dp" />
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+
+</LinearLayout>

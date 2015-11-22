@@ -1,0 +1,63 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/backgroundImage"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@android:color/transparent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/backgroundColor"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical" >
+
+        <com.happy.widget.StatusBarRelativeLayout
+            android:id="@+id/statusContentView"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+
+        <com.happy.widget.TitleRelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/title_height" >
+
+            <com.happy.widget.ButtonPressRelativeLayout
+                android:id="@+id/title_backParent"
+                android:layout_width="120dp"
+                android:layout_height="@dimen/title_buttonbg_height"
+                android:layout_centerVertical="true"
+                android:clickable="true" >
+
+                <com.happy.widget.TitleBackImageView
+                    android:id="@+id/back"
+                    android:layout_width="35dp"
+                    android:layout_height="@dimen/title_buttonbg_height"
+                    android:layout_centerVertical="true" />
+
+                <com.happy.widget.TitleTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="5dp"
+                    android:layout_toRightOf="@+id/back"
+                    android:text="乐乐音乐" />
+            </com.happy.widget.ButtonPressRelativeLayout>
+
+            <com.happy.widget.TitleTextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_centerVertical="true"
+                android:text="" />
+        </com.happy.widget.TitleRelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/content_linearLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical" >
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

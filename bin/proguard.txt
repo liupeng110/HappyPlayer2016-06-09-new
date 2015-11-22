@@ -1,0 +1,484 @@
+# view res/layout/activity_preview.xml #generated:13
+# view res/layout/sliding_menu.xml #generated:99
+-keep class android.support.v4.view.ViewPager { <init>(...); }
+
+# view res/layout/activity_le_impression.xml #generated:77
+# view res/layout/fragment_skin_recommend.xml #generated:19
+# view res/layout/fragment_tab_recommend.xml #generated:20
+-keep class android.support.v4.widget.SwipeRefreshLayout { <init>(...); }
+
+# view res/layout/abc_action_menu_item_layout.xml #generated:17
+-keep class android.support.v7.internal.view.menu.ActionMenuItemView { <init>(...); }
+
+# view res/layout/abc_action_menu_layout.xml #generated:17
+-keep class android.support.v7.internal.view.menu.ActionMenuView { <init>(...); }
+
+# view res/layout/abc_expanded_menu_layout.xml #generated:17
+-keep class android.support.v7.internal.view.menu.ExpandedMenuView { <init>(...); }
+
+# view res/layout/abc_list_menu_item_layout.xml #generated:17
+# view res/layout/abc_popup_menu_item_layout.xml #generated:17
+-keep class android.support.v7.internal.view.menu.ListMenuItemView { <init>(...); }
+
+# view res/layout/abc_action_bar_decor_include.xml #generated:19
+# view res/layout/abc_action_bar_decor_include.xml #generated:47
+# view res/layout/abc_action_bar_decor_overlay.xml #generated:29
+# view res/layout/abc_action_bar_decor_overlay.xml #generated:52
+-keep class android.support.v7.internal.widget.ActionBarContainer { <init>(...); }
+
+# view res/layout/abc_action_bar_decor_include.xml #generated:31
+# view res/layout/abc_action_bar_decor_overlay.xml #generated:40
+# view res/layout/abc_action_mode_bar.xml #generated:19
+-keep class android.support.v7.internal.widget.ActionBarContextView { <init>(...); }
+
+# view res/layout/abc_action_bar_decor_overlay.xml #generated:17
+-keep class android.support.v7.internal.widget.ActionBarOverlayLayout { <init>(...); }
+
+# view res/layout/abc_action_bar_decor_include.xml #generated:25
+# view res/layout/abc_action_bar_decor_overlay.xml #generated:35
+-keep class android.support.v7.internal.widget.ActionBarView { <init>(...); }
+
+# view res/layout/abc_action_bar_home.xml #generated:17
+-keep class android.support.v7.internal.widget.ActionBarView$HomeView { <init>(...); }
+
+# view res/layout/abc_action_bar_tabbar.xml #generated:17
+# view res/layout/abc_activity_chooser_view.xml #generated:19
+-keep class android.support.v7.internal.widget.LinearLayoutICS { <init>(...); }
+
+# view v11\res/layout-v11/abc_action_bar_decor.xml #generated:17
+# view v11\res/layout-v11/abc_simple_decor.xml #generated:17
+-keep class android.support.v7.internal.widget.NativeActionModeAwareLayout { <init>(...); }
+
+# view res/layout/abc_action_bar_tab.xml #generated:17
+-keep class android.support.v7.internal.widget.ScrollingTabContainerView$TabView { <init>(...); }
+
+# view res/layout/activity_le_impression.xml #generated:82
+# view res/layout/fragment_search.xml #generated:88
+# view res/layout/fragment_skin_my.xml #generated:16
+# view res/layout/fragment_skin_recommend.xml #generated:24
+# view res/layout/fragment_tab_recommend.xml #generated:25
+-keep class android.support.v7.widget.RecyclerView { <init>(...); }
+
+# view res/layout/abc_search_view.xml #generated:85
+-keep class android.support.v7.widget.SearchView$SearchAutoComplete { <init>(...); }
+
+# view res/layout/activity_main.xml #generated:59
+# view res/layout/activity_main.xml #generated:69
+# view res/layout/popup_list_lrc_item.xml #generated:26
+-keep class com.eva.views.RoundedImageView { <init>(...); }
+
+# view AndroidManifest.xml #generated:44
+-keep class com.happy.application.CrashApplication { <init>(...); }
+
+# view AndroidManifest.xml #generated:114
+-keep class com.happy.receiver.PhoneReceiver { <init>(...); }
+
+# view AndroidManifest.xml #generated:111
+-keep class com.happy.service.FloatLrcService { <init>(...); }
+
+# view AndroidManifest.xml #generated:109
+-keep class com.happy.service.MediaPlayerService { <init>(...); }
+
+# view res/layout/swipe_back_layout.xml #generated:1
+-keep class com.happy.swipebacklayout.SwipeBackLayout { <init>(...); }
+
+# view AndroidManifest.xml #generated:72
+-keep class com.happy.ui.AboutActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:92
+-keep class com.happy.ui.IntroductionActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:76
+-keep class com.happy.ui.LEImpressionActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:100
+-keep class com.happy.ui.LockActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:96
+-keep class com.happy.ui.LrcActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:59
+-keep class com.happy.ui.MainActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:80
+-keep class com.happy.ui.PreviewActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:84
+-keep class com.happy.ui.ScanMusicActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:88
+-keep class com.happy.ui.ScaningMusicActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:68
+-keep class com.happy.ui.SettingActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:63
+-keep class com.happy.ui.SkinActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:50
+-keep class com.happy.ui.SplashActivity { <init>(...); }
+
+# view res/layout/alert_dialog_title_twobutton.xml #generated:43
+-keep class com.happy.widget.AlartDialogCenter { <init>(...); }
+
+# view res/layout/alert_dialog_onebutton.xml #generated:42
+-keep class com.happy.widget.AlartDialogCenterButton { <init>(...); }
+
+# view res/layout/alert_dialog_title_twobutton.xml #generated:67
+# view res/layout/alert_dialog_twobutton.xml #generated:42
+-keep class com.happy.widget.AlartDialogLeftButton { <init>(...); }
+
+# view res/layout/alert_dialog_title_twobutton.xml #generated:84
+# view res/layout/alert_dialog_twobutton.xml #generated:59
+-keep class com.happy.widget.AlartDialogRightButton { <init>(...); }
+
+# view res/layout/alert_dialog_onebutton.xml #generated:18
+# view res/layout/alert_dialog_title_twobutton.xml #generated:18
+# view res/layout/alert_dialog_twobutton.xml #generated:18
+-keep class com.happy.widget.AlartDialogTop { <init>(...); }
+
+# view res/layout/likemusiclist_item.xml #generated:59
+# view res/layout/localmusiclist_item.xml #generated:59
+# view res/layout/netmusiclist_item.xml #generated:51
+-keep class com.happy.widget.ArrowDownImageView { <init>(...); }
+
+# view res/layout/likemusiclist_item.xml #generated:43
+# view res/layout/localmusiclist_item.xml #generated:43
+# view res/layout/netmusiclist_item.xml #generated:35
+-keep class com.happy.widget.ArrowUpImageView { <init>(...); }
+
+# view res/layout/listview_item_image.xml #generated:39
+-keep class com.happy.widget.BaseCardViewRelativeLayout { <init>(...); }
+
+# view res/layout/activity_main.xml #generated:43
+-keep class com.happy.widget.BaseSeekBar { <init>(...); }
+
+# view res/layout/activity_lrc.xml #generated:38
+-keep class com.happy.widget.BaseStatusBarRelativeLayout { <init>(...); }
+
+# view res/layout/activity_about.xml #generated:20
+# view res/layout/activity_introduction.xml #generated:20
+# view res/layout/activity_le_impression.xml #generated:20
+# view res/layout/activity_scanmusic.xml #generated:20
+# view res/layout/activity_setting.xml #generated:20
+-keep class com.happy.widget.BaseTitleRelativeLayout { <init>(...); }
+
+# view res/layout/activity_about.xml #generated:25
+# view res/layout/activity_introduction.xml #generated:25
+# view res/layout/activity_le_impression.xml #generated:25
+# view res/layout/activity_lrc.xml #generated:49
+# view res/layout/activity_main.xml #generated:120
+# view res/layout/activity_main.xml #generated:135
+# view res/layout/activity_main.xml #generated:151
+# view res/layout/activity_main.xml #generated:166
+# view res/layout/activity_preview.xml #generated:34
+# view res/layout/activity_scanmusic.xml #generated:25
+# view res/layout/activity_scanmusic.xml #generated:77
+# view res/layout/activity_setting.xml #generated:25
+# view res/layout/activity_skin.xml #generated:28
+# view res/layout/fragment_search.xml #generated:19
+# view res/layout/sliding_content.xml #generated:24
+# view res/layout/sliding_menu.xml #generated:33
+-keep class com.happy.widget.ButtonPressRelativeLayout { <init>(...); }
+
+# view res/layout/list_item_theme_pic.xml #generated:9
+# view res/layout/listview_item_skin_image.xml #generated:7
+-keep class com.happy.widget.CardViewRelativeLayout { <init>(...); }
+
+# view res/layout/activity_scaningmusic.xml #generated:13
+-keep class com.happy.widget.CycleViewPager { <init>(...); }
+
+# view res/layout/activity_main.xml #generated:38
+-keep class com.happy.widget.DividerView { <init>(...); }
+
+# view res/layout/view_error.xml #generated:6
+# view res/layout/view_serror.xml #generated:6
+-keep class com.happy.widget.ErrorImageView { <init>(...); }
+
+# view res/layout/fragment_tab_my.xml #generated:18
+# view res/layout/fragment_tab_my.xml #generated:71
+# view res/layout/fragment_tab_my.xml #generated:96
+-keep class com.happy.widget.ItemRelativeLayout { <init>(...); }
+
+# view res/layout/fragment_local.xml #generated:20
+# view res/layout/fragment_mylove.xml #generated:20
+-keep class com.happy.widget.LinearLayoutRecyclerView { <init>(...); }
+
+# view res/layout/likemusiclist_item.xml #generated:9
+# view res/layout/localmusiclist_category_title.xml #generated:8
+# view res/layout/localmusiclist_footer.xml #generated:8
+# view res/layout/localmusiclist_item.xml #generated:9
+# view res/layout/netmusiclist_item.xml #generated:8
+-keep class com.happy.widget.ListItemRelativeLayout { <init>(...); }
+
+# view res/layout/activity_introduction.xml #generated:64
+# view res/layout/fragment_local.xml #generated:11
+# view res/layout/fragment_mylove.xml #generated:11
+# view res/layout/fragment_search.xml #generated:79
+# view res/layout/fragment_skin_my.xml #generated:7
+-keep class com.happy.widget.LoadRelativeLayout { <init>(...); }
+
+# view res/layout/activity_le_impression.xml #generated:64
+# view res/layout/fragment_skin_recommend.xml #generated:6
+# view res/layout/fragment_tab_recommend.xml #generated:7
+-keep class com.happy.widget.LoadSwipeRefreshLayout { <init>(...); }
+
+# view res/layout/view_loading.xml #generated:6
+-keep class com.happy.widget.LoadingImageView { <init>(...); }
+
+# view res/layout/activity_lock.xml #generated:17
+# view res/layout/activity_lrc.xml #generated:27
+# view res/layout/activity_preview.xml #generated:24
+# view res/layout/activity_preview.xml #generated:30
+-keep class com.happy.widget.LrcMaskRelativeLayout { <init>(...); }
+
+# view res/layout/activity_lrc.xml #generated:174
+# view res/layout/lrc_menu.xml #generated:122
+-keep class com.happy.widget.LrcSeekBar { <init>(...); }
+
+# view res/layout/activity_main.xml #generated:80
+# view res/layout/activity_main.xml #generated:97
+# view res/layout/fragment_tab_my.xml #generated:111
+# view res/layout/fragment_tab_my.xml #generated:33
+# view res/layout/fragment_tab_my.xml #generated:43
+# view res/layout/fragment_tab_my.xml #generated:86
+# view res/layout/likemusiclist_item.xml #generated:22
+# view res/layout/list_item_theme_pic.xml #generated:35
+# view res/layout/listview_item_skin_image.xml #generated:72
+# view res/layout/localmusiclist_footer.xml #generated:13
+# view res/layout/localmusiclist_item.xml #generated:22
+# view res/layout/netmusiclist_item.xml #generated:14
+# view res/layout/view_error.xml #generated:14
+# view res/layout/view_nonet.xml #generated:14
+# view res/layout/view_noresult.xml #generated:14
+# view res/layout/view_nowifi.xml #generated:14
+# view res/layout/view_serror.xml #generated:14
+-keep class com.happy.widget.MainTextView { <init>(...); }
+
+# view res/layout/popup_menu.xml #generated:88
+-keep class com.happy.widget.MenuAboutImageView { <init>(...); }
+
+# view res/layout/popup_menu.xml #generated:250
+-keep class com.happy.widget.MenuExitImageView { <init>(...); }
+
+# view res/layout/popup_menu.xml #generated:113
+# view res/layout/popup_menu.xml #generated:212
+# view res/layout/popup_menu.xml #generated:23
+# view res/layout/popup_menu.xml #generated:239
+# view res/layout/popup_menu.xml #generated:50
+# view res/layout/popup_menu.xml #generated:77
+-keep class com.happy.widget.MenuItemPressRelativeLayout { <init>(...); }
+
+# view res/layout/popup_menu.xml #generated:195
+-keep class com.happy.widget.MenuRepeatImageView { <init>(...); }
+
+# view res/layout/popup_menu.xml #generated:173
+-keep class com.happy.widget.MenuRepeatoneImageView { <init>(...); }
+
+# view res/layout/popup_menu.xml #generated:34
+-keep class com.happy.widget.MenuScanImageView { <init>(...); }
+
+# view res/layout/popup_menu.xml #generated:151
+-keep class com.happy.widget.MenuSequenceImageView { <init>(...); }
+
+# view res/layout/popup_menu.xml #generated:223
+-keep class com.happy.widget.MenuSettingImageView { <init>(...); }
+
+# view res/layout/popup_menu.xml #generated:129
+-keep class com.happy.widget.MenuShuffleImageView { <init>(...); }
+
+# view res/layout/popup_menu.xml #generated:61
+-keep class com.happy.widget.MenuSkinImageView { <init>(...); }
+
+# view res/layout/popup_menu.xml #generated:136
+# view res/layout/popup_menu.xml #generated:158
+# view res/layout/popup_menu.xml #generated:180
+# view res/layout/popup_menu.xml #generated:202
+# view res/layout/popup_menu.xml #generated:230
+# view res/layout/popup_menu.xml #generated:257
+# view res/layout/popup_menu.xml #generated:41
+# view res/layout/popup_menu.xml #generated:68
+# view res/layout/popup_menu.xml #generated:95
+-keep class com.happy.widget.MenuTitleTextView { <init>(...); }
+
+# view res/layout/view_nonet.xml #generated:6
+# view res/layout/view_nowifi.xml #generated:6
+-keep class com.happy.widget.NoNetImageView { <init>(...); }
+
+# view res/layout/view_noresult.xml #generated:6
+-keep class com.happy.widget.NoResultImageView { <init>(...); }
+
+# view res/layout/activity_skin.xml #generated:94
+-keep class com.happy.widget.NoScrollViewPager { <init>(...); }
+
+# view res/layout/activity_main.xml #generated:159
+-keep class com.happy.widget.PlayBarNextButton { <init>(...); }
+
+# view res/layout/activity_main.xml #generated:128
+-keep class com.happy.widget.PlayBarPauseButton { <init>(...); }
+
+# view res/layout/activity_main.xml #generated:144
+-keep class com.happy.widget.PlayBarPlayButton { <init>(...); }
+
+# view res/layout/activity_main.xml #generated:174
+-keep class com.happy.widget.PlayBarSidebarButton { <init>(...); }
+
+# view res/layout/popup_list_lrc_item.xml #generated:9
+-keep class com.happy.widget.PopPlayListItemRelativeLayout { <init>(...); }
+
+# view res/layout/likemusiclist_item.xml #generated:108
+# view res/layout/likemusiclist_item.xml #generated:82
+# view res/layout/localmusiclist_item.xml #generated:108
+# view res/layout/localmusiclist_item.xml #generated:134
+# view res/layout/localmusiclist_item.xml #generated:82
+# view res/layout/netmusiclist_item.xml #generated:73
+# view res/layout/netmusiclist_item.xml #generated:98
+-keep class com.happy.widget.PopdownItemRelativeLayout { <init>(...); }
+
+# view res/layout/fragment_search.xml #generated:64
+-keep class com.happy.widget.SearchDelImageView { <init>(...); }
+
+# view res/layout/fragment_search.xml #generated:52
+-keep class com.happy.widget.SearchEditText { <init>(...); }
+
+# view res/layout/fragment_search.xml #generated:45
+-keep class com.happy.widget.SearchEditTextParent { <init>(...); }
+
+# view res/layout/fragment_search.xml #generated:30
+-keep class com.happy.widget.SearchImageView { <init>(...); }
+
+# view res/layout/activity_setting.xml #generated:167
+# view res/layout/activity_setting.xml #generated:188
+# view res/layout/activity_setting.xml #generated:209
+# view res/layout/activity_setting.xml #generated:236
+# view res/layout/activity_setting.xml #generated:257
+# view res/layout/activity_setting.xml #generated:278
+# view res/layout/activity_setting.xml #generated:313
+# view res/layout/activity_setting.xml #generated:334
+# view res/layout/activity_setting.xml #generated:355
+-keep class com.happy.widget.SetupBGButton { <init>(...); }
+
+# view res/layout/activity_setting.xml #generated:390
+# view res/layout/activity_setting.xml #generated:411
+# view res/layout/activity_setting.xml #generated:432
+# view res/layout/activity_setting.xml #generated:459
+# view res/layout/activity_setting.xml #generated:480
+# view res/layout/activity_setting.xml #generated:501
+-keep class com.happy.widget.SetupColorBGButton { <init>(...); }
+
+# view res/layout/activity_setting.xml #generated:107
+-keep class com.happy.widget.SetupDesktoplyricsButton { <init>(...); }
+
+# view res/layout/activity_setting.xml #generated:130
+-keep class com.happy.widget.SetupLockScreenButton { <init>(...); }
+
+# view res/layout/activity_setting.xml #generated:84
+-keep class com.happy.widget.SetupWifiButton { <init>(...); }
+
+# view res/layout/listview_item_skin_image.xml #generated:25
+-keep class com.happy.widget.SkinProgressBar { <init>(...); }
+
+# view res/layout/fragment_local.xml #generated:42
+# view res/layout/fragment_mylove.xml #generated:42
+-keep class com.happy.widget.SlideBar { <init>(...); }
+
+# view res/layout/activity_skin.xml #generated:18
+# view res/layout/sliding_content.xml #generated:14
+# view res/layout/sliding_menu.xml #generated:7
+-keep class com.happy.widget.StatusBarRelativeLayout { <init>(...); }
+
+# view res/layout/activity_about.xml #generated:14
+# view res/layout/activity_introduction.xml #generated:14
+# view res/layout/activity_le_impression.xml #generated:14
+# view res/layout/activity_scanmusic.xml #generated:14
+# view res/layout/activity_setting.xml #generated:14
+-keep class com.happy.widget.TBaseStatusBarRelativeLayout { <init>(...); }
+
+# view res/layout/activity_skin.xml #generated:57
+-keep class com.happy.widget.TabLeftRelativeLayout { <init>(...); }
+
+# view res/layout/sliding_menu.xml #generated:66
+# view res/layout/sliding_menu.xml #generated:82
+-keep class com.happy.widget.TabPageIndicatorTextView { <init>(...); }
+
+# view res/layout/activity_skin.xml #generated:74
+-keep class com.happy.widget.TabRightRelativeLayout { <init>(...); }
+
+# view res/layout/activity_skin.xml #generated:36
+# view res/layout/sliding_content.xml #generated:31
+-keep class com.happy.widget.TitleBackImageView { <init>(...); }
+
+# view res/layout/activity_skin.xml #generated:24
+# view res/layout/sliding_content.xml #generated:20
+# view res/layout/sliding_menu.xml #generated:13
+-keep class com.happy.widget.TitleRelativeLayout { <init>(...); }
+
+# view res/layout/sliding_content.xml #generated:37
+# view res/layout/sliding_content.xml #generated:46
+# view res/layout/sliding_menu.xml #generated:25
+-keep class com.happy.widget.TitleTextView { <init>(...); }
+
+# view res/layout/activity_lock.xml #generated:121
+# view res/layout/activity_lock.xml #generated:163
+-keep class com.happy.widget.lock.LockButtonRelativeLayout { <init>(...); }
+
+# view res/layout/activity_lock.xml #generated:138
+-keep class com.happy.widget.lock.LockPalyOrPauseButtonRelativeLayout { <init>(...); }
+
+# view res/layout/des_view.xml #generated:6
+-keep class com.happy.widget.lrc.FloatLyricRelativeLayout { <init>(...); }
+
+# view res/layout/des_view.xml #generated:13
+-keep class com.happy.widget.lrc.FloatLyricsView { <init>(...); }
+
+# view res/layout/activity_lock.xml #generated:109
+# view res/layout/activity_lrc.xml #generated:140
+-keep class com.happy.widget.lrc.KscManyLineLyricsView { <init>(...); }
+
+# view res/layout/activity_lock.xml #generated:1
+# view res/layout/activity_lrc.xml #generated:1
+-keep class com.happy.widget.lrc.KscManyLineLyricsViewParent { <init>(...); }
+
+# view res/layout/activity_main.xml #generated:24
+# view res/layout/slidingmenumain.xml #generated:2
+-keep class com.jeremyfeinstein.slidingmenu.lib.SlidingMenu { <init>(...); }
+
+# onClick res/layout/activity_about.xml #generated:25
+# onClick res/layout/activity_introduction.xml #generated:25
+# onClick res/layout/activity_le_impression.xml #generated:25
+# onClick res/layout/activity_preview.xml #generated:34
+# onClick res/layout/activity_scanmusic.xml #generated:25
+# onClick res/layout/activity_setting.xml #generated:25
+# onClick res/layout/activity_skin.xml #generated:28
+-keepclassmembers class * { *** back(...); }
+
+# onClick res/layout/activity_b.xml #generated:22
+# onClick res/layout/activity_c.xml #generated:21
+# onClick res/layout/main.xml #generated:22
+-keepclassmembers class * { *** buttononClick(...); }
+
+# onClick res/layout/activity_about.xml #generated:114
+# onClick res/layout/activity_about.xml #generated:147
+# onClick res/layout/activity_about.xml #generated:180
+-keepclassmembers class * { *** itemOnClick(...); }
+
+# onClick res/layout/popup_menu.xml #generated:113
+# onClick res/layout/popup_menu.xml #generated:212
+# onClick res/layout/popup_menu.xml #generated:23
+# onClick res/layout/popup_menu.xml #generated:239
+# onClick res/layout/popup_menu.xml #generated:50
+# onClick res/layout/popup_menu.xml #generated:77
+-keepclassmembers class * { *** menuOnClick(...); }
+
+# onClick res/layout/activity_lrc.xml #generated:212
+# onClick res/layout/activity_lrc.xml #generated:222
+# onClick res/layout/activity_lrc.xml #generated:232
+# onClick res/layout/activity_lrc.xml #generated:242
+-keepclassmembers class * { *** modelOnClick(...); }
+
+# onClick res/layout/activity_scanmusic.xml #generated:77
+-keepclassmembers class * { *** scanMusic(...); }
+
+# onClick res/layout/activity_lrc.xml #generated:145
+-keepclassmembers class * { *** showLrcMenuDialog(...); }
+

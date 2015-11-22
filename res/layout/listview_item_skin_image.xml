@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <com.happy.widget.CardViewRelativeLayout
+        android:id="@+id/itembg"
+        android:layout_width="fill_parent"
+        android:layout_height="260dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
+        android:clickable="true" >
+
+        <ImageView
+            android:id="@+id/theme_pic"
+            android:layout_width="fill_parent"
+            android:layout_height="230dp"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dp"
+            android:layout_marginTop="1dp" />
+
+        <com.happy.widget.SkinProgressBar
+            android:id="@+id/skinProgressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="230dp"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dp"
+            android:layout_marginTop="1dp"
+            android:max="100"
+            android:progress="30" />
+
+        <RelativeLayout
+            android:id="@+id/downloadstatus"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_above="@+id/theme_text"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/bg_mv_vol" >
+
+            <ImageView
+                android:id="@+id/pic"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/icon_download_skin" />
+
+            <TextView
+                android:id="@+id/skinSize"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@+id/pic"
+                android:text="000KB"
+                android:textColor="#ffffff" />
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/secect_stats"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/theme_text"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/skin_selected_bg_tip" />
+
+        <com.happy.widget.MainTextView
+            android:id="@+id/theme_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/theme_pic"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="5dp"
+            android:text="主题名称" />
+    </com.happy.widget.CardViewRelativeLayout>
+
+</LinearLayout>

@@ -116,5 +116,10 @@
  注意:
  ## 线控监听 在写线控代码时，如果多次没法监听 耳机的点击事件，请将应用先删除，再重新安装。
  
- 资源下载路径：http://pan.baidu.com/s/1eQz4S0q
+ 使用方式
  
+ 资源下载路径：http://pan.baidu.com/s/1eQz4S0q
+   下载后，解压到 手机的储存卡里面，再运行应用，扫描歌曲，找到对应的歌词，播放，就可以看到效果了。
+ 
+ 具体简介：
+ http://www.eoeandroid.com/forum.php?mod=viewthread&tid=917012&extra=page%3D1&_dsign=576de398

@@ -53,10 +53,10 @@ public class KscManyLineLyricsView extends View implements Observer {
 	 */
 	private Paint paintHLED;
 
-	/**
-	 * 轮廓画笔
-	 */
-	private Paint paintBackgruond;
+	// /**
+	// * 轮廓画笔
+	// */
+	// private Paint paintBackgruond;
 
 	/** 画时间线的画时间线 ***/
 	private Paint mPaintForTimeLine;
@@ -189,11 +189,11 @@ public class KscManyLineLyricsView extends View implements Observer {
 		paintHLED.setAntiAlias(true);
 		paintHLED.setTypeface(typeFace);
 
-		paintBackgruond = new Paint();
-		paintBackgruond.setColor(Color.BLACK);
-		paintBackgruond.setTypeface(typeFace);
-		paintBackgruond.setDither(true);
-		paintBackgruond.setAntiAlias(true);
+		// paintBackgruond = new Paint();
+		// paintBackgruond.setColor(Color.BLACK);
+		// paintBackgruond.setTypeface(typeFace);
+		// paintBackgruond.setDither(true);
+		// paintBackgruond.setAntiAlias(true);
 
 		mPaintForTimeLine = new Paint();
 		mPaintForTimeLine.setDither(true);
@@ -227,8 +227,8 @@ public class KscManyLineLyricsView extends View implements Observer {
 			int height = (int) Math.ceil(fm.descent - fm.top) + 2;
 			float y = getHeight() / 2 + getScrollY();
 
-			paintBackgruond.setTextSize(SIZEWORDHL);
-			drawBackground(canvas, timeStr, 0, y + height);
+			// paintBackgruond.setTextSize(SIZEWORDHL);
+			// drawBackground(canvas, timeStr, 0, y + height);
 
 			canvas.drawText(timeStr, 0, y + height, mPaintForTimeLine);
 			canvas.drawLine(0, y, getWidth(), y, mPaintForTimeLine);
@@ -322,20 +322,21 @@ public class KscManyLineLyricsView extends View implements Observer {
 		canvas.restore();
 	}
 
-	/**
-	 * 描绘轮廓
-	 * 
-	 * @param canvas
-	 * @param string
-	 * @param x
-	 * @param y
-	 */
-	private void drawBackground(Canvas canvas, String string, float x, float y) {
-		canvas.drawText(string, x - 1, y, paintBackgruond);
-		canvas.drawText(string, x + 1, y, paintBackgruond);
-		canvas.drawText(string, x, y + 1, paintBackgruond);
-		canvas.drawText(string, x, y - 1, paintBackgruond);
-	}
+	// /**
+	// * 描绘轮廓
+	// *
+	// * @param canvas
+	// * @param string
+	// * @param x
+	// * @param y
+	// */
+	// private void drawBackground(Canvas canvas, String string, float x, float
+	// y) {
+	// canvas.drawText(string, x - 1, y, paintBackgruond);
+	// canvas.drawText(string, x + 1, y, paintBackgruond);
+	// canvas.drawText(string, x, y + 1, paintBackgruond);
+	// canvas.drawText(string, x, y - 1, paintBackgruond);
+	// }
 
 	/**
 	 * 绘画歌词文本

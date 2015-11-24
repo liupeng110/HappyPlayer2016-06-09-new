@@ -318,15 +318,15 @@ public class Constants {
 	/**
 	 * 未读歌词颜色
 	 */
-	public static int DESLRCNOREADCOLOR[] = { Color.rgb(128, 226, 165),
-			Color.rgb(180, 247, 179), Color.rgb(168, 219, 134),
-			Color.rgb(247, 240, 134) };
+	public static int DESLRCNOREADCOLOR[] = { Color.rgb(150, 209, 254),
+			Color.rgb(214, 142, 237), Color.rgb(214, 215, 214),
+			Color.rgb(233, 74, 69) };
 	/**
 	 * 已读歌词颜色
 	 */
-	public static int DESLRCREADEDCOLOR[] = { Color.rgb(0, 194, 229),
-			Color.rgb(255, 233, 81), Color.rgb(248, 93, 72),
-			Color.rgb(67, 235, 95) };
+	public static int DESLRCREADEDCOLOR[] = { Color.rgb(229, 146, 230),
+			Color.rgb(248, 246, 151), Color.rgb(133, 208, 255),
+			Color.rgb(255, 193, 120) };
 	/***
 	 * 桌面歌词颜色
 	 */
@@ -336,9 +336,9 @@ public class Constants {
 	/**
 	 * 桌面歌词颜色
 	 */
-	public static int DESLRCCOLORS[] = { Color.rgb(0, 194, 229),
-			Color.rgb(255, 233, 81), Color.rgb(248, 93, 72),
-			Color.rgb(67, 235, 95) };
+	public static int DESLRCCOLORS[] = { Color.rgb(86, 168, 240),
+			Color.rgb(170, 29, 216), Color.rgb(207, 208, 207),
+			Color.rgb(213, 4, 0) };
 
 	/***
 	 * ------------------------------------应用基本配置-----------------------------

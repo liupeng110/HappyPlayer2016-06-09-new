@@ -1,6 +1,7 @@
 package com.happy.model.app;
 
-import com.happy.util.FileDownloadThread;
+import com.happy.util.DownloadThreadManage;
+
 
 /**
  * 下载任务
@@ -10,8 +11,10 @@ import com.happy.util.FileDownloadThread;
  */
 public class DownloadTask {
 
-	public static final int SKIN = 1;
-	public static final int APK = 2;
+	public static final int SKIN = 1;// 皮肤
+	public static final int APK = 2;// 应用
+	public static final int SONG = 3;// 歌曲
+	public static final int SONG_NET = 4;// 网络歌曲
 
 	public static final int INT = 0;// 初始化状态
 	public static final int WAITING = 1;// 等待下载
@@ -54,9 +57,9 @@ public class DownloadTask {
 	 */
 	private long downloadedSize;
 	/**
-	 * 下载任务的线程
+	 * 下载任务的线程管理器
 	 */
-	private FileDownloadThread thread;
+	private DownloadThreadManage downloadThreadManage;
 	/**
 	 * 下载任务类型
 	 */
@@ -118,12 +121,13 @@ public class DownloadTask {
 		this.downloadedSize = downloadedSize;
 	}
 
-	public FileDownloadThread getThread() {
-		return thread;
+	public DownloadThreadManage getDownloadThreadManage() {
+		return downloadThreadManage;
 	}
 
-	public void setThread(FileDownloadThread thread) {
-		this.thread = thread;
+	public void setDownloadThreadManage(
+			DownloadThreadManage downloadThreadManage) {
+		this.downloadThreadManage = downloadThreadManage;
 	}
 
 	public int getType() {

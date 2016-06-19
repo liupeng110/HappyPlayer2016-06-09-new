@@ -6,8 +6,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import android.annotation.SuppressLint;
 import android.app.Notification;
@@ -87,7 +85,10 @@ import com.happy.service.MediaPlayerService;
 import com.happy.util.AlbumUtil;
 import com.happy.util.DataUtil;
 import com.happy.util.DateUtil;
-import com.happy.util.FileDownloadThread;
+import com.happy.util.DownloadManage;
+import com.happy.util.DownloadThreadManage;
+import com.happy.util.DownloadThreadPool;
+import com.happy.util.DownloadThreadPool.IDownloadTaskEventCallBack;
 import com.happy.util.HttpUtil;
 import com.happy.util.ImageUtil;
 import com.happy.util.ImageUtil.ImageLoadCallBack;
@@ -416,6 +417,11 @@ public class MainActivity extends FragmentActivity implements Observer {
 
 				AlbumUtil.mSinger = "";
 
+				if (artistLoadingImageView.getVisibility() == View.VISIBLE) {
+					artistLoadingImageView.clearAnimation();
+					artistLoadingImageView.setVisibility(View.INVISIBLE);
+				}
+
 				return;
 			}
 			if (songMessageTemp.getType() == SongMessage.INITMUSIC) {
@@ -446,17 +452,47 @@ public class MainActivity extends FragmentActivity implements Observer {
 				playBarPlayParent.setVisibility(View.INVISIBLE);
 				pauseBarPlayParent.setVisibility(View.VISIBLE);
 
+				if (artistLoadingImageView.getVisibility() == View.VISIBLE) {
+					artistLoadingImageView.clearAnimation();
+					artistLoadingImageView.setVisibility(View.INVISIBLE);
+				}
+
 			} else if (songMessageTemp.getType() == SongMessage.SERVICEPLAYINGMUSIC) {
 
 				seekBar.setProgress((int) songInfo.getPlayProgress());
-				seekBar.setSecondaryProgress(0);
-
+				// seekBar.setSecondaryProgress(0);
 			} else if (songMessageTemp.getType() == SongMessage.SERVICEPAUSEEDMUSIC) {
 				playBarPlayParent.setVisibility(View.VISIBLE);
 				pauseBarPlayParent.setVisibility(View.INVISIBLE);
 
 				seekBar.setProgress((int) songInfo.getPlayProgress());
 
+				if (artistLoadingImageView.getVisibility() == View.VISIBLE) {
+					artistLoadingImageView.clearAnimation();
+					artistLoadingImageView.setVisibility(View.INVISIBLE);
+				}
+
+			} else if (songMessageTemp.getType() == SongMessage.UPDATEMUSIC) {
+				long max = songInfo.getDuration();
+				float downloadProgress = songInfo.getDownloadProgress();
+				long fileSize = songInfo.getSize();
+				if (fileSize <= downloadProgress) {
+					seekBar.setSecondaryProgress(0);
+				} else
+					seekBar.setSecondaryProgress((int) (downloadProgress
+							/ fileSize * max));
+			} else if (songMessageTemp.getType() == SongMessage.SERVICEPLAYWAITING) {
+				if (artistLoadingImageView.getVisibility() != View.VISIBLE) {
+					artistLoadingImageView.setVisibility(View.VISIBLE);
+					artistLoadingImageView.startAnimation(rotateAnimation);
+				}
+			} else if (songMessageTemp.getType() == SongMessage.SERVICEPLAYWAITINGEND) {
+				if (artistLoadingImageView.getVisibility() == View.VISIBLE) {
+					artistLoadingImageView.clearAnimation();
+					artistLoadingImageView.setVisibility(View.INVISIBLE);
+				}
+			} else if (songMessageTemp.getType() == SongMessage.SERVICEDOWNLOADFINISHED) {
+				seekBar.setSecondaryProgress(0);
 			}
 		}
 
@@ -1301,7 +1337,6 @@ public class MainActivity extends FragmentActivity implements Observer {
 		if (MediaPlayerService.isServiceRunning) {
 			stopService(new Intent(MainActivity.this, MediaPlayerService.class));
 		}
-
 		unregisterReceiver(mTimeReceiver);
 
 		ActivityManage.getInstance().exit();
@@ -1575,11 +1610,11 @@ public class MainActivity extends FragmentActivity implements Observer {
 	 * app的相关信息
 	 */
 	private AppInfo appInfo = null;
-	private static ExecutorService SINGLE_TASK_EXECUTOR;
-	static {
-		SINGLE_TASK_EXECUTOR = (ExecutorService) Executors
-				.newSingleThreadExecutor();
-	};
+	// private static ExecutorService SINGLE_TASK_EXECUTOR;
+	// static {
+	// SINGLE_TASK_EXECUTOR = (ExecutorService) Executors
+	// .newSingleThreadExecutor();
+	// };
 
 	private Handler mNotificationHandler = new Handler() {
 
@@ -1772,7 +1807,6 @@ public class MainActivity extends FragmentActivity implements Observer {
 		if (intent.getAction().equals(Constants.NOTIFIATION_APP_DOWNLOAD)) {
 			if (task != null) {
 				task.setStatus(DownloadTask.INT);
-				task.setThread(new FileDownloadThread(task));
 				downloadAPP();
 			} else {
 				if (appInfo != null)
@@ -1869,7 +1903,6 @@ public class MainActivity extends FragmentActivity implements Observer {
 			task.setAddTime(DateUtil.dateToOtherString(new Date()));
 			task.setFinishTime("");
 			task.setType(DownloadTask.APK);
-			task.setThread(new FileDownloadThread(task));
 
 			downloadAPP();
 		} else {
@@ -1878,35 +1911,85 @@ public class MainActivity extends FragmentActivity implements Observer {
 		}
 	}
 
+	private IDownloadTaskEventCallBack eventCallBack = new IDownloadTaskEventCallBack() {
+
+		@Override
+		public void waiting(DownloadTask task) {
+			task.setStatus(DownloadTask.WAITING);
+			ObserverManage.getObserver().setMessage(task);
+		}
+
+		@Override
+		public void downloading(DownloadTask task) {
+			task.setStatus(DownloadTask.DOWNLOING);
+			ObserverManage.getObserver().setMessage(task);
+		}
+
+		@Override
+		public void threadDownloading(DownloadTask task) {
+		}
+
+		@Override
+		public void pauseed(DownloadTask task) {
+			task.setStatus(DownloadTask.DOWNLOAD_PAUSE);
+			ObserverManage.getObserver().setMessage(task);
+		}
+
+		@Override
+		public void canceled(DownloadTask task) {
+			task.setStatus(DownloadTask.DOWNLOAD_CANCEL);
+			ObserverManage.getObserver().setMessage(task);
+		}
+
+		@Override
+		public void finished(DownloadTask task) {
+			task.setStatus(DownloadTask.DOWNLOAD_FINISH);
+			ObserverManage.getObserver().setMessage(task);
+		}
+
+		@Override
+		public void error(DownloadTask task) {
+			ObserverManage.getObserver().setMessage(task);
+		}
+
+	};
+
 	/**
 	 * 下载app
 	 */
 	private void downloadAPP() {
-
 		ToastUtil.showTextToast(this, "开始后台下载，通知栏可查看进度!");
+		//
+		// new AsyncTask<String, Integer, String>() {
+		//
+		// @Override
+		// protected String doInBackground(String... params) {
+		//
+		// FileDownloadThread thread = task.getThread();
+		// if (thread.isFinish() || thread.isCancel() || thread.isError()
+		// || thread.isPause()) {
+		// thread = null;
+		// } else {
+		// thread.start(getApplicationContext());
+		// }
+		//
+		// return null;
+		// }
+		//
+		// @SuppressLint("NewApi")
+		// @Override
+		// protected void onPostExecute(String result) {
+		//
+		// }
+		// }.executeOnExecutor(SINGLE_TASK_EXECUTOR, "");
 
-		new AsyncTask<String, Integer, String>() {
-
-			@Override
-			protected String doInBackground(String... params) {
-
-				FileDownloadThread thread = task.getThread();
-				if (thread.isFinish() || thread.isCancel() || thread.isError()
-						|| thread.isPause()) {
-					thread = null;
-				} else {
-					thread.start(getApplicationContext());
-				}
-
-				return null;
-			}
-
-			@SuppressLint("NewApi")
-			@Override
-			protected void onPostExecute(String result) {
-
-			}
-		}.executeOnExecutor(SINGLE_TASK_EXECUTOR, "");
+		DownloadThreadManage dtm = new DownloadThreadManage(task, 10);
+		task.setDownloadThreadManage(dtm);
+		// System.out.println(System.currentTimeMillis());
+		DownloadThreadPool dp = DownloadManage
+				.getAPKTM(getApplicationContext());
+		dp.setEvent(eventCallBack);
+		dp.addDownloadTask(task);
 
 	}
 
@@ -1968,6 +2051,13 @@ public class MainActivity extends FragmentActivity implements Observer {
 					notifyPlayBarHandler.sendMessage(msg2);
 				}
 
+			} else if (songMessageTemp.getType() == SongMessage.UPDATEMUSIC
+					|| songMessageTemp.getType() == SongMessage.SERVICEPLAYWAITING
+					|| songMessageTemp.getType() == SongMessage.SERVICEPLAYWAITINGEND
+					|| songMessageTemp.getType() == SongMessage.SERVICEDOWNLOADFINISHED) {
+				Message msg = new Message();
+				msg.obj = songMessageTemp;
+				songInfoHandler.sendMessage(msg);
 			} else if (songMessageTemp.getType() == SongMessage.ALUBMPHOTOLOADED) {
 				SongInfo songInfo = MediaManage.getMediaManage(
 						MainActivity.this).getSongInfo();

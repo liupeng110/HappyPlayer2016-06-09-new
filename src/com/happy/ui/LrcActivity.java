@@ -60,8 +60,8 @@ import com.happy.util.SingerPhotoUtil;
 import com.happy.util.ToastUtil;
 import com.happy.widget.ButtonPressRelativeLayout;
 import com.happy.widget.LrcSeekBar;
-import com.happy.widget.lrc.KscManyLineLyricsView;
 import com.happy.widget.lrc.KscManyLineLyricsViewParent;
+import com.happy.widget.lrc.LrcKscManyLineLyricsView;
 
 @SuppressLint("NewApi")
 public class LrcActivity extends SwipeBackActivity implements Observer {
@@ -198,7 +198,7 @@ public class LrcActivity extends SwipeBackActivity implements Observer {
 	/**
 	 * 歌词视图
 	 */
-	private KscManyLineLyricsView kscManyLineLyricsView;
+	private LrcKscManyLineLyricsView kscManyLineLyricsView;
 
 	/**
 	 * 颜色面板
@@ -317,7 +317,7 @@ public class LrcActivity extends SwipeBackActivity implements Observer {
 					if (!isStartTrackingTouch) {
 						playerSeekBar.setProgress((int) songInfo
 								.getPlayProgress());
-						playerSeekBar.setSecondaryProgress(0);
+						// playerSeekBar.setSecondaryProgress(0);
 					}
 
 					if (kscManyLineLyricsView.getHasKsc()) {
@@ -344,6 +344,14 @@ public class LrcActivity extends SwipeBackActivity implements Observer {
 
 				} else if (songMessageTemp.getType() == SongMessage.SERVICEERRORMUSIC) {
 
+				} else if (songMessageTemp.getType() == SongMessage.UPDATEMUSIC) {
+					long max = songInfo.getDuration();
+					float downloadProgress = songInfo.getDownloadProgress();
+					long fileSize = songInfo.getSize();
+					playerSeekBar.setSecondaryProgress((int) (downloadProgress
+							/ fileSize * max));
+				} else if (songMessageTemp.getType() == SongMessage.SERVICEDOWNLOADFINISHED) {
+					playerSeekBar.setSecondaryProgress(0);
 				}
 			}
 		}
@@ -555,7 +563,7 @@ public class LrcActivity extends SwipeBackActivity implements Observer {
 		});
 
 		KscManyLineLyricsViewParent kscManyLineLyricsViewParent = (KscManyLineLyricsViewParent) findViewById(R.id.kscManyLineLyricsViewParent);
-		kscManyLineLyricsView = (KscManyLineLyricsView) findViewById(R.id.kscManyLineLyricsView);
+		kscManyLineLyricsView = (LrcKscManyLineLyricsView) findViewById(R.id.kscManyLineLyricsView);
 		kscManyLineLyricsViewParent
 				.setVerticalScrollChildView(kscManyLineLyricsView);
 
@@ -1159,6 +1167,10 @@ public class LrcActivity extends SwipeBackActivity implements Observer {
 					|| songMessageTemp.getType() == SongMessage.SERVICEPAUSEEDMUSIC
 					|| songMessageTemp.getType() == SongMessage.ERRORMUSIC
 					|| songMessageTemp.getType() == SongMessage.SERVICEERRORMUSIC) {
+				Message msg = new Message();
+				msg.obj = songMessageTemp;
+				songHandler.sendMessage(msg);
+			} else if (songMessageTemp.getType() == SongMessage.UPDATEMUSIC || songMessageTemp.getType() == SongMessage.SERVICEDOWNLOADFINISHED) {
 				Message msg = new Message();
 				msg.obj = songMessageTemp;
 				songHandler.sendMessage(msg);

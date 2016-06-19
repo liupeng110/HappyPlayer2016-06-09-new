@@ -8,6 +8,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import android.content.Context;
+import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.RecyclerView.Adapter;
 import android.support.v7.widget.RecyclerView.ViewHolder;
@@ -20,8 +21,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.happy.adapter.SkinRecommendAdapter.ItemViewHolder;
-import com.happy.application.CrashApplication;
 import com.happy.common.Constants;
+import com.happy.db.DownloadTaskDB;
 import com.happy.db.SkinThemeDB;
 import com.happy.model.app.DownloadTask;
 import com.happy.model.app.MessageIntent;
@@ -30,7 +31,10 @@ import com.happy.observable.ObserverManage;
 import com.happy.ui.R;
 import com.happy.util.DataUtil;
 import com.happy.util.DateUtil;
-import com.happy.util.FileDownloadThread;
+import com.happy.util.DownloadManage;
+import com.happy.util.DownloadThreadManage;
+import com.happy.util.DownloadThreadPool;
+import com.happy.util.DownloadThreadPool.IDownloadTaskEventCallBack;
 import com.happy.util.HttpUtil;
 import com.happy.util.ImageLoadUtil;
 import com.happy.util.ToastUtil;
@@ -44,6 +48,87 @@ public class SkinRecommendAdapter extends Adapter<ItemViewHolder> implements
 	private List<DownloadTask> datas;
 	private static Context context;
 	private int selectedIndex = -1;
+
+	private Handler mHandler = new Handler() {
+
+		@Override
+		public void handleMessage(Message msg) {
+			DownloadTask task = (DownloadTask) msg.obj;
+			if (task != null) {
+				reshUI(task);
+			}
+		}
+
+	};
+
+	private IDownloadTaskEventCallBack eventCallBack = new IDownloadTaskEventCallBack() {
+
+		@Override
+		public void waiting(DownloadTask task) {
+			task.setStatus(DownloadTask.WAITING);
+			// Message msg = new Message();
+			// msg.obj = task;
+			// mHandler.sendMessage(msg);
+			ObserverManage.getObserver().setMessage(task);
+			if (DownloadTaskDB.getDownloadTaskDB(context).taskIsExists(
+					task.getTid(), DownloadTask.SKIN)) {
+				DownloadTaskDB.getDownloadTaskDB(context).update(task);
+			}
+		}
+
+		@Override
+		public void threadDownloading(DownloadTask task) {
+
+		}
+
+		@Override
+		public void pauseed(DownloadTask task) {
+			task.setStatus(DownloadTask.DOWNLOAD_PAUSE);
+			// Message msg = new Message();
+			// msg.obj = task;
+			// mHandler.sendMessage(msg);
+			ObserverManage.getObserver().setMessage(task);
+		}
+
+		@Override
+		public void finished(DownloadTask task) {
+			task.setStatus(DownloadTask.DOWNLOAD_FINISH);
+			// Message msg = new Message();
+			// msg.obj = task;
+			// mHandler.sendMessage(msg);
+			ObserverManage.getObserver().setMessage(task);
+			if (DownloadTaskDB.getDownloadTaskDB(context).taskIsExists(
+					task.getTid(), DownloadTask.SKIN)) {
+				DownloadTaskDB.getDownloadTaskDB(context).update(task);
+			}
+		}
+
+		@Override
+		public void error(DownloadTask task) {
+			ObserverManage.getObserver().setMessage(task);
+			// Message msg = new Message();
+			// msg.obj = task;
+			// mHandler.sendMessage(msg);
+		}
+
+		@Override
+		public void downloading(DownloadTask task) {
+			task.setStatus(DownloadTask.DOWNLOING);
+			// Message msg = new Message();
+			// msg.obj = task;
+			// mHandler.sendMessage(msg);
+			ObserverManage.getObserver().setMessage(task);
+		}
+
+		@Override
+		public void canceled(DownloadTask task) {
+			task.setStatus(DownloadTask.DOWNLOAD_CANCEL);
+			// Message msg = new Message();
+			// msg.obj = task;
+			// mHandler.sendMessage(msg);
+			ObserverManage.getObserver().setMessage(task);
+		}
+	};
 
 	public SkinRecommendAdapter(Context context, List<DownloadTask> datas) {
 		this.context = context;
@@ -140,83 +225,14 @@ public class SkinRecommendAdapter extends Adapter<ItemViewHolder> implements
 	 * @param downloadTask
 	 */
 	protected void downloadSkin(int position, DownloadTask downloadTask) {
-		if (!CrashApplication.tasks.contains(downloadTask)) {
-			downloadTask.setThread(new FileDownloadThread(downloadTask));
-			// if (tasks.size() == 0)
-			// tasks.add(downloadTask);
-			// else {
-			//
-			// int i = 0;
-			// for (i = 0; i < tasks.size(); i++) {
-			// DownloadTask temp = tasks.get(i);
-			// for (int j = 0; j < datas.size(); j++) {
-			// if (temp.getTid().equals(datas.get(j).getTid())) {
-			// if (position < j) {
-			// if (tasks.size() == 0){
-			//
-			// }
-			// else
-			// tasks.add(1, downloadTask);
-			// break;
-			// } else {
-			// tasks.add(downloadTask);
-			// break;
-			// }
-			// }
-			// }
-			// }
-			// if (i == tasks.size() - 1) {
-			// tasks.add(downloadTask);
-			// }
-			// }
-			downloadTask.setStatus(DownloadTask.WAITING);
-			CrashApplication.tasks.add(downloadTask);
-			ObserverManage.getObserver().setMessage(downloadTask);
-		} else {
-			downloadTask.setStatus(DownloadTask.INT);
-			downloadTask.setThread(new FileDownloadThread(downloadTask));
-		}
 
-		// 启动线程去下载任务
-		if (CrashApplication.downloadSkinThread == null) {
-			CrashApplication.downloadSkinThread = new Thread(runnable);
-			CrashApplication.downloadSkinThread.start();
-		} else {
-			// 唤醒任务下载队列
-			synchronized (runnable) {
-				runnable.notify();
-			}
-		}
+		DownloadThreadManage dtm = new DownloadThreadManage(downloadTask, 10);
+		downloadTask.setDownloadThreadManage(dtm);
+		DownloadThreadPool dp = DownloadManage.getSkinTM(context);
+		dp.setEvent(eventCallBack);
+		dp.addDownloadTask(downloadTask);
+
 	}
-
-	private static Runnable runnable = new Runnable() {
-
-		@Override
-		public void run() {
-			while (true) {
-				while (CrashApplication.tasks.size() > 0) {
-					DownloadTask task = CrashApplication.tasks.get(0);
-					FileDownloadThread thread = task.getThread();
-					if (thread.isFinish() || thread.isCancel()
-							|| thread.isError() || thread.isPause()) {
-						CrashApplication.tasks.remove(0);
-					} else {
-						thread.start(context);
-					}
-				}
-				// System.out.println("zhangliangming" + "下载完成!!");
-				// 如果队列为空,则令线程等待
-				synchronized (this) {
-					try {
-						this.wait();
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-		}
-
-	};
 
 	/**
 	 * 刷新ui
@@ -305,7 +321,10 @@ public class SkinRecommendAdapter extends Adapter<ItemViewHolder> implements
 		if (data instanceof DownloadTask) {
 			DownloadTask task = (DownloadTask) data;
 			if (task.getType() == DownloadTask.SKIN) {
-				reshUI(task);
+				Message msg = new Message();
+				msg.obj = task;
+				mHandler.sendMessage(msg);
+				// reshUI(task);
 			}
 		} else if (data instanceof SkinThemeApp) {
 			SkinThemeApp skinTheme = (SkinThemeApp) data;

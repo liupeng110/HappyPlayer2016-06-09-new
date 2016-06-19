@@ -1,5 +1,7 @@
 package com.happy.service;
 
+import java.io.File;
+import java.util.Date;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -10,15 +12,22 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.media.MediaPlayer.OnErrorListener;
-import android.media.audiofx.PresetReverb;
 import android.os.IBinder;
 
 import com.happy.common.Constants;
+import com.happy.db.SongDB;
 import com.happy.logger.LoggerManage;
 import com.happy.manage.MediaManage;
+import com.happy.model.app.DownloadTask;
 import com.happy.model.app.SongInfo;
 import com.happy.model.app.SongMessage;
 import com.happy.observable.ObserverManage;
+import com.happy.util.DateUtil;
+import com.happy.util.DownloadManage;
+import com.happy.util.DownloadThreadManage;
+import com.happy.util.DownloadThreadPool;
+import com.happy.util.DownloadThreadPool.IDownloadTaskEventCallBack;
+import com.happy.util.HttpUtil;
 import com.happy.util.ToastUtil;
 
 public class MediaPlayerService extends Service implements Observer {
@@ -41,6 +50,10 @@ public class MediaPlayerService extends Service implements Observer {
 
 	private LoggerManage logger;
 
+	private int songDuration = 0;
+
+	private boolean isError = false;
+
 	@Override
 	public IBinder onBind(Intent arg0) {
 		return null;
@@ -61,7 +74,7 @@ public class MediaPlayerService extends Service implements Observer {
 			isFirstStart = false;
 			// 播放歌曲
 			if (songInfo != null) {
-				playInfoMusic(songInfo);
+				playMusic(songInfo);
 			}
 		}
 	}
@@ -131,8 +144,172 @@ public class MediaPlayerService extends Service implements Observer {
 	 * 播放歌曲
 	 * 
 	 * @param songInfo
+	 * @param type
 	 */
-	private void playInfoMusic(SongInfo songInfo) {
+	private void playMusic(SongInfo songInfo) {
+		if (songInfo.getType() == SongInfo.LOCALSONG) {
+			playLocalMusic(songInfo);
+		} else {
+			songDuration = (int) songInfo.getPlayProgress();
+			playNETMusic(songInfo, false);
+		}
+	}
+
+	/**
+	 * 播放网络歌曲
+	 * 
+	 * @param songInfo
+	 */
+	private void playNETMusic(SongInfo songInfoTemp2, boolean isInit) {
+		if (isInit) {
+			songDuration = 0;
+		}
+
+		// 从数据库中获取最新的歌曲数据
+		SongInfo songInfoTemp = SongDB.getSongInfoDB(getApplicationContext())
+				.getSongInfo(songInfoTemp2.getSid());
+		songInfoTemp.setPlayProgress(songDuration);
+		this.songInfo = songInfoTemp;
+
+		SongMessage msg = new SongMessage();
+		msg.setSongInfo(songInfo);
+		msg.setType(SongMessage.SERVICEPLAYWAITING);
+		ObserverManage.getObserver().setMessage(msg);
+
+		File songFile = new File(songInfo.getFilePath());
+		if (songFile.exists()
+				&& songInfo.getDownloadProgress() == songInfo.getSize()) {
+
+			SongMessage msg2 = new SongMessage();
+			msg2.setSongInfo(songInfo);
+			msg2.setType(SongMessage.SERVICEPLAYWAITINGEND);
+			ObserverManage.getObserver().setMessage(msg2);
+
+			playLocalMusic(songInfo);
+		} else {
+			if (songInfo.getDownloadProgress() == 0 || isError) {
+				isError = false;
+				// 下载网络歌曲
+				downloadNetMusic(songInfo);
+			} else {
+				playNETMusicByProgress(songInfo);
+			}
+		}
+	}
+
+	private IDownloadTaskEventCallBack eventCallBack = new IDownloadTaskEventCallBack() {
+
+		@Override
+		public void waiting(DownloadTask task) {
+
+		}
+
+		@Override
+		public void downloading(DownloadTask task) {
+			if (songInfo != null && songInfo.getSid().equals(task.getTid())
+					&& songInfo.getDownloadProgress() == 0
+					&& task.getDownloadedSize() > 1024 * 300) {
+				songInfo.setDownloadProgress(task.getDownloadedSize());
+				// 播放歌曲
+				playNETMusic(songInfo, true);
+			}
+			SongDB.getSongInfoDB(getApplicationContext())
+					.updateSongDownloadProgress(task.getTid(),
+							task.getDownloadedSize());
+		}
+
+		@Override
+		public void threadDownloading(DownloadTask task) {
+
+		}
+
+		@Override
+		public void pauseed(DownloadTask task) {
+
+		}
+
+		@Override
+		public void canceled(DownloadTask task) {
+
+		}
+
+		@Override
+		public void finished(DownloadTask task) {
+			if (songInfo != null && songInfo.getSid().equals(task.getTid())) {
+				SongMessage songMessage = new SongMessage();
+				songMessage.setSongInfo(songInfo);
+				songMessage.setType(SongMessage.SERVICEDOWNLOADFINISHED);
+				// 通知
+				ObserverManage.getObserver().setMessage(songMessage);
+
+				SongDB.getSongInfoDB(getApplicationContext())
+						.updateSongDownloadProgress(task.getTid(),
+								task.getDownloadedSize());
+			}
+
+		}
+
+		@Override
+		public void error(DownloadTask task) {
+			isError = true;
+			try {
+				Thread.sleep(100);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			if (songInfo != null && songInfo.getSid().equals(task.getTid())) {
+
+				initPlayer();
+
+				MediaManage.getMediaManage(getApplicationContext())
+						.setPlayStatus(MediaManage.PAUSE);
+				SongMessage songMessage = new SongMessage();
+				songMessage.setType(SongMessage.INITMUSIC);
+				songMessage.setSongInfo(songInfo);
+				// 通知
+				ObserverManage.getObserver().setMessage(songMessage);
+
+			}
+		}
+
+	};
+
+	/**
+	 * 下载网络歌曲
+	 * 
+	 * @param songInfo
+	 */
+	private void downloadNetMusic(SongInfo songInfo) {
+
+		DownloadTask task = new DownloadTask();
+		String url = HttpUtil.getSongInfoDataByID(songInfo.getSid());
+		task = new DownloadTask();
+		task.setTid(songInfo.getSid());
+		task.setStatus(DownloadTask.INT);
+		task.setDownloadUrl(url);
+		task.setFilePath(songInfo.getFilePath());
+		task.setFileSize(songInfo.getSize());
+		task.setDownloadedSize(0);
+		task.setAddTime(DateUtil.dateToOtherString(new Date()));
+		task.setFinishTime("");
+		task.setType(DownloadTask.SONG_NET);
+
+		DownloadThreadManage dtm = new DownloadThreadManage(task, 10);
+		task.setDownloadThreadManage(dtm);
+		DownloadThreadPool dp = DownloadManage
+				.getSongNetTM(getApplicationContext());
+		dp.setEvent(eventCallBack);
+		dp.addNetDownloadTask(task);
+
+	}
+
+	/**
+	 * 播放网络歌曲
+	 * 
+	 * @param songInfo
+	 */
+	private void playNETMusicByProgress(final SongInfo songInfo) {
 		this.songInfo = songInfo;
 		if (songInfo == null) {
 
@@ -143,6 +320,106 @@ public class MediaPlayerService extends Service implements Observer {
 
 			return;
 		}
+		if (player == null) {
+			player = new MediaPlayer();
+
+			player.setOnCompletionListener(new OnCompletionListener() {
+				@Override
+				public void onCompletion(MediaPlayer mp) {
+					try {
+						Thread.sleep(100);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					songDuration = mp.getCurrentPosition();
+					if (songDuration >= songInfo.getDuration()) {
+						// 下一首
+						SongMessage songMessage = new SongMessage();
+						songMessage.setType(SongMessage.NEXTMUSIC);
+						ObserverManage.getObserver().setMessage(songMessage);
+						songDuration = 0;
+					} else {
+						initPlayer();
+						// 继续播放
+						playNETMusic(songInfo, false);
+					}
+				}
+			});
+
+			player.setOnErrorListener(new OnErrorListener() {
+
+				@Override
+				public boolean onError(MediaPlayer mp, int arg1, int arg2) {
+					// 播放出错，1秒过后，播放下一首
+
+					ToastUtil.showTextToast(context, "播放歌曲出错!");
+
+					MediaManage.getMediaManage(getApplicationContext())
+							.setPlayStatus(MediaManage.PAUSE);
+					SongMessage songMessage = new SongMessage();
+					songMessage.setType(SongMessage.INITMUSIC);
+					songMessage.setSongInfo(songInfo);
+					// 通知
+					ObserverManage.getObserver().setMessage(songMessage);
+
+					return false;
+				}
+			});
+
+		}
+		if (playerThread == null) {
+			playerThread = new Thread(new PlayerRunable());
+			playerThread.start();
+		}
+
+		try {
+			player.reset();
+			player.setDataSource(songInfo.getFilePath());
+			player.prepare();
+			if (songInfo.getPlayProgress() != 0) {
+				player.seekTo((int) songInfo.getPlayProgress());
+			}
+			// songDuration = player.getDuration();
+			player.start();
+
+			SongMessage msg = new SongMessage();
+			msg.setSongInfo(songInfo);
+			msg.setType(SongMessage.SERVICEPLAYWAITINGEND);
+			ObserverManage.getObserver().setMessage(msg);
+		} catch (Exception e) {
+			e.printStackTrace();
+
+			ToastUtil.showText("播放歌曲出错!");
+			initPlayer();
+
+			MediaManage.getMediaManage(getApplicationContext()).setPlayStatus(
+					MediaManage.PAUSE);
+			SongMessage songMessage = new SongMessage();
+			songMessage.setType(SongMessage.INITMUSIC);
+			songMessage.setSongInfo(songInfo);
+			// 通知
+			ObserverManage.getObserver().setMessage(songMessage);
+
+		}
+	}
+
+	/**
+	 * 播放本地歌曲
+	 * 
+	 * @param songInfo
+	 */
+	private void playLocalMusic(SongInfo songInfo) {
+		this.songInfo = songInfo;
+		if (songInfo == null) {
+
+			SongMessage msg = new SongMessage();
+			msg.setType(SongMessage.SERVICEERRORMUSIC);
+			msg.setErrorMessage(SongMessage.ERRORMESSAGEPLAYSONGNULL);
+			ObserverManage.getObserver().setMessage(msg);
+
+			return;
+		}
+
 		if (player == null) {
 			player = new MediaPlayer();
 
@@ -198,13 +475,36 @@ public class MediaPlayerService extends Service implements Observer {
 
 		}
 	}
-	
+
 	/**
 	 * 快进
 	 * 
 	 * @param progress
 	 */
 	private void seekTo(int progress) {
+
+		File songFile = new File(songInfo.getFilePath());
+		if (songFile.exists()
+				&& songInfo.getDownloadProgress() == songInfo.getSize()) {
+			playSeekToMusic(progress);
+		} else {
+			if (songInfo.getDownloadProgress() == 0) {
+				songDuration = progress;
+				initPlayer();
+				playNETMusic(songInfo, false);
+			} else {
+				playSeekToMusic(progress);
+			}
+		}
+
+	}
+
+	/**
+	 * 播放快进歌曲
+	 * 
+	 * @param progress
+	 */
+	private void playSeekToMusic(int progress) {
 		if (player != null && player.isPlaying()) {
 			player.pause();
 			player.seekTo(progress);
@@ -224,7 +524,6 @@ public class MediaPlayerService extends Service implements Observer {
 						if (songInfo != null) {
 							songInfo.setPlayProgress(player
 									.getCurrentPosition());
-
 							SongMessage msg = new SongMessage();
 							msg.setSongInfo(songInfo);
 							msg.setType(SongMessage.SERVICEPLAYINGMUSIC);
@@ -243,9 +542,10 @@ public class MediaPlayerService extends Service implements Observer {
 		if (data instanceof SongMessage) {
 			SongMessage songMessage = (SongMessage) data;
 			if (songMessage.getType() == SongMessage.SERVICEPLAYMUSIC) {
-				playInfoMusic(songMessage.getSongInfo());
-			} else if (songMessage.getType() == SongMessage.INITMUSIC
-					|| songMessage.getType() == SongMessage.SERVICEPAUSEMUSIC) {
+				playMusic(songMessage.getSongInfo());
+			} else if (songMessage.getType() == SongMessage.INITMUSIC) {
+				initMusic();
+			} else if (songMessage.getType() == SongMessage.SERVICEPAUSEMUSIC) {
 				initMusic();
 			} else if (songMessage.getType() == SongMessage.SERVICEPLAYINIT) {
 				initPlayer();

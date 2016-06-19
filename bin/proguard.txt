@@ -70,14 +70,17 @@
 # view AndroidManifest.xml #generated:44
 -keep class com.happy.application.CrashApplication { <init>(...); }
 
-# view AndroidManifest.xml #generated:114
+# view AndroidManifest.xml #generated:116
 -keep class com.happy.receiver.PhoneReceiver { <init>(...); }
 
-# view AndroidManifest.xml #generated:111
+# view AndroidManifest.xml #generated:113
 -keep class com.happy.service.FloatLrcService { <init>(...); }
 
-# view AndroidManifest.xml #generated:109
+# view AndroidManifest.xml #generated:111
 -keep class com.happy.service.MediaPlayerService { <init>(...); }
+
+# view AndroidManifest.xml #generated:109
+-keep class com.happy.service.NetMediaPlayerService { <init>(...); }
 
 # view res/layout/swipe_back_layout.xml #generated:1
 -keep class com.happy.swipebacklayout.SwipeBackLayout { <init>(...); }
@@ -139,12 +142,12 @@
 
 # view res/layout/likemusiclist_item.xml #generated:59
 # view res/layout/localmusiclist_item.xml #generated:59
-# view res/layout/netmusiclist_item.xml #generated:51
+# view res/layout/netmusiclist_item.xml #generated:58
 -keep class com.happy.widget.ArrowDownImageView { <init>(...); }
 
 # view res/layout/likemusiclist_item.xml #generated:43
 # view res/layout/localmusiclist_item.xml #generated:43
-# view res/layout/netmusiclist_item.xml #generated:35
+# view res/layout/netmusiclist_item.xml #generated:42
 -keep class com.happy.widget.ArrowUpImageView { <init>(...); }
 
 # view res/layout/listview_item_image.xml #generated:39
@@ -247,7 +250,7 @@
 # view res/layout/listview_item_skin_image.xml #generated:72
 # view res/layout/localmusiclist_footer.xml #generated:13
 # view res/layout/localmusiclist_item.xml #generated:22
-# view res/layout/netmusiclist_item.xml #generated:14
+# view res/layout/netmusiclist_item.xml #generated:21
 # view res/layout/view_error.xml #generated:14
 # view res/layout/view_nonet.xml #generated:14
 # view res/layout/view_noresult.xml #generated:14
@@ -331,8 +334,7 @@
 # view res/layout/localmusiclist_item.xml #generated:108
 # view res/layout/localmusiclist_item.xml #generated:134
 # view res/layout/localmusiclist_item.xml #generated:82
-# view res/layout/netmusiclist_item.xml #generated:73
-# view res/layout/netmusiclist_item.xml #generated:98
+# view res/layout/netmusiclist_item.xml #generated:80
 -keep class com.happy.widget.PopdownItemRelativeLayout { <init>(...); }
 
 # view res/layout/fragment_search.xml #generated:64
@@ -432,12 +434,14 @@
 -keep class com.happy.widget.lrc.FloatLyricsView { <init>(...); }
 
 # view res/layout/activity_lock.xml #generated:109
-# view res/layout/activity_lrc.xml #generated:140
 -keep class com.happy.widget.lrc.KscManyLineLyricsView { <init>(...); }
 
 # view res/layout/activity_lock.xml #generated:1
 # view res/layout/activity_lrc.xml #generated:1
 -keep class com.happy.widget.lrc.KscManyLineLyricsViewParent { <init>(...); }
+
+# view res/layout/activity_lrc.xml #generated:140
+-keep class com.happy.widget.lrc.LrcKscManyLineLyricsView { <init>(...); }
 
 # view res/layout/activity_main.xml #generated:24
 # view res/layout/slidingmenumain.xml #generated:2

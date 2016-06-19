@@ -28,6 +28,9 @@ public class SongMessage {
 
 	public static final int SERVICEPLAYMUSIC = (i++); // 服务播放歌曲操作
 	public static final int SERVICEPLAYINIT = (i++); // 服务播放歌曲操作
+	public static final int SERVICEPLAYWAITING = (i++); // 服务播放歌曲等待
+	public static final int SERVICEPLAYWAITINGEND = (i++); // 服务播放歌曲等待结束
+	public static final int SERVICEDOWNLOADFINISHED = (i++); // 服务下载完成歌曲
 	public static final int SERVICEPLAYINGMUSIC = (i++); // 服务正在播放歌曲操作
 	public static final int SERVICEPAUSEMUSIC = (i++); // 服务暂停歌曲操作
 	public static final int SERVICEPAUSEEDMUSIC = (i++); // 服务已经暂停歌曲操作

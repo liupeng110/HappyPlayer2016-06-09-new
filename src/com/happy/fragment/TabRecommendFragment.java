@@ -246,7 +246,7 @@ public class TabRecommendFragment extends Fragment implements Observer {
 			@Override
 			protected List<SongInfo> doInBackground(String... arg0) {
 				return SongDB.getSongInfoDB(getActivity())
-						.getAllRecommendSong();
+						.getAllRecommendSong(true);
 			}
 
 			@SuppressLint("NewApi")

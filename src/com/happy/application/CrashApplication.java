@@ -8,7 +8,6 @@ import java.io.Writer;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -32,7 +31,6 @@ import com.happy.common.Constants;
 import com.happy.logger.LoggerManage;
 import com.happy.manage.ActivityManage;
 import com.happy.model.app.Alert;
-import com.happy.model.app.DownloadTask;
 import com.happy.observable.ObserverManage;
 import com.happy.util.ToastUtil;
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiskCache;
@@ -46,20 +44,6 @@ import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 
 public class CrashApplication extends Application implements Observer {
 
-	// /**
-	// * 主页面的背景图片
-	// */
-	// public static Bitmap bitmap = null;
-
-	/**
-	 * 下载皮肤线程
-	 */
-	public static Thread downloadSkinThread;
-	/**
-	 * 任务列表
-	 */
-	public static ArrayList<DownloadTask> tasks = new ArrayList<DownloadTask>();
-
 	private Handler handler = new Handler() {
 
 		@Override
@@ -72,8 +56,8 @@ public class CrashApplication extends Application implements Observer {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-//		CrashHandler catchHandler = new CrashHandler();
-//		catchHandler.init(getApplicationContext());
+		 CrashHandler catchHandler = new CrashHandler();
+		 catchHandler.init(getApplicationContext());
 		initImageLoad();
 		ObserverManage.getObserver().addObserver(this);
 	}

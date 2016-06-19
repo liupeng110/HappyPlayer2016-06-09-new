@@ -298,22 +298,35 @@ public class SongDB {
 	/**
 	 * 获取所有的推荐歌曲
 	 * 
+	 * @param isInit
+	 *            是否是初始化，app启动时，先把没下载完成的歌曲删除
+	 * 
 	 * @return
 	 */
-	public List<SongInfo> getAllRecommendSong() {
+	public List<SongInfo> getAllRecommendSong(boolean isInit) {
 		List<SongInfo> list = new ArrayList<SongInfo>();
 		db = mDBHlper.getReadableDatabase();
 		Cursor cursor = db.query(TBL_NAME, null, "type= ?",
 				new String[] { SongInfo.NETSONG + "" }, null, null,
-				"createTime asc", null);
+				"createTime desc", null);
 		while (cursor.moveToNext()) {
 			SongInfo songInfo = getSongInfo(cursor);
-			File file = new File(songInfo.getFilePath());
-			if (!file.exists()) {
-				delete(songInfo.getSid());
-			} else {
-				list.add(songInfo);
+			if (songInfo.getDownloadProgress() < songInfo.getSize()) {
+				songInfo.setDownloadProgress(0);
+				if (isInit) {
+					File songFile = new File(songInfo.getFilePath());
+					if (songFile.exists()) {
+						songFile.deleteOnExit();
+					}
+				}
+				updateSongDownloadProgress(songInfo.getSid(), 0);
 			}
+			// File file = new File(songInfo.getFilePath());
+			// if (!file.exists()) {
+			// delete(songInfo.getSid());
+			// } else {
+			list.add(songInfo);
+			// }
 		}
 		cursor.close();
 		return list;

@@ -24,7 +24,7 @@ import com.happy.ui.R;
 import com.happy.util.KscLyricsParserUtil;
 
 /**
- * 多行歌词视图
+ * 锁屏多行歌词视图
  * 
  * @author Administrator
  * 
@@ -244,7 +244,7 @@ public class KscManyLineLyricsView extends View implements Observer {
 
 		fontSizeScale = Constants.lrcFontSize + 100;
 		SCALEIZEWORDDEF = (int) ((float) fontSizeScale / 100 * SIZEWORD);
-		SIZEWORDHL = SCALEIZEWORDDEF + 8;
+		SIZEWORDHL = SCALEIZEWORDDEF + 5;
 	}
 
 	/***

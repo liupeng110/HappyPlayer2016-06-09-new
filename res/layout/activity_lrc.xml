@@ -137,7 +137,7 @@
                     android:layout_below="@+id/topParent"
                     android:layout_margin="10dp" >
 
-                    <com.happy.widget.lrc.KscManyLineLyricsView
+                    <com.happy.widget.lrc.LrcKscManyLineLyricsView
                         android:id="@+id/kscManyLineLyricsView"
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent" />

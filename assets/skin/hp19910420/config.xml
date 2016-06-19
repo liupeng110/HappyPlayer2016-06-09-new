@@ -187,7 +187,7 @@
                 ID="PlayBarProgress"
                 ParentID="PlayBar"
                 Progress="#26adf7"
-                SecondProgress="#a9e0ff" />
+                SecondProgress="#9cdbfc" />
         </Panel>
 
         <Panel ID="Menu" >

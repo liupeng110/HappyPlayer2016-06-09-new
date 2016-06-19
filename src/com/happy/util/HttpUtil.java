@@ -67,14 +67,14 @@ public class HttpUtil {
 	 * 基本url
 	 */
 	// public static final String baseurl =
-	// "http://192.16.137.1:8080/HappyPlayer/";
+	// "http://192.168.0.139:8080/HappyPlayer/";
 
-	// public static final String baseurl =
-	// "http://192.168.89.108:8080/HappyPlayer/";
+	public static final String baseurl = "http://192.168.1.164:8080/HappyPlayer/";
 
 	// public static final String baseurl =
 	// "http://120.24.178.208:8080/HappyPlayer/";
-	public static final String baseurl = "http://222.201.139.162:8080/HappyPlayer/";
+	// public static final String baseurl =
+	// "http://222.201.139.162:8080/HappyPlayer/";
 
 	/**
 	 * 获取启动页数据
@@ -317,6 +317,17 @@ public class HttpUtil {
 	}
 
 	/**
+	 * 下载歌曲路径
+	 * 
+	 * @param sid
+	 * @return
+	 */
+	public static String getSongInfoDataByID(String sid) {
+		String url = baseurl + "phone/getSongInfoDataByID?sid=" + sid;
+		return url;
+	}
+
+	/**
 	 * 通过添加时间，获取最新的启动页面数据
 	 */
 	public static HttpResult<DownloadTask> loadNewSkinThemeByCreateTime(
@@ -479,6 +490,9 @@ public class HttpUtil {
 					songInfo.setType(SongInfo.NETSONG);
 					songInfo.setIslike(SongInfo.UNLIKE);
 					songInfo.setDownloadStatus(SongInfo.DOWNLOADING);
+					String tempfilePath = Constants.PATH_CACHE_MP3 + File.separator
+							+ songInfo.getSid() + ".temp";
+					songInfo.setFilePath(tempfilePath);
 
 					lists.add(songInfo);
 				}
@@ -539,6 +553,9 @@ public class HttpUtil {
 					songInfo.setType(SongInfo.NETSONG);
 					songInfo.setIslike(SongInfo.UNLIKE);
 					songInfo.setDownloadStatus(SongInfo.DOWNLOADING);
+					String tempfilePath = Constants.PATH_CACHE_MP3 + File.separator
+							+ songInfo.getSid() + ".temp";
+					songInfo.setFilePath(tempfilePath);
 
 					lists.add(songInfo);
 				}
@@ -871,12 +888,12 @@ public class HttpUtil {
 			httpResult.setStatus(NONET);
 			return httpResult;
 		}
-		if (Constants.isWifi) {
-			if (!NetUtil.isWifi(context)) {
-				httpResult.setStatus(NOWIFI);
-				return httpResult;
-			}
-		}
+		// if (Constants.isWifi) {
+		// if (!NetUtil.isWifi(context)) {
+		// httpResult.setStatus(NOWIFI);
+		// return httpResult;
+		// }
+		// }
 		HttpPost httpost = null;
 		try {
 			httpost = new HttpPost(url);

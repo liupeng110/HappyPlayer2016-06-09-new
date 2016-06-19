@@ -183,6 +183,11 @@ public class DataUtil {
 		if (!file.exists()) {
 			file.mkdirs();
 		}
+		
+		file = new File(Constants.PATH_CACHE_MP3);
+		if (!file.exists()) {
+			file.mkdirs();
+		}
 
 		file = new File(Constants.PATH_SKIN);
 		if (!file.exists()) {

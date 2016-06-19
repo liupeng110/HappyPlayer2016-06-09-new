@@ -119,6 +119,7 @@ public class MediaManage implements Observer {
 			break;
 		case 1:
 			// 网络歌曲列表
+			songInfo = SongDB.getSongInfoDB(context).getSongInfo(sid);
 			break;
 		case 2:
 			// 下载歌曲列表
@@ -153,6 +154,7 @@ public class MediaManage implements Observer {
 			break;
 		case 1:
 			// 网络歌曲列表
+			playlist = SongDB.getSongInfoDB(context).getAllRecommendSong(false);
 			break;
 		case 2:
 			// 下载歌曲列表
@@ -184,11 +186,12 @@ public class MediaManage implements Observer {
 		boolean isInit = true;
 
 		int playIndex = getPlayIndex();
-		if(playIndex == -1){
-			
+		if (playIndex == -1) {
 			songInfo = null;
-			
 			return;
+		}
+		if (songInfo.getType() == SongInfo.NETSONG) {
+			playModel = 0;
 		}
 		switch (playModel) {
 		case 0:
@@ -271,7 +274,11 @@ public class MediaManage implements Observer {
 				initPlayListData(PLAYLISTTYPE_LOCALLIST);
 			}
 		}
-		nextMusic(1);
+		if (songInfo.getType() == SongInfo.LOCALSONG) {
+			nextMusic(1);
+		} else {
+			nextMusic(0);
+		}
 	}
 
 	/**
@@ -288,11 +295,14 @@ public class MediaManage implements Observer {
 
 		// 顺序播放
 		int playIndex = getPlayIndex();
-		if(playIndex == -1){
-			
+		if (playIndex == -1) {
+
 			songInfo = null;
-			
+
 			return;
+		}
+		if (songInfo.getType() == SongInfo.NETSONG) {
+			playModel = 0;
 		}
 		switch (playModel) {
 		case 0:
@@ -452,6 +462,10 @@ public class MediaManage implements Observer {
 				context.stopService(new Intent(context,
 						MediaPlayerService.class));
 			}
+			SongMessage msgTemp = new SongMessage();
+			msgTemp.setSongInfo(songInfo);
+			msgTemp.setType(SongMessage.SERVICEPAUSEEDMUSIC);
+			ObserverManage.getObserver().setMessage(msgTemp);
 
 		} else {
 			SongMessage msg = new SongMessage();
@@ -536,6 +550,10 @@ public class MediaManage implements Observer {
 		return playlist;
 	}
 
+	public void setPlayStatus(int playStatus) {
+		this.playStatus = playStatus;
+	}
+
 	public int getPlayStatus() {
 		return playStatus;
 	}
@@ -550,7 +568,7 @@ public class MediaManage implements Observer {
 					|| songMessage.getType() == SongMessage.LOCALUNLIKEMUSIC
 					|| songMessage.getType() == SongMessage.LIKEDELMUSIC) {
 				if (playListType == Constants.playListType) {
-					//列表的数据发生变化，更新播放列表
+					// 列表的数据发生变化，更新播放列表
 					// playListType = Constants.playListType;
 					initPlayListData(playListType);
 				}

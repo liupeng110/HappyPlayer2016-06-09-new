@@ -210,23 +210,6 @@
                         android:layout_height="0.1dip"
                         android:background="#e5e6e6" />
                 </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="80dp"
-                    android:orientation="vertical" >
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginBottom="10dp"
-                        android:layout_weight="1"
-                        android:text="@string/all_right"
-                        android:textColor="#0c2629"
-                        android:textSize="12dp" />
-                </LinearLayout>
             </LinearLayout>
         </ScrollView>
     </LinearLayout>

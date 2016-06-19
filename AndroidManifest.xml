@@ -106,6 +106,8 @@
             android:theme="@style/kugouLayoutTheme" >
         </activity>
 
+        <service android:name="com.happy.service.NetMediaPlayerService" >
+        </service>
         <service android:name="com.happy.service.MediaPlayerService" >
         </service>
         <service android:name="com.happy.service.FloatLrcService" >

@@ -224,8 +224,10 @@ public class AlbumUtil {
 			final RoundedImageView albumRoundedImageView, final String sid,
 			final String albumID, final String singer) {
 
-		artistLoadingImageView.setVisibility(View.VISIBLE);
-		artistLoadingImageView.startAnimation(rotateAnimation);
+		if(artistLoadingImageView.getVisibility() != View.VISIBLE){
+			artistLoadingImageView.setVisibility(View.VISIBLE);
+			artistLoadingImageView.startAnimation(rotateAnimation);
+		}
 
 		// 先从内存里面获取图片数据
 		// 如果内存里面没有图片，则从文件里面获取图片数据
@@ -268,8 +270,11 @@ public class AlbumUtil {
 					albumRoundedImageView.setImageDrawable(new BitmapDrawable(
 							result));
 					albumRoundedImageView.setVisibility(View.VISIBLE);
-					artistLoadingImageView.clearAnimation();
-					artistLoadingImageView.setVisibility(View.INVISIBLE);
+					
+					if(artistLoadingImageView.getVisibility() != View.VISIBLE){
+						artistLoadingImageView.clearAnimation();
+						artistLoadingImageView.setVisibility(View.INVISIBLE);
+					}
 					defRoundedImageView.setVisibility(View.INVISIBLE);
 
 				} else {

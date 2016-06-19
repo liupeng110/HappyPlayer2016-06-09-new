@@ -23,8 +23,7 @@ public class DownloadTaskDB {
 	 * 建表语句
 	 */
 	public static final String CREATE_TBL = "create table " + TBL_NAME + "("
-			+ "tid text," + "tName text,"
-			+ "status int," + "downloadUrl text,"
+			+ "tid text," + "tName text," + "status int," + "downloadUrl text,"
 			+ "filePath text," + "fileSize long," + "downloadedSize long,"
 			+ "addTime text," + "finishTime text," + "type int" + ")";
 
@@ -96,8 +95,10 @@ public class DownloadTaskDB {
 		// " type=?",
 		// new String[] { type + "" }, null, null, "addTime asc");
 
-		Cursor c = db.rawQuery("select * from downloadtaskTbl where type=? order by addTime desc",
-				new String[] { type + "" });
+		Cursor c = db
+				.rawQuery(
+						"select * from downloadtaskTbl where type=? order by addTime desc",
+						new String[] { type + "" });
 		return c;
 	}
 
@@ -111,11 +112,11 @@ public class DownloadTaskDB {
 		Cursor cursor = query(type);
 		while (cursor.moveToNext()) {
 			DownloadTask downloadTask = getDownloadTask(cursor);
-			// File file = new File(downloadTask.getFilePath());
-			// if (!file.exists()) {
-			// delete(downloadTask.getTid());
-			// continue;
-			// }
+			File file = new File(downloadTask.getFilePath());
+			if (!file.exists()) {
+				delete(downloadTask.getTid());
+				continue;
+			}
 			list.add(downloadTask);
 		}
 		cursor.close();
@@ -147,11 +148,11 @@ public class DownloadTaskDB {
 			return null;
 		}
 		DownloadTask downloadTask = getDownloadTask(cursor);
-		 File file = new File(downloadTask.getFilePath());
-		 if (!file.exists()) {
-		 delete(downloadTask.getTid());
-		 return null;
-		 }
+		File file = new File(downloadTask.getFilePath());
+		if (!file.exists()) {
+			delete(downloadTask.getTid());
+			return null;
+		}
 		cursor.close();
 		return downloadTask;
 	}
@@ -169,12 +170,13 @@ public class DownloadTaskDB {
 		downloadTask.setTid(cursor.getString(cursor.getColumnIndex("tid")));
 
 		int status = cursor.getInt(cursor.getColumnIndex("status"));
-		if (status != DownloadTask.DOWNLOAD_FINISH) {
-			downloadTask.setStatus(DownloadTask.INT);
-		} else {
-			downloadTask.setStatus(status);
-		}
-		
+		// if (status != DownloadTask.DOWNLOAD_FINISH || status !=
+		// DownloadTask.WAITING) {
+		// downloadTask.setStatus(DownloadTask.INT);
+		// } else {
+		downloadTask.setStatus(status);
+		// }
+
 		downloadTask.settName(cursor.getString(cursor.getColumnIndex("tName")));
 
 		downloadTask.setDownloadUrl(cursor.getString(cursor

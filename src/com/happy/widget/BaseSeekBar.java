@@ -81,10 +81,11 @@ public class BaseSeekBar extends SeekBar implements Observer {
 		Rect backgroundRect = new Rect(0, 0, getWidth(), getHeight());
 		canvas.drawRect(backgroundRect, backgroundPaint);
 		if (getMax() != 0) {
-			Rect secondProgressRect = new Rect(0, 0, getSecondaryProgress()
-					* getWidth() / getMax(), getHeight());
-			canvas.drawRect(secondProgressRect, secondProgressPaint);
-
+			if(getSecondaryProgress()!=0){
+				Rect secondProgressRect = new Rect(0, 0, getSecondaryProgress()
+						* getWidth() / getMax(), getHeight());
+				canvas.drawRect(secondProgressRect, secondProgressPaint);
+			}
 			Rect progressRect = new Rect(0, 0, getProgress() * getWidth()
 					/ getMax(), getHeight());
 			canvas.drawRect(progressRect, progressPaint);

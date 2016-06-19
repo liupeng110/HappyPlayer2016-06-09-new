@@ -38,6 +38,9 @@ public class MediaUtils {
 			// 歌曲时长
 			String durationStr = header.getTrackLengthAsString();
 			long duration = getTrackLength(durationStr);
+			if (sourceFile.length() < 1024 * 1024 || duration < 5000) {
+				return null;
+			}
 			// 文件名
 			String displayName = sourceFile.getName();
 			if (displayName.contains(".mp3")) {
@@ -52,10 +55,6 @@ public class MediaUtils {
 				title = titleArr[1].trim();
 			} else {
 				title = displayName;
-			}
-
-			if (sourceFile.length() < 1024 * 1024) {
-				return null;
 			}
 
 			songInfo.setSid(IDGenerate.getId());

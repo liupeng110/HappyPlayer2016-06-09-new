@@ -79,6 +79,12 @@ public class Constants {
 	 */
 	public final static String PATH_CACHE_IMAGE = PATH_TEMP + File.separator
 			+ "cache" + File.separator + "image";
+	
+	/**
+	 * 歌曲缓存
+	 */
+	public final static String PATH_CACHE_MP3 = PATH_TEMP + File.separator
+			+ "cache" + File.separator + "mp3";
 
 	/**
 	 * 皮肤
@@ -221,7 +227,7 @@ public class Constants {
 	/**
 	 * 是否开启问候音
 	 */
-	public static boolean isSayHello = true;
+	public static boolean isSayHello = false;
 	/**
 	 * 是否开启问候音key
 	 */

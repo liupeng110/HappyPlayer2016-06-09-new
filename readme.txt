@@ -123,3 +123,6 @@
  
  具体简介：
  http://www.eoeandroid.com/forum.php?mod=viewthread&tid=917012&extra=page%3D1&_dsign=576de398
+ 
+ ##优化了皮肤下载、APP更新(多线程下载)
+ ##添加了在线歌曲播放

@@ -348,6 +348,9 @@ public class LrcActivity extends SwipeBackActivity implements Observer {
 					long max = songInfo.getDuration();
 					float downloadProgress = songInfo.getDownloadProgress();
 					long fileSize = songInfo.getSize();
+					if (fileSize <= downloadProgress) {
+						playerSeekBar.setSecondaryProgress(0);
+					} else
 					playerSeekBar.setSecondaryProgress((int) (downloadProgress
 							/ fileSize * max));
 				} else if (songMessageTemp.getType() == SongMessage.SERVICEDOWNLOADFINISHED) {

@@ -110,7 +110,7 @@ public class DownloadThread extends Thread {
 
 					task.setStatus(DownloadTask.DOWNLOAD_ERROR_NONET);
 					if (callBack != null && task != null) {
-						callBack.error(task);
+						callBack.error();
 					}
 
 					ToastUtil.showText("无网络状态");
@@ -123,7 +123,7 @@ public class DownloadThread extends Thread {
 						isError = true;
 						task.setStatus(DownloadTask.DOWNLOAD_ERROR_NOTWIFI);
 						if (callBack != null && task != null) {
-							callBack.error(task);
+							callBack.error();
 						}
 
 						ToastUtil.showText("非wifi状态");
@@ -157,14 +157,17 @@ public class DownloadThread extends Thread {
 					return;
 				}
 				if (isCancel) {
+					if (callBack != null) {
+						callBack.canceled();
+					}
 					// 取消下载任务
 					return;
 				}
-				try {
-					Thread.sleep(100);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
+				// try {
+				// Thread.sleep(100);
+				// } catch (InterruptedException e) {
+				// e.printStackTrace();
+				// }
 			}
 			if (!isPause && !isCancel) {
 				// 完成任务
@@ -187,7 +190,7 @@ public class DownloadThread extends Thread {
 			if (callBack != null) {
 				task.setStatus(DownloadTask.DOWNLOAD_ERROR_OTHER);
 				if (callBack != null && task != null) {
-					callBack.error(task);
+					callBack.error();
 				}
 			}
 

@@ -47,6 +47,10 @@ public class DownloadThreadManage {
 	 * 下载失败
 	 */
 	private boolean isError = false;
+	/**
+	 * 时间线程
+	 */
+	private Thread timeThread = null;
 
 	/**
 	 * 下载任务回调
@@ -62,16 +66,9 @@ public class DownloadThreadManage {
 	private IDownloadCallBack callBack = new IDownloadCallBack() {
 
 		public void downloading() {
-			int downloadSize = 0;
-			for (int i = 0; i < downloadThreads.length; i++) {
-				DownloadThread downloadThread = downloadThreads[i];
-				if (downloadThread != null)
-					downloadSize += downloadThread.getDownloadSize();
-			}
-			// System.out.println("当前下载进度:" + downloadSize);
-			if (event != null && task != null) {
-				task.setDownloadedSize(downloadSize);
-				event.downloading(task);
+			if (timeThread == null) {
+				timeThread = new Thread(new TimeRunable());
+				timeThread.start();
 			}
 		}
 
@@ -79,8 +76,15 @@ public class DownloadThreadManage {
 			int downloadSize = 0;
 			for (int i = 0; i < downloadThreads.length; i++) {
 				DownloadThread downloadThread = downloadThreads[i];
-				if (downloadThread != null)
+				if (downloadThread != null) {
+					if (!downloadThread.isPause()) {
+						return;
+					}
 					downloadSize += downloadThread.getDownloadSize();
+				}
+			}
+			if (timeThread != null) {
+				timeThread = null;
 			}
 			if (event != null && task != null) {
 				task.setDownloadedSize(downloadSize);
@@ -96,6 +100,11 @@ public class DownloadThreadManage {
 					downloadSize += downloadThread.getDownloadSize();
 			}
 			if (downloadSize == task.getFileSize() && !isFinish) {
+
+				if (timeThread != null) {
+					timeThread = null;
+				}
+
 				isFinish = true;
 				System.out.println("完成下载:" + downloadSize);
 				// System.out.println(System.currentTimeMillis());
@@ -108,12 +117,33 @@ public class DownloadThreadManage {
 			}
 		}
 
-		public void error(DownloadTask task) {
+		@Override
+		public void canceled() {
+			for (int i = 0; i < downloadThreads.length; i++) {
+				DownloadThread downloadThread = downloadThreads[i];
+				if (downloadThread != null) {
+					if (!downloadThread.isPause()) {
+						return;
+					}
+				}
+			}
+			if (timeThread != null) {
+				timeThread = null;
+			}
+			if (event != null && task != null) {
+				event.canceled(task);
+			}
+		}
+
+		public void error() {
 			isError = true;
 			for (int i = 0; i < downloadThreads.length; i++) {
 				DownloadThread downloadThread = downloadThreads[i];
 				if (downloadThread != null)
 					downloadThread.cancelTask();
+			}
+			if (timeThread != null) {
+				timeThread = null;
 			}
 			if (event != null) {
 				event.error(task);
@@ -192,12 +222,15 @@ public class DownloadThreadManage {
 			downloadThreads = new DownloadThread[threadCount];
 			// 平均每一个线程下载的文件大小.
 			final int blockSize = length / threadCount;
+			// 整个下载资源整除后剩下的余数取模
+			final int left = length % threadCount;
 			int threadId = 1;
 			if (threadId <= threadCount) {
 				int startIndex = (threadId - 1) * blockSize;
 				int endIndex = threadId * blockSize;
 				if (threadId == threadCount) {// 最后一个线程下载的长度要稍微长一点
-					endIndex = length;
+					// 最后一个线程下载指定endIndex+left个字节
+					endIndex = endIndex + left;
 				}
 				System.out.println("线程：" + threadId + "下载:---" + startIndex
 						+ "--->" + endIndex);
@@ -212,7 +245,7 @@ public class DownloadThreadManage {
 							@Override
 							public void notifyOtherThread() {
 								notifyOtherThreadTask(context, blockSize,
-										length);
+										length, left);
 							}
 						});
 			}
@@ -231,20 +264,20 @@ public class DownloadThreadManage {
 	 * @param length
 	 */
 	protected void notifyOtherThreadTask(Context context, int blockSize,
-			int length) {
+			int length, int left) {
 		for (int threadId = 2; threadId <= threadCount; threadId++) {
 			// 第一个线程下载的开始位置
 			int startIndex = (threadId - 1) * blockSize;
 			int endIndex = threadId * blockSize;
 			if (threadId == threadCount) {// 最后一个线程下载的长度要稍微长一点
-				endIndex = length;
+				// 最后一个线程下载指定endIndex+left个字节
+				endIndex = endIndex + left;
 			}
-			 System.out.println("线程：" + threadId + "下载:---" + startIndex
-			 + "--->" + endIndex);
+			System.out.println("线程：" + threadId + "下载:---" + startIndex
+					+ "--->" + endIndex);
 			DownloadThread dt = new DownloadThread(context, task, threadId,
 					startIndex, endIndex, callBack);
 			if (dt.isFinish()) {
-				threadId--;
 				continue;
 			}
 			downloadThreads[threadId - 1] = dt;
@@ -304,19 +337,20 @@ public class DownloadThreadManage {
 			downloadThreads = new DownloadThread[threadCount];
 			// 平均每一个线程下载的文件大小.
 			int blockSize = length / threadCount;
+			int left = length % threadCount;
 			for (int threadId = 1; threadId <= threadCount; threadId++) {
 				// 第一个线程下载的开始位置
 				int startIndex = (threadId - 1) * blockSize;
 				int endIndex = threadId * blockSize;
 				if (threadId == threadCount) {// 最后一个线程下载的长度要稍微长一点
-					endIndex = length;
+					// 最后一个线程下载指定endIndex+left个字节
+					endIndex = endIndex + left;
 				}
 				// System.out.println("线程：" + threadId + "下载:---" + startIndex
 				// + "--->" + endIndex);
 				DownloadThread dt = new DownloadThread(context, task, threadId,
 						startIndex, endIndex, callBack);
 				if (dt.isFinish()) {
-					threadId--;
 					continue;
 				}
 				downloadThreads[threadId - 1] = dt;
@@ -329,6 +363,42 @@ public class DownloadThreadManage {
 		}
 	}
 
+	private class TimeRunable implements Runnable {
+
+		@Override
+		public void run() {
+			while (true) {
+				try {
+					if (callBack != null && !isCancel && !isError && !isPause
+							&& !isFinish) {
+						updateDownloadUI();
+					}
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
+	/**
+	 * 下载进度
+	 */
+	private void updateDownloadUI() {
+		int downloadSize = 0;
+		for (int i = 0; i < downloadThreads.length; i++) {
+			DownloadThread downloadThread = downloadThreads[i];
+			if (downloadThread != null)
+				downloadSize += downloadThread.getDownloadSize();
+		}
+		//System.out.println("当前下载进度:" + downloadSize);
+		if (event != null && task != null) {
+			task.setDownloadedSize(downloadSize);
+			event.downloading(task);
+		}
+
+	}
+
 	/**
 	 * 暂停
 	 */
@@ -338,9 +408,9 @@ public class DownloadThreadManage {
 			if (downloadThread != null)
 				downloadThread.pauseTask();
 		}
-		if (event != null) {
-			event.pauseed(task);
-		}
+		// if (event != null) {
+		// event.pauseed(task);
+		// }
 	}
 
 	/**
@@ -352,9 +422,9 @@ public class DownloadThreadManage {
 			if (downloadThread != null)
 				downloadThread.cancelTask();
 		}
-		if (event != null) {
-			event.canceled(task);
-		}
+		// if (event != null) {
+		// event.canceled(task);
+		// }
 	}
 
 	/**
@@ -454,7 +524,12 @@ public class DownloadThreadManage {
 		/**
 		 * 错误回调接口
 		 */
-		public void error(DownloadTask task);
+		public void error();
+
+		/**
+		 * 
+		 */
+		public void canceled();
 	}
 
 }

@@ -208,7 +208,7 @@ public class MediaPlayerService extends Service implements Observer {
 		public void downloading(DownloadTask task) {
 			if (songInfo != null && songInfo.getSid().equals(task.getTid())
 					&& songInfo.getDownloadProgress() == 0
-					&& task.getDownloadedSize() > 1024 * 300) {
+					&& task.getDownloadedSize() > 1024 * 200) {
 				songInfo.setDownloadProgress(task.getDownloadedSize());
 				// 播放歌曲
 				playNETMusic(songInfo, true);

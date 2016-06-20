@@ -1616,6 +1616,7 @@ public class MainActivity extends FragmentActivity implements Observer {
 	// .newSingleThreadExecutor();
 	// };
 
+	private int downloadSize = 0;
 	private Handler mNotificationHandler = new Handler() {
 
 		@Override
@@ -1625,9 +1626,12 @@ public class MainActivity extends FragmentActivity implements Observer {
 				DownloadTask task = (DownloadTask) msg.obj;
 				if (task == null) {
 				} else {
-					createAPPDownloadNotification(task);
-					if (task.getStatus() == DownloadTask.DOWNLOAD_FINISH) {
-						install();
+					if (downloadSize < task.getDownloadedSize()) {
+						downloadSize = (int) task.getDownloadedSize();
+						createAPPDownloadNotification(task);
+						if (task.getStatus() == DownloadTask.DOWNLOAD_FINISH) {
+							install();
+						}
 					}
 				}
 				break;
@@ -1990,7 +1994,7 @@ public class MainActivity extends FragmentActivity implements Observer {
 				.getAPKTM(getApplicationContext());
 		dp.setEvent(eventCallBack);
 		dp.addDownloadTask(task);
-
+		downloadSize = 0;
 	}
 
 	@Override
@@ -2003,7 +2007,7 @@ public class MainActivity extends FragmentActivity implements Observer {
 				Message msg = new Message();
 				msg.what = NOTIFICATION_APP;
 				msg.obj = task;
-				this.task = task;
+				// this.task = task;
 				mNotificationHandler.sendMessage(msg);
 			}
 		} else if (data instanceof AppInfo) {

@@ -66,10 +66,10 @@ public class HttpUtil {
 	/**
 	 * 基本url
 	 */
-	// public static final String baseurl =
-	// "http://192.168.0.139:8080/HappyPlayer/";
+	public static final String baseurl = "http://192.168.0.111:8080/HappyPlayer/";
 
-	public static final String baseurl = "http://192.168.1.164:8080/HappyPlayer/";
+	// public static final String baseurl =
+	// "http://192.168.1.164:8080/HappyPlayer/";
 
 	// public static final String baseurl =
 	// "http://120.24.178.208:8080/HappyPlayer/";
@@ -490,8 +490,8 @@ public class HttpUtil {
 					songInfo.setType(SongInfo.NETSONG);
 					songInfo.setIslike(SongInfo.UNLIKE);
 					songInfo.setDownloadStatus(SongInfo.DOWNLOADING);
-					String tempfilePath = Constants.PATH_CACHE_MP3 + File.separator
-							+ songInfo.getSid() + ".temp";
+					String tempfilePath = Constants.PATH_CACHE_MP3
+							+ File.separator + songInfo.getSid() + ".temp";
 					songInfo.setFilePath(tempfilePath);
 
 					lists.add(songInfo);
@@ -553,8 +553,8 @@ public class HttpUtil {
 					songInfo.setType(SongInfo.NETSONG);
 					songInfo.setIslike(SongInfo.UNLIKE);
 					songInfo.setDownloadStatus(SongInfo.DOWNLOADING);
-					String tempfilePath = Constants.PATH_CACHE_MP3 + File.separator
-							+ songInfo.getSid() + ".temp";
+					String tempfilePath = Constants.PATH_CACHE_MP3
+							+ File.separator + songInfo.getSid() + ".temp";
 					songInfo.setFilePath(tempfilePath);
 
 					lists.add(songInfo);

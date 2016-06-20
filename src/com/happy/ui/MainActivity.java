@@ -1768,35 +1768,34 @@ public class MainActivity extends FragmentActivity implements Observer {
 		contentView.setImageViewResource(R.id.image, R.drawable.ic_launcher);
 		contentView.setTextViewText(R.id.title, "乐乐音乐新版本");
 
-		if (task.getFileSize() != 0) {
-			if (task.getStatus() == DownloadTask.DOWNLOAD_FINISH) {
-				contentView.setTextViewText(R.id.text, "下载完成，点击安装");
+		// if (task.getFileSize() != 0) {
+		if (task.getStatus() == DownloadTask.DOWNLOAD_FINISH) {
+			contentView.setTextViewText(R.id.text, "下载完成，点击安装");
 
-				Intent finishIntent = new Intent(
-						Constants.NOTIFIATION_APP_DOWNLOADFINISH);
-				PendingIntent pendFinishIntent = PendingIntent.getBroadcast(
-						this, 0, finishIntent, 0);
-				contentView.setOnClickPendingIntent(R.id.bg, pendFinishIntent);
+			Intent finishIntent = new Intent(
+					Constants.NOTIFIATION_APP_DOWNLOADFINISH);
+			PendingIntent pendFinishIntent = PendingIntent.getBroadcast(this,
+					0, finishIntent, 0);
+			contentView.setOnClickPendingIntent(R.id.bg, pendFinishIntent);
 
-			} else if (task.getStatus() == DownloadTask.DOWNLOING) {
-				contentView.setTextViewText(
-						R.id.text,
-						(int) ((float) task.getDownloadedSize()
-								/ task.getFileSize() * 100)
-								+ "%");
-			} else if (task.getStatus() == DownloadTask.DOWNLOAD_ERROR_NONET
-					|| task.getStatus() == DownloadTask.DOWNLOAD_ERROR_NOTWIFI
-					|| task.getStatus() == DownloadTask.DOWNLOAD_ERROR_OTHER) {
-				Intent downloadIntent = new Intent(
-						Constants.NOTIFIATION_APP_DOWNLOAD);
-				PendingIntent pendDownloadIntent = PendingIntent.getBroadcast(
-						this, 0, downloadIntent, 0);
-				contentView
-						.setOnClickPendingIntent(R.id.bg, pendDownloadIntent);
+		} else if (task.getStatus() == DownloadTask.DOWNLOING) {
+			contentView.setTextViewText(
+					R.id.text,
+					(int) ((float) task.getDownloadedSize()
+							/ task.getFileSize() * 100)
+							+ "%");
+		} else if (task.getStatus() == DownloadTask.DOWNLOAD_ERROR_NONET
+				|| task.getStatus() == DownloadTask.DOWNLOAD_ERROR_NOTWIFI
+				|| task.getStatus() == DownloadTask.DOWNLOAD_ERROR_OTHER) {
+			Intent downloadIntent = new Intent(
+					Constants.NOTIFIATION_APP_DOWNLOAD);
+			PendingIntent pendDownloadIntent = PendingIntent.getBroadcast(this,
+					0, downloadIntent, 0);
+			contentView.setOnClickPendingIntent(R.id.bg, pendDownloadIntent);
 
-				contentView.setTextViewText(R.id.text, "下载失败，点击重新下载");
-			}
+			contentView.setTextViewText(R.id.text, "下载失败，点击重新下载");
 		}
+		// }
 		notification.contentView = contentView;
 		// 把Notification传递给NotificationManager
 		mNotificationManager.notify(notificationAPPId, notification);
@@ -1962,6 +1961,7 @@ public class MainActivity extends FragmentActivity implements Observer {
 	 * 下载app
 	 */
 	private void downloadAPP() {
+		downloadSize = 0;
 		ToastUtil.showTextToast(this, "开始后台下载，通知栏可查看进度!");
 		//
 		// new AsyncTask<String, Integer, String>() {
@@ -1987,14 +1987,14 @@ public class MainActivity extends FragmentActivity implements Observer {
 		// }
 		// }.executeOnExecutor(SINGLE_TASK_EXECUTOR, "");
 
-		DownloadThreadManage dtm = new DownloadThreadManage(task, 10);
+		DownloadThreadManage dtm = new DownloadThreadManage(task, 10, 1000);
 		task.setDownloadThreadManage(dtm);
 		// System.out.println(System.currentTimeMillis());
 		DownloadThreadPool dp = DownloadManage
 				.getAPKTM(getApplicationContext());
 		dp.setEvent(eventCallBack);
 		dp.addDownloadTask(task);
-		downloadSize = 0;
+
 	}
 
 	@Override

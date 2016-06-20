@@ -226,7 +226,7 @@ public class SkinRecommendAdapter extends Adapter<ItemViewHolder> implements
 	 */
 	protected void downloadSkin(int position, DownloadTask downloadTask) {
 
-		DownloadThreadManage dtm = new DownloadThreadManage(downloadTask, 10);
+		DownloadThreadManage dtm = new DownloadThreadManage(downloadTask, 10,100);
 		downloadTask.setDownloadThreadManage(dtm);
 		DownloadThreadPool dp = DownloadManage.getSkinTM(context);
 		dp.setEvent(eventCallBack);

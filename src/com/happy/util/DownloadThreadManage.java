@@ -28,6 +28,10 @@ public class DownloadThreadManage {
 	 */
 	private int threadCount = 1;
 	/**
+	 * 睡眠线程时间
+	 */
+	private int sleepTime = 100;
+	/**
 	 * 下载任务线程
 	 */
 	private DownloadThread[] downloadThreads;
@@ -158,13 +162,17 @@ public class DownloadThreadManage {
 
 	};
 
-	public DownloadThreadManage(DownloadTask task, int threadCount) {
+	public DownloadThreadManage(DownloadTask task, int threadCount,
+			int sleepTime) {
+		this.sleepTime = sleepTime;
 		this.task = task;
 		this.threadCount = threadCount;
 	}
 
 	public DownloadThreadManage(ITaskFinishCallBack finishEvent,
-			IDownloadTaskEventCallBack event, DownloadTask task, int threadCount) {
+			IDownloadTaskEventCallBack event, DownloadTask task,
+			int threadCount, int sleepTime) {
+		this.sleepTime = sleepTime;
 		this.event = event;
 		this.task = task;
 		this.finishEvent = finishEvent;
@@ -369,11 +377,12 @@ public class DownloadThreadManage {
 		public void run() {
 			while (true) {
 				try {
+					
 					if (callBack != null && !isCancel && !isError && !isPause
 							&& !isFinish) {
 						updateDownloadUI();
 					}
-					Thread.sleep(100);
+					Thread.sleep(sleepTime);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
@@ -391,7 +400,7 @@ public class DownloadThreadManage {
 			if (downloadThread != null)
 				downloadSize += downloadThread.getDownloadSize();
 		}
-		//System.out.println("当前下载进度:" + downloadSize);
+		// System.out.println("当前下载进度:" + downloadSize);
 		if (event != null && task != null) {
 			task.setDownloadedSize(downloadSize);
 			event.downloading(task);

@@ -295,7 +295,7 @@ public class MediaPlayerService extends Service implements Observer {
 		task.setFinishTime("");
 		task.setType(DownloadTask.SONG_NET);
 
-		DownloadThreadManage dtm = new DownloadThreadManage(task, 10);
+		DownloadThreadManage dtm = new DownloadThreadManage(task, 10,100);
 		task.setDownloadThreadManage(dtm);
 		DownloadThreadPool dp = DownloadManage
 				.getSongNetTM(getApplicationContext());

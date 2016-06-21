@@ -1616,7 +1616,6 @@ public class MainActivity extends FragmentActivity implements Observer {
 	// .newSingleThreadExecutor();
 	// };
 
-	private int downloadSize = 0;
 	private Handler mNotificationHandler = new Handler() {
 
 		@Override
@@ -1626,12 +1625,9 @@ public class MainActivity extends FragmentActivity implements Observer {
 				DownloadTask task = (DownloadTask) msg.obj;
 				if (task == null) {
 				} else {
-					if (downloadSize < task.getDownloadedSize()) {
-						downloadSize = (int) task.getDownloadedSize();
-						createAPPDownloadNotification(task);
-						if (task.getStatus() == DownloadTask.DOWNLOAD_FINISH) {
-							install();
-						}
+					createAPPDownloadNotification(task);
+					if (task.getStatus() == DownloadTask.DOWNLOAD_FINISH) {
+						install();
 					}
 				}
 				break;
@@ -1902,13 +1898,13 @@ public class MainActivity extends FragmentActivity implements Observer {
 			task.setFilePath(Constants.PATH_APK + File.separator
 					+ appInfo.getAid() + "." + appInfo.getType());
 			task.setFileSize(appInfo.getSize());
-			task.setDownloadedSize(0);
 			task.setAddTime(DateUtil.dateToOtherString(new Date()));
 			task.setFinishTime("");
 			task.setType(DownloadTask.APK);
 
 			downloadAPP();
 		} else {
+			task.setDownloadedSize(0);
 			task.setStatus(DownloadTask.INT);
 			downloadAPP();
 		}
@@ -1961,7 +1957,6 @@ public class MainActivity extends FragmentActivity implements Observer {
 	 * 下载app
 	 */
 	private void downloadAPP() {
-		downloadSize = 0;
 		ToastUtil.showTextToast(this, "开始后台下载，通知栏可查看进度!");
 		//
 		// new AsyncTask<String, Integer, String>() {

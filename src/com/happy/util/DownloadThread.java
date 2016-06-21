@@ -101,7 +101,7 @@ public class DownloadThread extends Thread {
 			is = connection.getInputStream();
 			// is.skip(startIndex);
 			randomAccessFile.seek(startIndex);
-			byte[] buffer = new byte[10 * 1024];
+			byte[] buffer = new byte[1024 * 2];
 			int length = -1;
 			while (!isCancel && !isError && (length = is.read(buffer)) != -1) {
 				if (!NetUtil.isNetworkAvailable(context)) {

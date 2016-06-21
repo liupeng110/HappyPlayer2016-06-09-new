@@ -377,7 +377,7 @@ public class DownloadThreadManage {
 		public void run() {
 			while (true) {
 				try {
-					
+
 					if (callBack != null && !isCancel && !isError && !isPause
 							&& !isFinish) {
 						updateDownloadUI();
@@ -393,7 +393,7 @@ public class DownloadThreadManage {
 	/**
 	 * 下载进度
 	 */
-	private void updateDownloadUI() {
+	private synchronized void updateDownloadUI() {
 		int downloadSize = 0;
 		for (int i = 0; i < downloadThreads.length; i++) {
 			DownloadThread downloadThread = downloadThreads[i];

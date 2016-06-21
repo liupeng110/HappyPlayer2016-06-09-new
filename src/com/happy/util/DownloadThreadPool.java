@@ -240,7 +240,7 @@ public class DownloadThreadPool {
 		 * 
 		 * @param task
 		 */
-		public void downloading(DownloadTask task);
+		public   void downloading(DownloadTask task);
 
 		/**
 		 * 子线程下载进度

@@ -240,21 +240,21 @@ public class DownloadThreadPool {
 		 * 
 		 * @param task
 		 */
-		public   void downloading(DownloadTask task);
+		public void downloading(DownloadTask task, int downloadSize);
 
 		/**
 		 * 子线程下载进度
 		 * 
 		 * @param task
 		 */
-		public void threadDownloading(DownloadTask task);
+		public void threadDownloading(DownloadTask task, int downloadSize);
 
 		/**
 		 * 暂停
 		 * 
 		 * @param task
 		 */
-		public void pauseed(DownloadTask task);
+		public void pauseed(DownloadTask task, int downloadSize);
 
 		/**
 		 * 取消任务

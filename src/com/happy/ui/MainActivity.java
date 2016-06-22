@@ -474,8 +474,11 @@ public class MainActivity extends FragmentActivity implements Observer {
 
 			} else if (songMessageTemp.getType() == SongMessage.UPDATEMUSIC) {
 				long max = songInfo.getDuration();
-				float downloadProgress = songInfo.getDownloadProgress();
+				long downloadProgress = songInfo.getDownloadProgress();
 				long fileSize = songInfo.getSize();
+				// System.out.println("当前下载进度:" + downloadProgress + " -- "
+				// + fileSize + " :"
+				// + (int) (downloadProgress * 1.00 / fileSize * 100));
 				if (fileSize <= downloadProgress) {
 					seekBar.setSecondaryProgress(0);
 				} else
@@ -1745,54 +1748,66 @@ public class MainActivity extends FragmentActivity implements Observer {
 		}
 	}
 
+	private Notification notification;
+	private RemoteViews contentView;
+
 	/**
 	 * 创建通知栏
 	 * 
 	 * @param task
 	 */
 	protected void createAPPDownloadNotification(DownloadTask task) {
+		if (contentView == null) {
+			// 定义Notification的各种属性
+			int icon = R.drawable.ic_launcher; // 通知图标
+			CharSequence tickerText = getString(R.string.app_name); // 状态栏显示的通知文本提示
+			long when = System.currentTimeMillis(); // 通知产生的时间，会在通知信息里显示
+			// 用上面的属性初始化 Nofification
+			notification = new Notification(icon, tickerText, when);
+			contentView = new RemoteViews(getPackageName(),
+					R.layout.notification_downloadapp);
 
-		// 定义Notification的各种属性
-		int icon = R.drawable.ic_launcher; // 通知图标
-		CharSequence tickerText = getString(R.string.app_name); // 状态栏显示的通知文本提示
-		long when = System.currentTimeMillis(); // 通知产生的时间，会在通知信息里显示
-		// 用上面的属性初始化 Nofification
-		Notification notification = new Notification(icon, tickerText, when);
-		RemoteViews contentView = new RemoteViews(getPackageName(),
-				R.layout.notification_downloadapp);
-
-		contentView.setImageViewResource(R.id.image, R.drawable.ic_launcher);
-		contentView.setTextViewText(R.id.title, "乐乐音乐新版本");
-
-		// if (task.getFileSize() != 0) {
-		if (task.getStatus() == DownloadTask.DOWNLOAD_FINISH) {
-			contentView.setTextViewText(R.id.text, "下载完成，点击安装");
-
-			Intent finishIntent = new Intent(
-					Constants.NOTIFIATION_APP_DOWNLOADFINISH);
-			PendingIntent pendFinishIntent = PendingIntent.getBroadcast(this,
-					0, finishIntent, 0);
-			contentView.setOnClickPendingIntent(R.id.bg, pendFinishIntent);
-
-		} else if (task.getStatus() == DownloadTask.DOWNLOING) {
-			contentView.setTextViewText(
-					R.id.text,
-					(int) ((float) task.getDownloadedSize()
-							/ task.getFileSize() * 100)
-							+ "%");
-		} else if (task.getStatus() == DownloadTask.DOWNLOAD_ERROR_NONET
-				|| task.getStatus() == DownloadTask.DOWNLOAD_ERROR_NOTWIFI
-				|| task.getStatus() == DownloadTask.DOWNLOAD_ERROR_OTHER) {
-			Intent downloadIntent = new Intent(
-					Constants.NOTIFIATION_APP_DOWNLOAD);
-			PendingIntent pendDownloadIntent = PendingIntent.getBroadcast(this,
-					0, downloadIntent, 0);
-			contentView.setOnClickPendingIntent(R.id.bg, pendDownloadIntent);
-
-			contentView.setTextViewText(R.id.text, "下载失败，点击重新下载");
+			contentView
+					.setImageViewResource(R.id.image, R.drawable.ic_launcher);
+			contentView.setTextViewText(R.id.title, "乐乐音乐新版本");
+			notification.contentView = contentView;
 		}
-		// }
-		notification.contentView = contentView;
+
+		if (task.getFileSize() != 0) {
+			if (task.getStatus() == DownloadTask.DOWNLOAD_FINISH) {
+				contentView.setTextViewText(R.id.text, "下载完成，点击安装");
+
+				Intent finishIntent = new Intent(
+						Constants.NOTIFIATION_APP_DOWNLOADFINISH);
+				PendingIntent pendFinishIntent = PendingIntent.getBroadcast(
+						this, 0, finishIntent, 0);
+				contentView.setOnClickPendingIntent(R.id.bg, pendFinishIntent);
+
+			} else if (task.getStatus() == DownloadTask.DOWNLOING) {
+				contentView.setTextViewText(
+						R.id.text,
+						(int) ((float) task.getDownloadedSize()
+								/ task.getFileSize() * 100)
+								+ "%");
+
+				// long downloadSize = task.getDownloadedSize();
+				// long fileSize = task.getFileSize();
+				// System.out.println("当前下载进度:" + downloadSize + " -- " +
+				// fileSize
+				// + " :" + (int) (downloadSize * 1.00 / fileSize * 100));
+			} else if (task.getStatus() == DownloadTask.DOWNLOAD_ERROR_NONET
+					|| task.getStatus() == DownloadTask.DOWNLOAD_ERROR_NOTWIFI
+					|| task.getStatus() == DownloadTask.DOWNLOAD_ERROR_OTHER) {
+				Intent downloadIntent = new Intent(
+						Constants.NOTIFIATION_APP_DOWNLOAD);
+				PendingIntent pendDownloadIntent = PendingIntent.getBroadcast(
+						this, 0, downloadIntent, 0);
+				contentView
+						.setOnClickPendingIntent(R.id.bg, pendDownloadIntent);
+
+				contentView.setTextViewText(R.id.text, "下载失败，点击重新下载");
+			}
+		}
 		// 把Notification传递给NotificationManager
 		mNotificationManager.notify(notificationAPPId, notification);
 	}
@@ -1915,40 +1930,56 @@ public class MainActivity extends FragmentActivity implements Observer {
 		@Override
 		public void waiting(DownloadTask task) {
 			task.setStatus(DownloadTask.WAITING);
-			ObserverManage.getObserver().setMessage(task);
+			// ObserverManage.getObserver().setMessage(task);
+			createAPPDownloadNotification(task);
 		}
 
 		@Override
-		public void downloading(DownloadTask task) {
+		public void downloading(DownloadTask task, int downloadedSize) {
 			task.setStatus(DownloadTask.DOWNLOING);
-			ObserverManage.getObserver().setMessage(task);
+			task.setDownloadedSize(downloadedSize);
+			createAPPDownloadNotification(task);
+			// ObserverManage.getObserver().setMessage(task);
+
+			// long downloadSize = task.getDownloadedSize();
+			// long fileSize = task.getFileSize();
+			// System.out.println("当前下载进度:" + downloadSize + " -- " + fileSize
+			// + " :" + (int) (downloadSize * 1.00 / fileSize * 100));
 		}
 
 		@Override
-		public void threadDownloading(DownloadTask task) {
+		public void threadDownloading(DownloadTask task, int downloadSize) {
 		}
 
 		@Override
-		public void pauseed(DownloadTask task) {
+		public void pauseed(DownloadTask task, int downloadedSize) {
 			task.setStatus(DownloadTask.DOWNLOAD_PAUSE);
-			ObserverManage.getObserver().setMessage(task);
+			task.setDownloadedSize(downloadedSize);
+			createAPPDownloadNotification(task);
+			// ObserverManage.getObserver().setMessage(task);
 		}
 
 		@Override
 		public void canceled(DownloadTask task) {
 			task.setStatus(DownloadTask.DOWNLOAD_CANCEL);
-			ObserverManage.getObserver().setMessage(task);
+			createAPPDownloadNotification(task);
+			// ObserverManage.getObserver().setMessage(task);
 		}
 
 		@Override
 		public void finished(DownloadTask task) {
 			task.setStatus(DownloadTask.DOWNLOAD_FINISH);
-			ObserverManage.getObserver().setMessage(task);
+			// ObserverManage.getObserver().setMessage(task);
+			createAPPDownloadNotification(task);
+			// if (task.getStatus() == DownloadTask.DOWNLOAD_FINISH) {
+			install();
+			// }
 		}
 
 		@Override
 		public void error(DownloadTask task) {
-			ObserverManage.getObserver().setMessage(task);
+			// ObserverManage.getObserver().setMessage(task);
+			createAPPDownloadNotification(task);
 		}
 
 	};
@@ -2004,6 +2035,12 @@ public class MainActivity extends FragmentActivity implements Observer {
 				msg.obj = task;
 				// this.task = task;
 				mNotificationHandler.sendMessage(msg);
+
+				// long downloadSize = task.getDownloadedSize();
+				// long fileSize = task.getFileSize();
+				// System.out.println("----------:" + downloadSize + " -- "
+				// + fileSize + " :"
+				// + (int) (downloadSize * 1.00 / fileSize * 100));
 			}
 		} else if (data instanceof AppInfo) {
 			AppInfo appInfo = (AppInfo) data;

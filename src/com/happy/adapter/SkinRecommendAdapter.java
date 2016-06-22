@@ -77,13 +77,14 @@ public class SkinRecommendAdapter extends Adapter<ItemViewHolder> implements
 		}
 
 		@Override
-		public void threadDownloading(DownloadTask task) {
+		public void threadDownloading(DownloadTask task, int downloadedSize) {
 
 		}
 
 		@Override
-		public void pauseed(DownloadTask task) {
+		public void pauseed(DownloadTask task, int downloadedSize) {
 			task.setStatus(DownloadTask.DOWNLOAD_PAUSE);
+			task.setDownloadedSize(downloadedSize);
 			// Message msg = new Message();
 			// msg.obj = task;
 			// mHandler.sendMessage(msg);
@@ -112,8 +113,9 @@ public class SkinRecommendAdapter extends Adapter<ItemViewHolder> implements
 		}
 
 		@Override
-		public void downloading(DownloadTask task) {
+		public void downloading(DownloadTask task, int downloadedSize) {
 			task.setStatus(DownloadTask.DOWNLOING);
+			task.setDownloadedSize(downloadedSize);
 			// Message msg = new Message();
 			// msg.obj = task;
 			// mHandler.sendMessage(msg);
@@ -226,7 +228,8 @@ public class SkinRecommendAdapter extends Adapter<ItemViewHolder> implements
 	 */
 	protected void downloadSkin(int position, DownloadTask downloadTask) {
 
-		DownloadThreadManage dtm = new DownloadThreadManage(downloadTask, 10,100);
+		DownloadThreadManage dtm = new DownloadThreadManage(downloadTask, 10,
+				100);
 		downloadTask.setDownloadThreadManage(dtm);
 		DownloadThreadPool dp = DownloadManage.getSkinTM(context);
 		dp.setEvent(eventCallBack);

@@ -505,6 +505,7 @@ public class SongDB {
 
 			SongMessage songMessage = new SongMessage();
 			SongInfo songInfo = getSongInfo(sid);
+			songInfo.setDownloadProgress(downloadProgress);
 			songMessage.setSongInfo(songInfo);
 			songMessage.setType(SongMessage.UPDATEMUSIC);
 			// 通知

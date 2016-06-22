@@ -92,7 +92,7 @@ public class DownloadThreadManage {
 			}
 			if (event != null && task != null) {
 				task.setDownloadedSize(downloadSize);
-				event.pauseed(task);
+				event.pauseed(task, downloadSize);
 			}
 		}
 
@@ -154,9 +154,9 @@ public class DownloadThreadManage {
 			}
 		}
 
-		public void threadDownloading(DownloadTask task) {
+		public void threadDownloading(DownloadTask task, int downloadSize) {
 			if (event != null && task != null) {
-				event.threadDownloading(task);
+				event.threadDownloading(task, downloadSize);
 			}
 		}
 
@@ -393,17 +393,20 @@ public class DownloadThreadManage {
 	/**
 	 * 下载进度
 	 */
-	private synchronized void updateDownloadUI() {
+	private void updateDownloadUI() {
 		int downloadSize = 0;
 		for (int i = 0; i < downloadThreads.length; i++) {
 			DownloadThread downloadThread = downloadThreads[i];
 			if (downloadThread != null)
 				downloadSize += downloadThread.getDownloadSize();
 		}
-		// System.out.println("当前下载进度:" + downloadSize);
+		// long fileSize = task.getFileSize();
+		// System.out.println("当前下载进度:" + downloadSize + " -- " + fileSize +
+		// " :"
+		// + (int) (downloadSize * 1.00 / fileSize * 100));
 		if (event != null && task != null) {
 			task.setDownloadedSize(downloadSize);
-			event.downloading(task);
+			event.downloading(task, downloadSize);
 		}
 
 	}
@@ -513,7 +516,7 @@ public class DownloadThreadManage {
 		 * 
 		 * @param task
 		 */
-		public void threadDownloading(DownloadTask task);
+		public void threadDownloading(DownloadTask task, int downloadSize);
 
 		/**
 		 * 下载中回调接口

@@ -205,26 +205,26 @@ public class MediaPlayerService extends Service implements Observer {
 		}
 
 		@Override
-		public void downloading(DownloadTask task) {
+		public void downloading(DownloadTask task, int downloadedSize) {
+			// task.setDownloadedSize(downloadedSize);
 			if (songInfo != null && songInfo.getSid().equals(task.getTid())
 					&& songInfo.getDownloadProgress() == 0
-					&& task.getDownloadedSize() > 1024 * 200) {
-				songInfo.setDownloadProgress(task.getDownloadedSize());
+					&& downloadedSize > 1024 * 200) {
+				songInfo.setDownloadProgress(downloadedSize);
 				// 播放歌曲
 				playNETMusic(songInfo, true);
 			}
 			SongDB.getSongInfoDB(getApplicationContext())
-					.updateSongDownloadProgress(task.getTid(),
-							task.getDownloadedSize());
+					.updateSongDownloadProgress(task.getTid(), downloadedSize);
 		}
 
 		@Override
-		public void threadDownloading(DownloadTask task) {
+		public void threadDownloading(DownloadTask task, int downloadedSize) {
 
 		}
 
 		@Override
-		public void pauseed(DownloadTask task) {
+		public void pauseed(DownloadTask task, int downloadedSize) {
 
 		}
 
@@ -295,7 +295,7 @@ public class MediaPlayerService extends Service implements Observer {
 		task.setFinishTime("");
 		task.setType(DownloadTask.SONG_NET);
 
-		DownloadThreadManage dtm = new DownloadThreadManage(task, 10,100);
+		DownloadThreadManage dtm = new DownloadThreadManage(task, 10, 100);
 		task.setDownloadThreadManage(dtm);
 		DownloadThreadPool dp = DownloadManage
 				.getSongNetTM(getApplicationContext());

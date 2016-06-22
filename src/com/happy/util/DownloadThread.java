@@ -103,6 +103,7 @@ public class DownloadThread extends Thread {
 			randomAccessFile.seek(startIndex);
 			byte[] buffer = new byte[1024 * 2];
 			int length = -1;
+			int times = 0;
 			while (!isCancel && !isError && (length = is.read(buffer)) != -1) {
 				if (!NetUtil.isNetworkAvailable(context)) {
 					// 无网络
@@ -130,7 +131,8 @@ public class DownloadThread extends Thread {
 						return;
 					}
 				}
-
+				// if(length <0)
+				// System.out.println(length);
 				randomAccessFile.write(buffer, 0, length);
 				downloadedSize += length;
 				// System.out.println("线程==========================：" +
@@ -140,7 +142,7 @@ public class DownloadThread extends Thread {
 					// 正在下载
 					if (callBack != null) {
 						task.setDownloadedSize(downloadedSize);
-						callBack.threadDownloading(task);
+						callBack.threadDownloading(task,downloadedSize);
 						callBack.downloading();
 					}
 					if (endIndex - downloadedSize < endIndex / 2
@@ -176,7 +178,7 @@ public class DownloadThread extends Thread {
 					callBack.finished();
 				}
 			}
-			System.out.println("线程：" + threadId + "下载完毕 " + downloadedSize);
+			// System.out.println("线程：" + threadId + "下载完毕 " + downloadedSize);
 			// } else {
 			// // 服务器异常
 			// isError = true;

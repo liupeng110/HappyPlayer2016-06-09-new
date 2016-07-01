@@ -23,6 +23,7 @@ import android.widget.TextView;
 import com.happy.adapter.SkinRecommendAdapter.ItemViewHolder;
 import com.happy.common.Constants;
 import com.happy.db.DownloadTaskDB;
+import com.happy.db.DownloadThreadDB;
 import com.happy.db.SkinThemeDB;
 import com.happy.model.app.DownloadTask;
 import com.happy.model.app.MessageIntent;
@@ -77,7 +78,8 @@ public class SkinRecommendAdapter extends Adapter<ItemViewHolder> implements
 		}
 
 		@Override
-		public void threadDownloading(DownloadTask task, int downloadedSize) {
+		public void threadDownloading(DownloadTask task, int downloadSize,
+				int threadIndex, int threadNum, int startIndex, int endIndex) {
 
 		}
 
@@ -129,6 +131,10 @@ public class SkinRecommendAdapter extends Adapter<ItemViewHolder> implements
 			// msg.obj = task;
 			// mHandler.sendMessage(msg);
 			ObserverManage.getObserver().setMessage(task);
+		}
+
+		@Override
+		public void cancelWaiting(DownloadTask task) {
 		}
 	};
 

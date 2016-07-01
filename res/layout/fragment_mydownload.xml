@@ -4,4 +4,24 @@
     android:background="@android:color/transparent"
     android:orientation="vertical" >
 
+    <com.happy.widget.LoadRelativeLayout
+        android:id="@+id/downloadsongloadRelativeLayout "
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" >
+
+            <com.happy.widget.LinearLayoutRecyclerView
+                android:id="@+id/downloadListview"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginBottom="@dimen/bottom_player_height"
+                android:cacheColorHint="@null"
+                android:overScrollMode="never"
+                android:scrollbars="none" />
+        </RelativeLayout>
+    </com.happy.widget.LoadRelativeLayout>
+
 </LinearLayout>

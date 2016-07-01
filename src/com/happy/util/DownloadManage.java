@@ -22,6 +22,23 @@ public class DownloadManage {
 	 * 歌曲线程
 	 */
 	private static DownloadThreadPool songNetTM;
+	/**
+	 * 歌曲下载线程
+	 */
+	private static DownloadThreadPool downloadSongTM;
+
+	/**
+	 * 获取下载歌曲
+	 * 
+	 * @param context
+	 * @return
+	 */
+	public static DownloadThreadPool getDownloadSongTM(Context context) {
+		if (downloadSongTM == null) {
+			downloadSongTM = new DownloadThreadPool(context);
+		}
+		return downloadSongTM;
+	}
 
 	/**
 	 * 获取皮肤线程管理

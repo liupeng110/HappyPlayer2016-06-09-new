@@ -26,6 +26,7 @@ import com.happy.observable.ObserverManage;
 import com.happy.ui.R;
 import com.happy.util.DataUtil;
 import com.happy.widget.ListItemRelativeLayout;
+import com.happy.widget.PopdownItemRelativeLayout;
 
 public class RecommendSongAdapter extends Adapter<ItemViewHolder> implements
 		Observer {
@@ -226,6 +227,17 @@ public class RecommendSongAdapter extends Adapter<ItemViewHolder> implements
 
 					}
 				});
+		itemViewHolder.getDownloadItemRelativeLayout().setOnClickListener(
+				new OnClickListener() {
+
+					@Override
+					public void onClick(View arg0) {
+						SongMessage msg = new SongMessage();
+						msg.setSongInfo(songInfo);
+						msg.setType(SongMessage.DOWNLOADADDMUSIC);
+						ObserverManage.getObserver().setMessage(msg);
+					}
+				});
 	}
 
 	/**
@@ -285,6 +297,8 @@ public class RecommendSongAdapter extends Adapter<ItemViewHolder> implements
 		private View status;
 		//
 		private LinearLayout localPopdownLinearLayout;
+
+		private PopdownItemRelativeLayout downloadItemRelativeLayout;
 
 		private RelativeLayout arrowDownImageView;
 
@@ -346,6 +360,14 @@ public class RecommendSongAdapter extends Adapter<ItemViewHolder> implements
 				status = itemView.findViewById(R.id.status);
 			}
 			return status;
+		}
+
+		public PopdownItemRelativeLayout getDownloadItemRelativeLayout() {
+			if (downloadItemRelativeLayout == null) {
+				downloadItemRelativeLayout = (PopdownItemRelativeLayout) itemView
+						.findViewById(R.id.download);
+			}
+			return downloadItemRelativeLayout;
 		}
 	}
 

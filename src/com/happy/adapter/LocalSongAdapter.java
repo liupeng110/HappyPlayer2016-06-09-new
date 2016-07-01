@@ -514,35 +514,16 @@ public class LocalSongAdapter extends Adapter<ViewHolder> implements Observer {
 	public void update(Observable arg0, Object data) {
 		if (data instanceof SongMessage) {
 			SongMessage songMessage = (SongMessage) data;
-			Message msg = new Message();
-			msg.obj = songMessage;
-			mHandler.sendMessage(msg);
-			// if (songMessage.getType() == SongMessage.LIKEDELMUSIC) {
-			// if (songMessage.getSongInfo() != null)
-			// deleteSong(songMessage.getSongInfo(), -1);
-			// } else if (songMessage.getType() == SongMessage.LOCALUNLIKEMUSIC)
-			// {
-			// if (songMessage.getSongInfo() != null)
-			// updateSong(songMessage.getSongInfo());
-			// } else if (songMessage.getType() == SongMessage.INITMUSIC) {
-			// if (MediaManage.getMediaManage(context).getPlayListType() !=
-			// MediaManage.PLAYLISTTYPE_LOCALLIST) {
-			// if (playIndexPosition != -1) {
-			// notifyItemChanged(playIndexPosition);
-			// playIndexPosition = -1;
-			// }
-			// } else {
-			// if (playIndexPosition != -1) {
-			// notifyItemChanged(playIndexPosition);
-			// playIndexPosition = -1;
-			// }
-			// if (songMessage.getSongInfo() != null)
-			// updateSong(songMessage.getSongInfo());
-			// }
-			// } else if (songMessage.getType() == SongMessage.UPDATEMUSIC) {
-			// if (songMessage.getSongInfo() != null)
-			// updateSong(songMessage.getSongInfo());
-			// }
+
+			if (songMessage.getType() == SongMessage.LIKEDELMUSIC
+					|| songMessage.getType() == SongMessage.LOCALUNLIKEMUSIC
+					|| songMessage.getType() == SongMessage.INITMUSIC
+					|| songMessage.getType() == SongMessage.UPDATEMUSIC) {
+				Message msg = new Message();
+				msg.obj = songMessage;
+				mHandler.sendMessage(msg);
+			}
+
 		}
 	}
 

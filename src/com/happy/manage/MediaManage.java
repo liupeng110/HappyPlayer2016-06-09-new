@@ -123,6 +123,8 @@ public class MediaManage implements Observer {
 			break;
 		case 2:
 			// 下载歌曲列表
+			songInfo = SongDB.getSongInfoDB(context).getSongInfo(sid,
+					SongInfo.DOWNLOADSONG);
 			break;
 		case 3:
 			// 搜索歌曲列表
@@ -158,6 +160,8 @@ public class MediaManage implements Observer {
 			break;
 		case 2:
 			// 下载歌曲列表
+			playlist = SongDB.getSongInfoDB(context).getDownloadSong(
+					SongInfo.DOWNLOADED);
 			break;
 		case 3:
 			// 搜索歌曲列表
@@ -190,7 +194,8 @@ public class MediaManage implements Observer {
 			songInfo = null;
 			return;
 		}
-		if (songInfo.getType() == SongInfo.NETSONG) {
+		if (songInfo.getType() == SongInfo.NETSONG
+				|| songInfo.getType() == SongInfo.DOWNLOADSONG) {
 			playModel = 0;
 		}
 		switch (playModel) {
@@ -274,10 +279,12 @@ public class MediaManage implements Observer {
 				initPlayListData(PLAYLISTTYPE_LOCALLIST);
 			}
 		}
-		if (songInfo.getType() == SongInfo.LOCALSONG) {
-			nextMusic(1);
-		} else {
-			nextMusic(0);
+		if (songInfo != null) {
+			if (songInfo.getType() == SongInfo.LOCALSONG) {
+				nextMusic(1);
+			} else {
+				nextMusic(0);
+			}
 		}
 	}
 
@@ -301,7 +308,8 @@ public class MediaManage implements Observer {
 
 			return;
 		}
-		if (songInfo.getType() == SongInfo.NETSONG) {
+		if (songInfo.getType() == SongInfo.NETSONG
+				|| songInfo.getType() == SongInfo.DOWNLOADSONG) {
 			playModel = 0;
 		}
 		switch (playModel) {

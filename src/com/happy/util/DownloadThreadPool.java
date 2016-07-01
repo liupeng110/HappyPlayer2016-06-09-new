@@ -52,6 +52,38 @@ public class DownloadThreadPool {
 	}
 
 	/**
+	 * 获取任务
+	 * 
+	 * @param tid
+	 * @return
+	 */
+	public DownloadTask getDownloadTask(String tid) {
+		for (int i = 0; i < tasks.size(); i++) {
+			DownloadTask temp = tasks.get(i);
+			if (temp.getTid().equals(tid)) {
+				return temp;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * 取消等待
+	 */
+	public void cancelWaiting(String tid) {
+		for (int i = 0; i < tasks.size(); i++) {
+			DownloadTask temp = tasks.get(i);
+			if (temp.getTid().equals(tid)) {
+				tasks.remove(i);
+				if (event != null) {
+					event.cancelWaiting(temp);
+				}
+				break;
+			}
+		}
+	}
+
+	/**
 	 * 添加在线任务
 	 * 
 	 * @param task
@@ -77,6 +109,69 @@ public class DownloadThreadPool {
 			synchronized (runnable) {
 				runnable.notify();
 			}
+		}
+	}
+
+	/**
+	 * 添加下载歌曲任务
+	 * 
+	 * @param task
+	 */
+	public void addDownloadSongTask(DownloadTask task) {
+		boolean flag = false;
+		if (tasks.size() == 0) {
+			flag = true;
+		}
+		if (!tasks.contains(task)) {
+			// tasks.add(task);
+			// 通过tid对任务进行排序，tid在服务器端添加时，要自动递增
+			int taskIndex = -1;
+			int i = 0;
+			for (; i < tasks.size(); i++) {
+				DownloadTask temp = tasks.get(i);
+				// System.out.println(task.getTid() + "   " + temp.getTid());
+				if (task.getAddTime().compareTo(temp.getAddTime()) > 0) {
+					taskIndex = i;
+					break;
+				}
+			}
+			if (taskIndex == -1) {
+				tasks.add(task);
+			} else {
+				if (tasks.size() >= taskIndex) {
+					tasks.add(taskIndex, task);
+				} else if (taskIndex - 1 < 0) {
+					tasks.add(0, task);
+				} else {
+					tasks.add(taskIndex - 1, task);
+				}
+			}
+			if (event != null) {
+				event.waiting(task);
+			}
+			if (downloadThread != null && flag) {
+				// 唤醒任务下载队列
+				synchronized (runnable) {
+					runnable.notify();
+				}
+			}
+		} else {
+			// 再次点击下载时，如果任务已经在列表中，则更新该下载任务的ui
+			for (int i = 0; i < tasks.size(); i++) {
+				DownloadTask temp = tasks.get(i);
+				if (task.getTid().equals(temp.getTid())) {
+					tasks.remove(i);
+					tasks.add(i, task);
+					if (event != null) {
+						event.waiting(task);
+					}
+					break;
+				}
+			}
+		}
+		if (downloadThread == null) {
+			downloadThread = new Thread(runnable);
+			downloadThread.start();
 		}
 	}
 
@@ -229,6 +324,13 @@ public class DownloadThreadPool {
 	 */
 	public interface IDownloadTaskEventCallBack {
 		/**
+		 * 等待暂停
+		 * 
+		 * @param task
+		 */
+		public void cancelWaiting(DownloadTask task);
+
+		/**
 		 * 等待中
 		 * 
 		 * @param task
@@ -247,7 +349,8 @@ public class DownloadThreadPool {
 		 * 
 		 * @param task
 		 */
-		public void threadDownloading(DownloadTask task, int downloadSize);
+		public void threadDownloading(DownloadTask task, int downloadSize,
+				int threadIndex, int threadNum, int startIndex, int endIndex);
 
 		/**
 		 * 暂停

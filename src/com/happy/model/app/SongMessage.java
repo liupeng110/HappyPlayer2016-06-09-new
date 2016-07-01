@@ -1,12 +1,21 @@
 package com.happy.model.app;
 
+import java.io.Serializable;
+
 /**
  * 
  * 歌曲信息类
  * 
  */
-public class SongMessage {
+public class SongMessage  implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private static int i = 1000;
+
+	public static final int DOWNLOADADDMUSIC = (i++); // 下载添加音乐
 
 	public static final int ADDMUSIC = (i++); // 添加音乐
 	public static final int LOCALDELMUSIC = (i++); // 本地歌曲列表删除歌曲
@@ -38,27 +47,21 @@ public class SongMessage {
 	public static final int SERVICEERRORMUSIC = (i++); // 服务播放歌曲错误操作
 
 	public static final int ALUBMPHOTOLOADED = (i++); // 歌曲专辑图片加载完成
-	
-	
+
 	public static final int SINGERPHOTOLOADED = (i++); // 歌手写真图片加载完成
-	
-	
-	
-	
+
 	public static final int KSCTYPELRC = (i++); // lrcview ksc歌词
 	public static final int LRCKSCDOWNLOADED = (i++); // lrcview ksc歌词下载完成
 	public static final int LRCKSCLOADED = (i++); // lrcview ksc歌词下载完成
-	
-	
+
 	public static final int KSCTYPEDES = (i++); // 桌面 ksc歌词
 	public static final int DESKSCDOWNLOADED = (i++); // 桌面 ksc歌词下载完成
 	public static final int DESKSCLOADED = (i++); // 桌面 ksc歌词下载完成
-	
+
 	public static final int KSCTYPELOCK = (i++); // 锁屏ksc歌词
 	public static final int LOCKKSCDOWNLOADED = (i++); // 锁屏 ksc歌词下载完成
 	public static final int LOCKKSCLOADED = (i++); // 锁屏 ksc歌词下载完成
-	
-	
+
 	public static final int DESLRCSHOWORHIDE = (i++); // 桌面歌词显示或者隐藏
 	public static final int DESLRCSHOWORHIDEED = (i++); // 桌面歌词显示或者隐藏完成
 	public static final int DESLRCLOCKORUNLOCK = (i++); // 桌面歌词锁定或者解锁
@@ -71,6 +74,7 @@ public class SongMessage {
 	/**
 	 * 播放歌曲为空报错信息
 	 */
+
 	public static final String ERRORMESSAGEPLAYSONGNULL = "播放歌曲为空报错";
 
 	private int type;

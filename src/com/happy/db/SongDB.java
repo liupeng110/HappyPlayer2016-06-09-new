@@ -2,6 +2,7 @@ package com.happy.db;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import android.content.ContentValues;
@@ -14,6 +15,7 @@ import android.util.Log;
 import com.happy.model.app.SongInfo;
 import com.happy.model.app.SongMessage;
 import com.happy.observable.ObserverManage;
+import com.happy.util.DateUtil;
 import com.happy.util.PingYinUtil;
 
 public class SongDB {
@@ -272,6 +274,26 @@ public class SongDB {
 	}
 
 	/**
+	 * 获取正在下载的歌曲
+	 * 
+	 * @return
+	 */
+	public List<SongInfo> getDownloadSong(int status) {
+		List<SongInfo> list = new ArrayList<SongInfo>();
+		db = mDBHlper.getReadableDatabase();
+		Cursor cursor = db.query(TBL_NAME, null,
+				"type= ? and downloadStatus= ?", new String[] {
+						SongInfo.DOWNLOADSONG + "", status + "" }, null, null,
+				"createTime desc", null);
+		while (cursor.moveToNext()) {
+			SongInfo songInfo = getSongInfo(cursor);
+			list.add(songInfo);
+		}
+		cursor.close();
+		return list;
+	}
+
+	/**
 	 * 获取所有的本地歌曲列表
 	 * 
 	 * @return
@@ -416,6 +438,32 @@ public class SongDB {
 	}
 
 	/**
+	 * 通过sid来获取歌曲的相关信息
+	 * 
+	 * @param sid
+	 * @return
+	 */
+	public SongInfo getSongInfo(String sid, int type) {
+		db = mDBHlper.getReadableDatabase();
+		// 第一个参数String：表名
+		// 第二个参数String[]:要查询的列名
+		// 第三个参数String：查询条件
+		// 第四个参数String[]：查询条件的参数
+		// 第五个参数String:对查询的结果进行分组
+		// 第六个参数String：对分组的结果进行限制
+		// 第七个参数String：对查询的结果进行排序
+		Cursor cursor = db.rawQuery("select * from " + TBL_NAME
+				+ " where sid=? and type=? ", new String[] { sid + "",
+				type + "" });
+		if (!cursor.moveToNext()) {
+			return null;
+		}
+		SongInfo song = getSongInfo(cursor);
+		cursor.close();
+		return song;
+	}
+
+	/**
 	 * 删除sid的相关数据
 	 */
 	public void delete(String sid) {
@@ -466,6 +514,33 @@ public class SongDB {
 	}
 
 	/**
+	 * 根据类型和歌曲id判断歌曲是否存在
+	 * 
+	 * @param sid
+	 * @param type
+	 * @return
+	 */
+	public boolean songIsExistsByTypeAndSid(String sid, int type) {
+		db = mDBHlper.getReadableDatabase();
+		// 第一个参数String：表名
+		// 第二个参数String[]:要查询的列名
+		// 第三个参数String：查询条件
+		// 第四个参数String[]：查询条件的参数
+		// 第五个参数String:对查询的结果进行分组
+		// 第六个参数String：对分组的结果进行限制
+		// 第七个参数String：对查询的结果进行排序
+		Cursor cursor = db.query(TBL_NAME, new String[] { "sid" },
+				" sid=? and type=?", new String[] { sid, type + "" }, null,
+				null, null);
+		if (!cursor.moveToNext()) {
+			cursor.close();
+			return false;
+		}
+		cursor.close();
+		return true;
+	}
+
+	/**
 	 * 通过sid来判断歌曲是否已经存在
 	 * 
 	 * @param sid
@@ -496,6 +571,26 @@ public class SongDB {
 	 * @param sID
 	 * @param downloadProgress
 	 */
+	public void updateSongDownloadProgress(String sid, long downloadProgress,
+			int type) {
+		db = mDBHlper.getReadableDatabase();
+		ContentValues values = new ContentValues();
+		values.put("downloadProgress", downloadProgress);
+		try {
+			db.update(TBL_NAME, values, "sid=? and type=?", new String[] {
+					sid + "", type + "" });
+
+		} catch (SQLException e) {
+			Log.i("error", "update failed");
+		}
+	}
+
+	/**
+	 * 更新歌曲的下载进度
+	 * 
+	 * @param sID
+	 * @param downloadProgress
+	 */
 	public void updateSongDownloadProgress(String sid, long downloadProgress) {
 		db = mDBHlper.getReadableDatabase();
 		ContentValues values = new ContentValues();
@@ -504,7 +599,7 @@ public class SongDB {
 			db.update(TBL_NAME, values, "sid=?", new String[] { sid + "" });
 
 			SongMessage songMessage = new SongMessage();
-			SongInfo songInfo = getSongInfo(sid);
+			SongInfo songInfo = getSongInfo(sid, SongInfo.NETSONG);
 			songInfo.setDownloadProgress(downloadProgress);
 			songMessage.setSongInfo(songInfo);
 			songMessage.setType(SongMessage.UPDATEMUSIC);
@@ -530,6 +625,35 @@ public class SongDB {
 			db.update(TBL_NAME, values, "sid=?",
 					new String[] { songInfo.getSid() + "" });
 
+			SongMessage songMessage = new SongMessage();
+			songMessage.setSongInfo(songInfo);
+			songMessage.setType(SongMessage.ADDMUSIC);
+			// 通知
+			ObserverManage.getObserver().setMessage(songMessage);
+
+		} catch (SQLException e) {
+			Log.i("error", "update failed");
+		}
+
+	}
+
+	/**
+	 * 更新网络歌曲下载进度
+	 * 
+	 * @param songInfo
+	 */
+	public void updateNetSongDownloaded(SongInfo mSongInfo) {
+		db = mDBHlper.getReadableDatabase();
+		ContentValues values = new ContentValues();
+		values.put("downloadProgress", mSongInfo.getSize());
+		values.put("downloadStatus", SongInfo.DOWNLOADED);
+		values.put("createTime", DateUtil.dateToString(new Date()));
+		try {
+			db.update(TBL_NAME, values, "sid=? and type=?", new String[] {
+					mSongInfo.getSid() + "", mSongInfo.getType() + "" });
+
+			SongInfo songInfo = getSongInfo(mSongInfo.getSid(),
+					mSongInfo.getType());
 			SongMessage songMessage = new SongMessage();
 			songMessage.setSongInfo(songInfo);
 			songMessage.setType(SongMessage.ADDMUSIC);

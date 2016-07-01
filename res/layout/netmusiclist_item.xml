@@ -78,6 +78,7 @@
         android:orientation="horizontal" >
 
         <com.happy.widget.PopdownItemRelativeLayout
+            android:id="@+id/download"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:layout_weight="1"

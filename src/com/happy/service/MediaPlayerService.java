@@ -147,7 +147,8 @@ public class MediaPlayerService extends Service implements Observer {
 	 * @param type
 	 */
 	private void playMusic(SongInfo songInfo) {
-		if (songInfo.getType() == SongInfo.LOCALSONG) {
+		if (songInfo.getType() == SongInfo.LOCALSONG
+				|| songInfo.getType() == SongInfo.DOWNLOADSONG) {
 			playLocalMusic(songInfo);
 		} else {
 			songDuration = (int) songInfo.getPlayProgress();
@@ -219,7 +220,8 @@ public class MediaPlayerService extends Service implements Observer {
 		}
 
 		@Override
-		public void threadDownloading(DownloadTask task, int downloadedSize) {
+		public void threadDownloading(DownloadTask task, int downloadSize,
+				int threadIndex, int threadNum, int startIndex, int endIndex) {
 
 		}
 
@@ -273,6 +275,9 @@ public class MediaPlayerService extends Service implements Observer {
 			}
 		}
 
+		@Override
+		public void cancelWaiting(DownloadTask task) {
+		}
 	};
 
 	/**

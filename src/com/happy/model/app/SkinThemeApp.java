@@ -1,5 +1,7 @@
 package com.happy.model.app;
 
+import java.io.Serializable;
+
 /**
  * 
  * @ClassName: SkinTheme
@@ -8,8 +10,12 @@ package com.happy.model.app;
  * @date: 2015-6-17 上午9:32:14
  * 
  */
-public class SkinThemeApp {
+public class SkinThemeApp  implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	/**
 	 * 本地
 	 */

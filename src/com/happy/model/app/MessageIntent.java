@@ -1,6 +1,13 @@
 package com.happy.model.app;
 
-public class MessageIntent {
+import java.io.Serializable;
+
+public class MessageIntent  implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * 皮肤加载失败

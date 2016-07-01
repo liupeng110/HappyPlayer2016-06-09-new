@@ -41,19 +41,19 @@ public final class R {
 		public static final int translucent = 0x7f0200d5;
 	}
 	public static final class id {
-		public static final int action_settings = 0x7f090140;
+		public static final int action_settings = 0x7f090144;
 		public static final int button = 0x7f09004f;
-		public static final int button1 = 0x7f090109;
+		public static final int button1 = 0x7f09010d;
 		public static final int listView = 0x7f09004e;
-		public static final int name = 0x7f09013a;
+		public static final int name = 0x7f09013e;
 		public static final int textView1 = 0x7f090050;
 	}
 	public static final class layout {
 		public static final int activity_b = 0x7f030019;
 		public static final int activity_c = 0x7f03001a;
 		public static final int activity_swipe_back = 0x7f030026;
-		public static final int main = 0x7f03003f;
-		public static final int view_item_list = 0x7f03004d;
+		public static final int main = 0x7f030041;
+		public static final int view_item_list = 0x7f03004f;
 	}
 	public static final class menu {
 		public static final int main = 0x7f0c0000;

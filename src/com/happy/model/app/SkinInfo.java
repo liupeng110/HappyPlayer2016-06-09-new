@@ -1,5 +1,7 @@
 package com.happy.model.app;
 
+import java.io.Serializable;
+
 import com.happy.model.widget.BackgroundColor;
 import com.happy.model.widget.ButtonIcon;
 import com.happy.model.widget.Icon;
@@ -10,8 +12,12 @@ import com.happy.model.widget.Text;
  * 皮肤数据
  * 
  */
-public class SkinInfo {
+public class SkinInfo  implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	/**
 	 * 通用的一级菜单
 	 */

@@ -10,7 +10,9 @@ import java.net.URL;
 import android.content.Context;
 
 import com.happy.common.Constants;
+import com.happy.db.DownloadThreadDB;
 import com.happy.model.app.DownloadTask;
+import com.happy.model.app.DownloadThreadInfo;
 import com.happy.util.DownloadThreadManage.IDownloadCallBack;
 
 /**
@@ -69,15 +71,44 @@ public class DownloadThread extends Thread {
 	 * 是否通知
 	 */
 	private boolean isNotify = false;
+	/**
+	 * 线程总数
+	 */
+	private int threadNum = 0;
 
 	public DownloadThread(Context context, DownloadTask task, int threadId,
-			int startIndex, int endIndex, IDownloadCallBack callBack) {
+			int startIndex, int endIndex, IDownloadCallBack callBack,
+			int threadNum) {
 		this.context = context;
 		this.threadId = threadId;
 		this.startIndex = startIndex;
 		this.endIndex = endIndex;
 		this.task = task;
 		this.callBack = callBack;
+		this.threadNum = threadNum;
+
+		DownloadThreadInfo downloadThreadInfo = DownloadThreadDB
+				.getDownloadThreadDB(context).getDownloadThreadInfo(
+						task.getTid(), threadNum, threadId, task.getType());
+		if (downloadThreadInfo != null) {
+			int tempStartIndex = downloadThreadInfo.getStartIndex();
+			if (tempStartIndex >= endIndex) {
+				isFinish = true;
+			} else {
+				this.startIndex = tempStartIndex;
+			}
+		} else {
+			downloadThreadInfo = new DownloadThreadInfo();
+			downloadThreadInfo.setTid(task.getTid());
+			downloadThreadInfo.setThreadID(threadId);
+			downloadThreadInfo.setThreadNum(threadNum);
+			downloadThreadInfo.setStartIndex(startIndex);
+			downloadThreadInfo.setEndIndex(endIndex);
+			downloadThreadInfo.setType(task.getType());
+
+			DownloadThreadDB.getDownloadThreadDB(context).add(
+					downloadThreadInfo);
+		}
 	}
 
 	public void run() {
@@ -103,7 +134,6 @@ public class DownloadThread extends Thread {
 			randomAccessFile.seek(startIndex);
 			byte[] buffer = new byte[1024 * 2];
 			int length = -1;
-			int times = 0;
 			while (!isCancel && !isError && (length = is.read(buffer)) != -1) {
 				if (!NetUtil.isNetworkAvailable(context)) {
 					// 无网络
@@ -142,7 +172,16 @@ public class DownloadThread extends Thread {
 					// 正在下载
 					if (callBack != null) {
 						task.setDownloadedSize(downloadedSize);
-						callBack.threadDownloading(task,downloadedSize);
+						callBack.threadDownloading(task, downloadedSize,
+								threadId, threadNum, startIndex, endIndex);
+
+						// 保存下载的进度
+						DownloadThreadDB.getDownloadThreadDB(context).update(
+								task.getTid(), threadNum, threadId,
+								startIndex + downloadedSize, task.getType());
+
+						// System.out.println("保存："
+						// + (startIndex + downloadedSize));
 						callBack.downloading();
 					}
 					if (endIndex - downloadedSize < endIndex / 2
@@ -165,11 +204,6 @@ public class DownloadThread extends Thread {
 					// 取消下载任务
 					return;
 				}
-				// try {
-				// Thread.sleep(100);
-				// } catch (InterruptedException e) {
-				// e.printStackTrace();
-				// }
 			}
 			if (!isPause && !isCancel) {
 				// 完成任务
@@ -178,7 +212,7 @@ public class DownloadThread extends Thread {
 					callBack.finished();
 				}
 			}
-			// System.out.println("线程：" + threadId + "下载完毕 " + downloadedSize);
+			System.out.println("线程：" + threadId + "下载完毕 " + downloadedSize);
 			// } else {
 			// // 服务器异常
 			// isError = true;

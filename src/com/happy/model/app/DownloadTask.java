@@ -1,7 +1,8 @@
 package com.happy.model.app;
 
-import com.happy.util.DownloadThreadManage;
+import java.io.Serializable;
 
+import com.happy.util.DownloadThreadManage;
 
 /**
  * 下载任务
@@ -9,22 +10,29 @@ import com.happy.util.DownloadThreadManage;
  * @author Administrator
  * 
  */
-public class DownloadTask {
+public class DownloadTask implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public static final int SKIN = 1;// 皮肤
 	public static final int APK = 2;// 应用
 	public static final int SONG = 3;// 歌曲
 	public static final int SONG_NET = 4;// 网络歌曲
+	public static final int SONG_NET_DOWNLOAD = 5;// 下载歌曲
 
-	public static final int INT = 0;// 初始化状态
-	public static final int WAITING = 1;// 等待下载
-	public static final int DOWNLOING = 2;// 下载中
-	public static final int DOWNLOAD_PAUSE = 3;// 下载暂停
-	public static final int DOWNLOAD_CANCEL = 4;// 下载取消
-	public static final int DOWNLOAD_ERROR_NONET = 5; // 下载失败-无网络
-	public static final int DOWNLOAD_ERROR_NOTWIFI = 6; // 下载失败-不是wifi
-	public static final int DOWNLOAD_ERROR_OTHER = 7; // 下载失败-其它原因
-	public static final int DOWNLOAD_FINISH = 8;// 下载完成
+	private static int i = 1000;
+	public static final int INT = i++;// 初始化状态
+	public static final int WAITING = i++;// 等待下载
+	public static final int DOWNLOING = i++;// 下载中
+	public static final int DOWNLOAD_PAUSE = i++;// 下载暂停
+	public static final int DOWNLOAD_CANCEL = i++;// 下载取消
+	public static final int DOWNLOAD_CANCELWAITING = i++;// 取消下载暂停
+	public static final int DOWNLOAD_ERROR_NONET = i++; // 下载失败-无网络
+	public static final int DOWNLOAD_ERROR_NOTWIFI = i++; // 下载失败-不是wifi
+	public static final int DOWNLOAD_ERROR_OTHER = i++; // 下载失败-其它原因
+	public static final int DOWNLOAD_FINISH = i++;// 下载完成
 
 	private String tid;
 	/**

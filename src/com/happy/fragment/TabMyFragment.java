@@ -22,6 +22,7 @@ import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.happy.adapter.DownloadAdapter;
 import com.happy.adapter.LikeSongAdapter;
 import com.happy.adapter.LocalSongAdapter;
 import com.happy.common.Constants;
@@ -185,6 +186,9 @@ public class TabMyFragment extends Fragment implements Observer {
 
 		if (likeSongAdapter != null) {
 			likeSongAdapter.notifyDataSetChanged();
+		}
+		if (downloadAdapter != null) {
+			downloadAdapter.notifyDataSetChanged();
 		}
 
 	}
@@ -621,13 +625,96 @@ public class TabMyFragment extends Fragment implements Observer {
 		action.addPage(likeView, "我的最爱");
 	}
 
+	View downloadView = null;
+	private LinearLayoutRecyclerView downloadListview;
+	List<Category> downloadListSongCategorys;
+	private DownloadAdapter downloadAdapter;
+	private LoadRelativeLayout downloadSongLoadRelativeLayout;
+	private Handler downloadSongHandler = new Handler() {
+
+		@Override
+		public void handleMessage(Message msg) {
+			switch (msg.what) {
+			case 0:
+				downloadSongLoadRelativeLayout.showLoadingView();
+				break;
+			case 1:
+				downloadSongLoadRelativeLayout.showSuccessView();
+				break;
+			case 2:
+				downloadSongLoadRelativeLayout.showNoResultView();
+				break;
+			}
+		}
+
+	};
+
 	/**
 	 * 我的下载
 	 */
 	public void download() {
-		LayoutInflater inflater = getActivity().getLayoutInflater();
-		View view = inflater.inflate(R.layout.fragment_mydownload, null, false);
-		action.addPage(view, "我的下载");
+		if (downloadView == null) {
+			LayoutInflater inflater = getActivity().getLayoutInflater();
+			downloadView = inflater.inflate(R.layout.fragment_mydownload, null,
+					false);
+
+			downloadListview = (LinearLayoutRecyclerView) downloadView
+					.findViewById(R.id.downloadListview);
+			// 如果可以确定每个item的高度是固定的，设置这个选项可以提高性能
+			downloadListview.setHasFixedSize(true);
+
+			downloadListview.setLinearLayoutManager(new LinearLayoutManager(
+					getActivity()));
+
+			downloadSongLoadRelativeLayout = (LoadRelativeLayout) downloadView
+					.findViewById(R.id.downloadsongloadRelativeLayout);
+			downloadSongLoadRelativeLayout.init(getActivity());
+			downloadSongHandler.sendEmptyMessage(0);
+
+			if (downloadAdapter == null) {
+				new AsyncTask<String, Integer, Void>() {
+
+					@Override
+					protected Void doInBackground(String... arg0) {
+
+						try {
+							Thread.sleep(500);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+
+						downloadListSongCategorys = new ArrayList<Category>();
+						String[] categoryList = { "正在下载", "已下载" };
+						int[] status = { SongInfo.DOWNLOADING,
+								SongInfo.DOWNLOADED };
+						for (int i = 0; i < categoryList.length; i++) {
+							String categoryName = categoryList[i];
+							List<SongInfo> songInfos = SongDB.getSongInfoDB(
+									getActivity()).getDownloadSong(status[i]);
+							Category category = new Category(categoryName);
+							category.setmCategoryItem(songInfos);
+							downloadListSongCategorys.add(category);
+						}
+						return null;
+					}
+
+					@Override
+					protected void onPostExecute(Void result) {
+						if (downloadListSongCategorys != null
+								&& downloadListSongCategorys.size() != 0) {
+							downloadAdapter = new DownloadAdapter(
+									getActivity(), downloadListSongCategorys);
+							downloadListview.setAdapter(downloadAdapter);
+							downloadSongHandler.sendEmptyMessage(1);
+						} else {
+							downloadSongHandler.sendEmptyMessage(2);
+						}
+					}
+
+				}.execute("");
+			}
+		}
+		action.addPage(downloadView, "我的下载");
 	}
 
 	@Override

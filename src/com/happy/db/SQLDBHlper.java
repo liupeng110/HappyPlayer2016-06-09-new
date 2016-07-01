@@ -40,6 +40,7 @@ public class SQLDBHlper extends SQLiteOpenHelper {
 			db.execSQL(SplashDB.CREATE_TBL);
 			db.execSQL(DownloadTaskDB.CREATE_TBL);
 			db.execSQL(SongDB.CREATE_TBL);
+			db.execSQL(DownloadThreadDB.CREATE_TBL);
 		} catch (SQLException e) {
 			Log.i("error", "create table failed");
 		}
@@ -52,6 +53,7 @@ public class SQLDBHlper extends SQLiteOpenHelper {
 			db.execSQL("drop table if exists " + SplashDB.TBL_NAME);
 			db.execSQL("drop table if exists " + DownloadTaskDB.TBL_NAME);
 			db.execSQL("drop table if exists " + SongDB.TBL_NAME);
+			db.execSQL("drop table if exists " + DownloadThreadDB.TBL_NAME);
 		} catch (SQLException e) {
 			Log.i("error", "drop table failed");
 		}

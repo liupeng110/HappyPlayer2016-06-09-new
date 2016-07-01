@@ -64,6 +64,7 @@ import android.widget.RemoteViews;
 import com.eva.views.RoundedImageView;
 import com.happy.adapter.SearchSongAdapter;
 import com.happy.common.Constants;
+import com.happy.db.SongDB;
 import com.happy.fragment.TabMyFragment;
 import com.happy.fragment.TabRecommendFragment;
 import com.happy.iface.PageAction;
@@ -1948,7 +1949,8 @@ public class MainActivity extends FragmentActivity implements Observer {
 		}
 
 		@Override
-		public void threadDownloading(DownloadTask task, int downloadSize) {
+		public void threadDownloading(DownloadTask task, int downloadSize,
+				int threadIndex, int threadNum, int startIndex, int endIndex) {
 		}
 
 		@Override
@@ -1982,6 +1984,9 @@ public class MainActivity extends FragmentActivity implements Observer {
 			createAPPDownloadNotification(task);
 		}
 
+		@Override
+		public void cancelWaiting(DownloadTask task) {
+		}
 	};
 
 	/**
@@ -2202,9 +2207,130 @@ public class MainActivity extends FragmentActivity implements Observer {
 				songMessageTemp.setSongInfo(new SongInfo());
 				msg.obj = songMessageTemp;
 				notifyPlayBarHandler.sendMessage(msg);
+			} else if (songMessageTemp.getType() == SongMessage.DOWNLOADADDMUSIC) {
+				downloadManage(songMessageTemp.getSongInfo());
 			}
 		}
 	}
+
+	/**
+	 * 下载歌曲管理
+	 * 
+	 * @param songInfo
+	 */
+	private void downloadManage(SongInfo songInfo) {
+		String sid = songInfo.getSid();
+		boolean flag = SongDB.getSongInfoDB(getApplicationContext())
+				.songIsExistsByTypeAndSid(sid, SongInfo.DOWNLOADSONG);
+		if (flag) {
+			ToastUtil.showText("任务已存在!");
+		} else {
+			String filePath = Constants.PATH_MP3TEMP + File.separator
+					+ songInfo.getSid() + ".temp";
+
+			DownloadTask task = new DownloadTask();
+			String url = HttpUtil.getSongInfoDataByID(sid);
+			task.setTid(sid);
+			task.setStatus(DownloadTask.INT);
+			task.setDownloadUrl(url);
+			task.setFilePath(filePath);
+			task.setFileSize(songInfo.getSize());
+			task.setDownloadedSize(songInfo.getDownloadProgress());
+			task.setAddTime(DateUtil.dateToString(new Date()));
+			task.setFinishTime("");
+			task.setType(DownloadTask.SONG_NET_DOWNLOAD);
+
+			DownloadThreadManage dtm = new DownloadThreadManage(task, 20, 100);
+			task.setDownloadThreadManage(dtm);
+			DownloadThreadPool dp = DownloadManage
+					.getDownloadSongTM(getApplicationContext());
+			dp.setEvent(downloadSongCallBack);
+			dp.addDownloadSongTask(task);
+
+			// 修改歌曲的类型
+			songInfo.setType(SongInfo.DOWNLOADSONG);
+			// 修改歌曲的缓存路径
+			songInfo.setFilePath(filePath);
+			// 修改下载的状态
+			songInfo.setDownloadStatus(SongInfo.DOWNLOADING);
+			songInfo.setCreateTime(task.getAddTime());
+			// 保存到数据库
+			SongDB.getSongInfoDB(getApplicationContext()).add(songInfo);
+
+			ToastUtil.showText("添加下载任务成功!");
+		}
+	}
+
+	private IDownloadTaskEventCallBack downloadSongCallBack = new IDownloadTaskEventCallBack() {
+
+		@Override
+		public void waiting(DownloadTask task) {
+			task.setStatus(DownloadTask.WAITING);
+			ObserverManage.getObserver().setMessage(task);
+		}
+
+		@Override
+		public void downloading(DownloadTask task, int downloadSize) {
+
+			// System.out.println(task.getDownloadedSize());
+
+			SongDB.getSongInfoDB(getApplicationContext())
+					.updateSongDownloadProgress(task.getTid(), downloadSize,
+							SongInfo.DOWNLOADSONG);
+
+			task.setStatus(DownloadTask.DOWNLOING);
+			task.setDownloadedSize(downloadSize);
+			ObserverManage.getObserver().setMessage(task);
+		}
+
+		@Override
+		public void threadDownloading(DownloadTask task, int downloadSize,
+				int threadIndex, int threadNum, int startIndex, int endIndex) {
+		}
+
+		@Override
+		public void pauseed(DownloadTask task, int downloadSize) {
+
+			SongDB.getSongInfoDB(getApplicationContext())
+					.updateSongDownloadProgress(task.getTid(), downloadSize,
+							SongInfo.DOWNLOADSONG);
+
+			task.setStatus(DownloadTask.DOWNLOAD_PAUSE);
+			task.setDownloadedSize(downloadSize);
+			ObserverManage.getObserver().setMessage(task);
+		}
+
+		@Override
+		public void canceled(DownloadTask task) {
+			task.setStatus(DownloadTask.DOWNLOAD_CANCEL);
+			ObserverManage.getObserver().setMessage(task);
+		}
+
+		@Override
+		public void finished(DownloadTask task) {
+
+			SongInfo songInfo = SongDB.getSongInfoDB(getApplicationContext())
+					.getSongInfo(task.getTid(), SongInfo.DOWNLOADSONG);
+			SongDB.getSongInfoDB(getApplicationContext())
+					.updateNetSongDownloaded(songInfo);
+
+			task.setDownloadedSize(songInfo.getSize());
+			task.setStatus(DownloadTask.DOWNLOAD_FINISH);
+			ObserverManage.getObserver().setMessage(task);
+		}
+
+		@Override
+		public void error(DownloadTask task) {
+			ObserverManage.getObserver().setMessage(task);
+		}
+
+		@Override
+		public void cancelWaiting(DownloadTask task) {
+			task.setStatus(DownloadTask.DOWNLOAD_CANCELWAITING);
+			ObserverManage.getObserver().setMessage(task);
+		}
+
+	};
 
 	@Override
 	public void finish() {

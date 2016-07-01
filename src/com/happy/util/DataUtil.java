@@ -131,10 +131,11 @@ public class DataUtil {
 		// 桌面歌词颜色索引
 		Constants.desktopLrcIndex = preferences.getInt(
 				Constants.desktopLrcIndex_KEY, Constants.desktopLrcIndex);
-		
-		//是否是第一次点击显示桌面歌词
+
+		// 是否是第一次点击显示桌面歌词
 		Constants.isFristSettingDesLrc = preferences.getBoolean(
-				Constants.isFristSettingDesLrc_KEY, Constants.isFristSettingDesLrc);
+				Constants.isFristSettingDesLrc_KEY,
+				Constants.isFristSettingDesLrc);
 
 	}
 
@@ -183,7 +184,7 @@ public class DataUtil {
 		if (!file.exists()) {
 			file.mkdirs();
 		}
-		
+
 		file = new File(Constants.PATH_CACHE_MP3);
 		if (!file.exists()) {
 			file.mkdirs();
@@ -205,6 +206,11 @@ public class DataUtil {
 		}
 
 		file = new File(Constants.PATH_EasyTouch);
+		if (!file.exists()) {
+			file.mkdirs();
+		}
+
+		file = new File(Constants.PATH_MP3TEMP);
 		if (!file.exists()) {
 			file.mkdirs();
 		}

@@ -54,6 +54,11 @@ public class Constants {
 	 * 歌曲目录
 	 */
 	public final static String PATH_MP3 = PATH_TEMP + File.separator + "mp3";
+	/**
+	 * 歌曲temp目录
+	 */
+	public final static String PATH_MP3TEMP = PATH_MP3 + File.separator
+			+ "temp";
 
 	/**
 	 * 歌词目录
@@ -79,7 +84,7 @@ public class Constants {
 	 */
 	public final static String PATH_CACHE_IMAGE = PATH_TEMP + File.separator
 			+ "cache" + File.separator + "image";
-	
+
 	/**
 	 * 歌曲缓存
 	 */

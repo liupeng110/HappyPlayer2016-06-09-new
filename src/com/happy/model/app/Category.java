@@ -1,5 +1,6 @@
 package com.happy.model.app;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,8 +9,12 @@ import java.util.List;
  * @author Administrator
  * 
  */
-public class Category {
+public class Category  implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	/**
 	 * 分类名
 	 */

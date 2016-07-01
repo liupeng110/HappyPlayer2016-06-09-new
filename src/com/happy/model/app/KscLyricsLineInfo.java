@@ -1,11 +1,17 @@
 package com.happy.model.app;
 
+import java.io.Serializable;
+
 /**
  * 
  * @author Administrator
  * @功能 歌词实体类
  */
-public class KscLyricsLineInfo {
+public class KscLyricsLineInfo  implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	/**
 	 * 歌词开始时间字符串
 	 */

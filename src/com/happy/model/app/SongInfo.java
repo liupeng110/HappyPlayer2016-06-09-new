@@ -1,11 +1,18 @@
 package com.happy.model.app;
 
+import java.io.Serializable;
+
 /**
  * 
  * @author zhangliangming
  * 
  */
-public class SongInfo {
+public class SongInfo  implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	/***
 	 * 本地歌曲
 	 */

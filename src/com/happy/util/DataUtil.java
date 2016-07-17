@@ -149,7 +149,7 @@ public class DataUtil {
 	 */
 	public static void initFile(Context context) {
 		// 创建相关的文件夹
-		File file = new File(Constants.PATH_MP3);
+		File file = new File(Constants.PATH_AUDIO);
 		if (!file.exists()) {
 			file.mkdirs();
 		}
@@ -185,7 +185,7 @@ public class DataUtil {
 			file.mkdirs();
 		}
 
-		file = new File(Constants.PATH_CACHE_MP3);
+		file = new File(Constants.PATH_CACHE_AUDIO);
 		if (!file.exists()) {
 			file.mkdirs();
 		}

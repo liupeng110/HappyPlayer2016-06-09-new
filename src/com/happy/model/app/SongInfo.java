@@ -65,6 +65,7 @@ public class SongInfo  implements Serializable {
 	private String albumUrl = ""; // 专辑图片下载路径
 	private String singerPIC = "";// 歌手写真图片下载路径
 	private String kscUrl = "";// 歌词文件下载路径
+	private String fileExt = ""; //歌曲类型
 	// private String singerPIC1 = ""; // 歌手写真图片1
 	// private String singerPIC2 = ""; // 歌手写真图片2
 	// private String singerPIC3 = ""; // 歌手写真图片3
@@ -268,6 +269,14 @@ public class SongInfo  implements Serializable {
 
 	public void setDownloadStatus(int downloadStatus) {
 		this.downloadStatus = downloadStatus;
+	}
+
+	public String getFileExt() {
+		return fileExt;
+	}
+
+	public void setFileExt(String fileExt) {
+		this.fileExt = fileExt;
 	}
 
 }

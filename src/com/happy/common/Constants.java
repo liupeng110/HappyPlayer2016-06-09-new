@@ -53,11 +53,11 @@ public class Constants {
 	/**
 	 * 歌曲目录
 	 */
-	public final static String PATH_MP3 = PATH_TEMP + File.separator + "mp3";
+	public final static String PATH_AUDIO = PATH_TEMP + File.separator + "audio";
 	/**
 	 * 歌曲temp目录
 	 */
-	public final static String PATH_MP3TEMP = PATH_MP3 + File.separator
+	public final static String PATH_MP3TEMP = PATH_AUDIO + File.separator
 			+ "temp";
 
 	/**
@@ -88,8 +88,8 @@ public class Constants {
 	/**
 	 * 歌曲缓存
 	 */
-	public final static String PATH_CACHE_MP3 = PATH_TEMP + File.separator
-			+ "cache" + File.separator + "mp3";
+	public final static String PATH_CACHE_AUDIO = PATH_TEMP + File.separator
+			+ "cache" + File.separator + "audio";
 
 	/**
 	 * 皮肤

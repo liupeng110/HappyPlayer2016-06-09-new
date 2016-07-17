@@ -3,15 +3,11 @@ package com.happy.util;
 import java.io.File;
 import java.text.DecimalFormat;
 import java.util.Date;
-import java.util.logging.Level;
-
-import org.jaudiotagger.audio.AudioFileIO;
-import org.jaudiotagger.audio.mp3.MP3AudioHeader;
-import org.jaudiotagger.audio.mp3.MP3File;
-import org.jaudiotagger.tag.id3.ID3v23Frame;
-import org.jaudiotagger.tag.id3.ID3v23Tag;
 
 import com.happy.model.app.SongInfo;
+import com.zlm.audio.AudioFileReader;
+import com.zlm.audio.model.AudioInfo;
+import com.zlm.audio.util.AudioUtil;
 
 public class MediaUtils {
 	/**
@@ -27,25 +23,42 @@ public class MediaUtils {
 			return null;
 		SongInfo songInfo = null;
 		try {
-			AudioFileIO.logger.setLevel(Level.SEVERE);
-			ID3v23Frame.logger.setLevel(Level.SEVERE);
-			ID3v23Tag.logger.setLevel(Level.SEVERE);
-			MP3File mp3file = new MP3File(sourceFile);
-			MP3AudioHeader header = mp3file.getMP3AudioHeader();
-			if (header == null)
+
+			AudioFileReader audioFileReader = AudioUtil
+					.getAudioFileReaderByFilePath(filePath);
+			if (audioFileReader == null)
 				return null;
+
+			// AudioFileIO.logger.setLevel(Level.SEVERE);
+			// ID3v23Frame.logger.setLevel(Level.SEVERE);
+			// ID3v23Tag.logger.setLevel(Level.SEVERE);
+			// MP3File mp3file = new MP3File(sourceFile);
+			// MP3AudioHeader header = mp3file.getMP3AudioHeader();
+			// if (header == null)
+			// return null;
 			songInfo = new SongInfo();
 			// 歌曲时长
-			String durationStr = header.getTrackLengthAsString();
-			long duration = getTrackLength(durationStr);
+			// String durationStr = header.getTrackLengthAsString();
+			// long duration = getTrackLength(durationStr);
+			// if (sourceFile.length() < 1024 * 1024 || duration < 5000) {
+			// return null;
+			// }
+
+			AudioInfo audioInfo = audioFileReader.read(sourceFile);
+			String durationStr = audioInfo.getDurationStr();
+			long duration = audioInfo.getDuration();
 			if (sourceFile.length() < 1024 * 1024 || duration < 5000) {
 				return null;
 			}
+
+			String fileExt = MediaUtils.getFileExt(sourceFile.getPath());
+			songInfo.setFileExt(fileExt);
+
 			// 文件名
 			String displayName = sourceFile.getName();
-			if (displayName.contains(".mp3")) {
-				String[] displayNameArr = displayName.split(".mp3");
-				displayName = displayNameArr[0].trim();
+			int pos = displayName.lastIndexOf(".");
+			if (pos != -1) {
+				displayName = displayName.substring(0, pos);
 			}
 			String artist = "";
 			String title = "";
@@ -71,7 +84,7 @@ public class MediaUtils {
 			songInfo.setDownloadStatus(SongInfo.DOWNLOADED);
 			songInfo.setCreateTime(DateUtil.dateToString(new Date()));
 
-			mp3file = null;
+			// mp3file = null;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -115,6 +128,13 @@ public class MediaUtils {
 			fileSizeString = df.format((double) fileS / 1073741824) + "G";
 		}
 		return fileSizeString;
+	}
+
+	public static String getFileExt(String filePath) {
+		int pos = filePath.lastIndexOf(".");
+		if (pos == -1)
+			return "";
+		return filePath.substring(pos + 1).toLowerCase();
 	}
 
 	/**

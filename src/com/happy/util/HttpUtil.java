@@ -66,7 +66,7 @@ public class HttpUtil {
 	/**
 	 * 基本url
 	 */
-	public static final String baseurl = "http://192.168.0.111:8080/HappyPlayer/";
+	public static final String baseurl = "http://192.168.0.102:8080/HappyPlayer/";
 
 	// public static final String baseurl =
 	// "http://192.168.1.164:8080/HappyPlayer/";
@@ -487,10 +487,11 @@ public class HttpUtil {
 					songInfo.setSize(jsonTemp.getLong("size"));
 					songInfo.setSizeStr(jsonTemp.getString("sizeStr"));
 					songInfo.setCreateTime(jsonTemp.getString("createTime"));
+					songInfo.setFileExt(jsonTemp.getString("type"));
 					songInfo.setType(SongInfo.NETSONG);
 					songInfo.setIslike(SongInfo.UNLIKE);
 					songInfo.setDownloadStatus(SongInfo.DOWNLOADING);
-					String tempfilePath = Constants.PATH_CACHE_MP3
+					String tempfilePath = Constants.PATH_CACHE_AUDIO
 							+ File.separator + songInfo.getSid() + ".temp";
 					songInfo.setFilePath(tempfilePath);
 
@@ -548,12 +549,13 @@ public class HttpUtil {
 					songInfo.setDuration(jsonTemp.getLong("duration"));
 					songInfo.setDurationStr(jsonTemp.getString("durationStr"));
 					songInfo.setSize(jsonTemp.getLong("size"));
+					songInfo.setFileExt(jsonTemp.getString("type"));
 					songInfo.setSizeStr(jsonTemp.getString("sizeStr"));
 					songInfo.setCreateTime(jsonTemp.getString("createTime"));
 					songInfo.setType(SongInfo.NETSONG);
 					songInfo.setIslike(SongInfo.UNLIKE);
 					songInfo.setDownloadStatus(SongInfo.DOWNLOADING);
-					String tempfilePath = Constants.PATH_CACHE_MP3
+					String tempfilePath = Constants.PATH_CACHE_AUDIO
 							+ File.separator + songInfo.getSid() + ".temp";
 					songInfo.setFilePath(tempfilePath);
 

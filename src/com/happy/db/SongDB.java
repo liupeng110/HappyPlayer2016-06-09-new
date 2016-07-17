@@ -32,9 +32,9 @@ public class SongDB {
 			+ "singer text," + "duration long," + "durationStr text,"
 			+ "size long," + "sizeStr text," + "filePath text," + "type int,"
 			+ "islike int," + "category text," + "childCategory text,"
-			+ "createTime text," + "albumUrl text,"
-			+ "singerPIC text,"
+			+ "createTime text," + "albumUrl text," + "singerPIC text,"
 			+ "kscUrl text,"
+			+ "fileExt text,"
 			// + "singerPIC1 text,"
 			// + "singerPIC2 text," + "singerPIC3 text,"
 			+ "downloadUrl text," + "downloadProgress long,"
@@ -74,6 +74,7 @@ public class SongDB {
 		values.put("size", songInfo.getSize());
 		values.put("sizeStr", songInfo.getSizeStr());
 		values.put("filePath", songInfo.getFilePath());
+		values.put("fileExt", songInfo.getFileExt());
 		values.put("type", songInfo.getType());
 		values.put("islike", songInfo.getIslike());
 		values.put("createTime", songInfo.getCreateTime());
@@ -387,6 +388,7 @@ public class SongDB {
 		song.setDuration(cursor.getInt(cursor.getColumnIndex("duration")));
 		song.setDurationStr(cursor.getString(cursor
 				.getColumnIndex("durationStr")));
+		song.setFileExt(cursor.getString(cursor.getColumnIndex("fileExt")));
 		song.setSize(cursor.getLong(cursor.getColumnIndex("size")));
 		song.setSizeStr(cursor.getString(cursor.getColumnIndex("sizeStr")));
 		song.setFilePath(cursor.getString(cursor.getColumnIndex("filePath")));

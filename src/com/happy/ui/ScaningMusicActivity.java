@@ -36,6 +36,7 @@ import com.happy.model.app.SongMessage;
 import com.happy.model.app.StorageInfo;
 import com.happy.observable.ObserverManage;
 import com.happy.util.AniUtil;
+import com.happy.util.AudioFilter;
 import com.happy.util.MediaUtils;
 import com.happy.util.StorageListUtil;
 import com.happy.widget.CycleViewPager;
@@ -168,7 +169,8 @@ public class ScaningMusicActivity extends FragmentActivity implements
 	/**
 	 * 初始化状态栏
 	 */
-	@SuppressLint("NewApi") private void initStatus() {
+	@SuppressLint("NewApi")
+	private void initStatus() {
 		if (VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
 			Window window = getWindow();
 			window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
@@ -277,7 +279,7 @@ public class ScaningMusicActivity extends FragmentActivity implements
 				.listAvaliableStorage(getApplicationContext());
 		for (int i = 0; i < list.size(); i++) {
 			StorageInfo storageInfo = list.get(i);
-			scannerLocalMP3File(storageInfo.path, ".mp3", true);
+			scannerLocalMP3File(storageInfo.path, true);
 		}
 	}
 
@@ -290,8 +292,7 @@ public class ScaningMusicActivity extends FragmentActivity implements
 	 * @param IsIterative
 	 *            是否进入子文件夹
 	 */
-	public void scannerLocalMP3File(String Path, String Extension,
-			boolean IsIterative) {
+	public void scannerLocalMP3File(String Path, boolean IsIterative) {
 		File[] files = new File(Path).listFiles();
 		if (files != null) {
 			for (int i = 0; i < files.length; i++) {
@@ -302,7 +303,8 @@ public class ScaningMusicActivity extends FragmentActivity implements
 				msg.obj = f.getPath();
 				scanHandler.sendMessage(msg);
 
-				if (f.isFile()) {
+				if (f.isFile() && AudioFilter.acceptFilter(f)) {
+					String Extension = MediaUtils.getFileExt(f.getPath());
 					if (f.getPath().endsWith(Extension)) // 判断扩展名
 					{
 						if (!f.exists()) {
@@ -336,7 +338,7 @@ public class ScaningMusicActivity extends FragmentActivity implements
 						break;
 				} else if (f.isDirectory() && f.getPath().indexOf("/.") == -1) // 忽略点文件（隐藏文件/文件夹）
 				{
-					scannerLocalMP3File(f.getPath(), Extension, IsIterative);
+					scannerLocalMP3File(f.getPath(), IsIterative);
 				}
 			}
 		}

@@ -416,7 +416,7 @@ public class KscLyricsParserUtil {
 		// }
 
 		// 默认300ms为上下移动的时间
-		int dTime = Math.min(400, (endTime - elapseTime) / 3);
+		int dTime = Math.min(300, (endTime - elapseTime) / 3);
 		if (msec < elapseTime + dTime) {
 			float dy = (float) sy / dTime;
 			return dy * (dTime - (elapseTime + dTime - msec));

@@ -66,7 +66,7 @@ public class HttpUtil {
 	/**
 	 * 基本url
 	 */
-	public static final String baseurl = "http://192.168.0.102:8080/HappyPlayer/";
+	public static final String baseurl = "http://192.168.0.107:8080/HappyPlayer/";
 
 	// public static final String baseurl =
 	// "http://192.168.1.164:8080/HappyPlayer/";

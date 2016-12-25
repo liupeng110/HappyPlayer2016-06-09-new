@@ -1,3 +1,8 @@
+最新版本:https://github.com/zhangliangming/HappyPlayer-AS.git
+
+
+
+
 2015-08-12
  ## 新创建了一个项目
  ## 移植了之前项目的启动界面/主界面/皮肤界面/扫描歌曲界面/乐乐印象界面
